@@ -175,13 +175,17 @@ programs._1password-gui = {
 programs._1password.enable = true;
 programs.niri.enable = true;
 
-services.displayManager.sddm = {
+  services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     package = pkgs.kdePackages.sddm;
     extraPackages = with pkgs; [ sddm-astronaut ];
     theme = "sddm-astronaut-theme";
+    # themePackages not available, workaround below
   };
+
+  environment.etc."sddm/themes/sddm-astronaut-theme".source =
+    "${pkgs.sddm-astronaut}/share/sddm/themes/sddm-astronaut-theme";
 
 xdg.portal = {
   enable = true;
