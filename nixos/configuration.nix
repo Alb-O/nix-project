@@ -146,7 +146,6 @@
     nixd
     gemini-cli
     vscode
-    sddm-astronaut
   ];
 
 programs._1password-gui = {
@@ -171,6 +170,13 @@ xdg.portal = {
     pkgs.xdg-desktop-portal-gtk
   ];
 };
+
+fonts.packages = with pkgs; [
+  noto-fonts
+  noto-fonts-cjk-sans
+  noto-fonts-emoji
+  nerd-fonts.jetbrains-mono
+];
 
 home-manager = {
   useGlobalPkgs = true;
