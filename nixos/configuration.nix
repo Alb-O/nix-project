@@ -92,6 +92,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  # Extra insurance: force blacklist nouveau (per NixOS Wiki)
+  boot.extraModprobeConfig = ''
+    blacklist nouveau
+    options nouveau modeset=0
+  '';
+
   # Enable networking
   networking.networkmanager.enable = true;
 
