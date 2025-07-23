@@ -61,6 +61,7 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+    font.name = "JetBrains Mono";
     font.package = pkgs.nerd-fonts.jetbrains-mono;
   };
 
