@@ -82,6 +82,8 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  services.xserver.videoDrivers = ["nvidia"];
+
   # NVIDIA driver integration (handles early loading and module setup)
   boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=0" ];
   hardware.nvidia = {
@@ -89,7 +91,6 @@
     powerManagement.enable = false;
     open = false; # Use proprietary driver
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
   };
 
   # Extra insurance: force blacklist nouveau (per NixOS Wiki)
