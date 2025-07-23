@@ -165,6 +165,11 @@ services.displayManager.sddm = {
     theme = "sddm-astronaut-theme";
   };
 
+xdg.portal = {
+  enable = true;
+  gtk.enable = true;
+};
+
 home-manager = {
   useGlobalPkgs = true;
   useUserPackages = true;
