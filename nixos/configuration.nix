@@ -168,7 +168,7 @@ services.displayManager.sddm = {
 xdg.portal = {
   enable = true;
   extraPortals = [
-    "xdg-desktop-portal-gtk"
+    pkgs.xdg-desktop-portal-gtk
   ];
 };
 
