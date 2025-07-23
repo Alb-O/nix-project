@@ -10,6 +10,9 @@
 }: {
   # You can import other NixOS modules here
   imports = [
+    # Enable home-manager
+    inputs.home-manager.nixosModules.home-manager
+
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
 
@@ -22,6 +25,7 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    
   ];
 
   nixpkgs = {
@@ -58,7 +62,7 @@
       # Opinionated: disable global registry
       flake-registry = "";
       # Workaround for https://github.com/NixOS/nix/issues/9574
-      nix-path = config.nix.nixPath;
+      # nix-path = config.nix.nixPath;
     };
     # Opinionated: disable channels
     channel.enable = false;
@@ -68,25 +72,54 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # FIXME: Add the rest of your current configuration
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # TODO: Set your hostname
-  networking.hostName = "your-hostname";
+  boot.supportedFilesystems = [ "ntfs" ];
 
-  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "Australia/Hobart";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_GB.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_AU.UTF-8";
+    LC_IDENTIFICATION = "en_AU.UTF-8";
+    LC_MEASUREMENT = "en_AU.UTF-8";
+    LC_MONETARY = "en_AU.UTF-8";
+    LC_NAME = "en_AU.UTF-8";
+    LC_NUMERIC = "en_AU.UTF-8";
+    LC_PAPER = "en_AU.UTF-8";
+    LC_TELEPHONE = "en_AU.UTF-8";
+    LC_TIME = "en_AU.UTF-8";
+  };
+
+  # Configure console keymap
+  console.keyMap = "us";
+
+  # No sudo password for wheel users
+  security.sudo.wheelNeedsPassword = false;
+
+  # Set your system hostname
+  networking.hostName = "gtx1080shitbox";
+
+  # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
-    # FIXME: Replace with your username
-    your-username = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "correcthorsebatterystaple";
+    albert = {
       isNormalUser = true;
+      description = "Albert O'Shea";
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel"];
+      extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker" ];
     };
   };
 
@@ -103,6 +136,42 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    helix
+    wget
+    alacritty
+    kitty
+    fuzzel
+    nil
+    nixd
+    gemini-cli
+    vscode
+    sddm-astronaut
+  ];
+
+programs._1password-gui = {
+  enable = true;
+  polkitPolicyOwners = [ "albert" ];
+};
+
+programs._1password.enable = true;
+programs.niri.enable = true;
+
+services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    package = pkgs.kdePackages.sddm;
+    extraPackages = with pkgs; [ sddm-astronaut ];
+    theme = "sddm-astronaut-theme";
+  };
+
+home-manager = {
+  useGlobalPkgs = true;
+  useUserPackages = true;
+  users.albert = import ../home-manager/home.nix { inherit inputs outputs lib config pkgs; };
+  backupFileExtension = "backup";
+};
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
+  system.stateVersion = "25.05";
 }
