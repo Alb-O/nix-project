@@ -90,6 +90,7 @@
     open = false; # Use proprietary driver
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+    blacklistNouveau = true;
   };
 
   # Enable networking
