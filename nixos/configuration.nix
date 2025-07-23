@@ -72,6 +72,7 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -80,6 +81,10 @@
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Early loading of NVIDIA modules
+  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=0" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -136,6 +141,7 @@
     };
   };
 
+
   environment.systemPackages = with pkgs; [
     helix
     wget
@@ -147,6 +153,9 @@
     gemini-cli
     vscode
   ];
+
+  # Ensure NVIDIA proprietary driver is used
+  services.xserver.videoDrivers = [ "nvidia" ];
 
 programs._1password-gui = {
   enable = true;
