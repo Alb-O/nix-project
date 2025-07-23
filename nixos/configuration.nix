@@ -89,7 +89,7 @@
     powerManagement.enable = false;
     open = false; # Use proprietary driver
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
   };
 
   # Extra insurance: force blacklist nouveau (per NixOS Wiki)
