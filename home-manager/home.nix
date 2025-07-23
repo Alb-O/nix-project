@@ -39,6 +39,11 @@
     userEmail = "albertoshea2@gmail.com";
   };
 
+  programs.kitty = {
+    enable = true;
+    font.package = pkgs.nerd-fonts.jetbrains-mono;
+  };
+
   programs.fish.enable = true;
   programs.firefox.enable = true;
 
@@ -55,6 +60,7 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+    font.package = pkgs.nerd-fonts.jetbrains-mono;
   };
 
   systemd.user.services.swww-daemon = {
