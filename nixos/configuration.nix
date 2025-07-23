@@ -83,7 +83,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Early loading of NVIDIA modules
-  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  boot.initrd.kernelModules = [ "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
   boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=0" ];
 
   hardware.nvidia.open = false; # Disable open source driver
