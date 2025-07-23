@@ -41,6 +41,7 @@
 
   programs.kitty = {
     enable = true;
+    font.name = "JetBrains Mono";
     font.package = pkgs.nerd-fonts.jetbrains-mono;
   };
 
