@@ -90,8 +90,13 @@
     open = false; # Use proprietary driver
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-    blacklistNouveau = true;
   };
+
+  # Extra insurance: force blacklist nouveau (per NixOS Wiki)
+  boot.extraModprobeConfig = ''
+    blacklist nouveau
+    options nouveau modeset=0
+  '';
 
   # Enable networking
   networking.networkmanager.enable = true;
