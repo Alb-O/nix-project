@@ -156,6 +156,7 @@
 
   # Ensure NVIDIA proprietary driver is used
   services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = false; # Disable open source driver
 
 programs._1password-gui = {
   enable = true;
