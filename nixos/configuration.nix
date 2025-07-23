@@ -86,6 +86,8 @@
   boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
   boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=0" ];
 
+  hardware.nvidia.open = false; # Disable open source driver
+
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -153,10 +155,6 @@
     gemini-cli
     vscode
   ];
-
-  # Ensure NVIDIA proprietary driver is used
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = false; # Disable open source driver
 
 programs._1password-gui = {
   enable = true;
