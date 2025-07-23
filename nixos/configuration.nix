@@ -146,7 +146,6 @@
     nixd
     gemini-cli
     vscode
-    sddm-astronaut
   ];
 
 programs._1password-gui = {
@@ -164,6 +163,20 @@ services.displayManager.sddm = {
     extraPackages = with pkgs; [ sddm-astronaut ];
     theme = "sddm-astronaut-theme";
   };
+
+xdg.portal = {
+  enable = true;
+  extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
+  ];
+};
+
+fonts.packages = with pkgs; [
+  noto-fonts
+  noto-fonts-cjk-sans
+  noto-fonts-emoji
+  nerd-fonts.jetbrains-mono
+];
 
 home-manager = {
   useGlobalPkgs = true;
