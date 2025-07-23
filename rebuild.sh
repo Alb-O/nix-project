@@ -9,10 +9,16 @@ else
   git checkout -b building
 fi
 git add -A
-git commit -m "[auto] checkpoint before build $(date -Iseconds)" || echo "No changes to commit before build."
+git commit -m "auto: checkpoint before build $(date -Iseconds)" || echo "No changes to commit before build."
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <hostname>"
+  exit 2
+fi
+HOSTNAME="$1"
 
 # Step 2: Run the build
-if sudo nixos-rebuild switch --flake .#gtx1080shitbox; then
+if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
   # Step 3: Commit to 'deployed' after successful build
   if git show-ref --verify --quiet refs/heads/deployed; then
     git checkout deployed
@@ -21,7 +27,8 @@ if sudo nixos-rebuild switch --flake .#gtx1080shitbox; then
   fi
   git merge building --no-edit
   git add -A
-  git commit -m "[auto] deployed after successful build $(date -Iseconds)" || echo "No changes to commit after build."
+  git commit -m "auto: deployed after successful build $(date -Iseconds)" || echo "No changes to commit after build."
+  git checkout main
   echo "Build and deployment commit complete."
 else
   echo "Build failed. Not updating deployed."
