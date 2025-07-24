@@ -63,6 +63,7 @@ in {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
       NewTabPage = true;
+      HomepageStartPage = "previous-session";
       Preferences = {
         "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
         "cookiebanners.service.mode" = 2; # Block cookie banners
