@@ -42,6 +42,9 @@
         "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.cookies" = false;
       };
+      Homepage = {
+        StartPage = "previous-session";
+      };
     };
     profiles = {
       albert = {
