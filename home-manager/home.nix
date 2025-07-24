@@ -93,14 +93,43 @@ in {
             ];
           };
         };
+        settings = {
+          # specify profile-specific preferences here; check about:config for options
+          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+          "browser.startup.homepage" = "https://nixos.org";
+          "browser.newtabpage.pinned" = [
+            {
+              title = "NixOS";
+              url = "https://nixos.org";
+            }
+          ];
+          "browser.contentblocking.category" = {
+            Value = "strict";
+            Status = "locked";
+          };
+          "extensions.pocket.enabled" = lock-false;
+          "extensions.screenshots.disabled" = lock-true;
+          "browser.topsites.contile.enabled" = lock-false;
+          "browser.formfill.enable" = lock-false;
+          "browser.search.suggest.enabled" = lock-false;
+          "browser.search.suggest.enabled.private" = lock-false;
+          "browser.urlbar.suggest.searches" = lock-false;
+          "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = lock-false;
+          "browser.newtabpage.activity-stream.feeds.snippets" = lock-false;
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" = lock-false;
+          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = lock-false;
+          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = lock-false;
+          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = lock-false;
+          "browser.newtabpage.activity-stream.showSponsored" = lock-false;
+          "browser.newtabpage.activity-stream.system.showSponsored" = lock-false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
+        };
       };
     };
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
-      Homepage = {
-        StartPage = "previous-session";
-      };
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
@@ -117,6 +146,9 @@ in {
       DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
       DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
       SearchBar = "unified"; # alternative: "separate"
+      Homepage = {
+        StartPage = "previous-session";
+      };
       NewTabPage = false;
 
       ExtensionSettings = {

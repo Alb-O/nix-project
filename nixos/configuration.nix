@@ -199,8 +199,8 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.albert = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
     backupFileExtension = "backup";
+    users.albert = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
