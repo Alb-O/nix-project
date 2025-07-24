@@ -51,9 +51,9 @@
     profiles.default = {
       extensions = with pkgs; [
         # uBlock Origin
-        wrapFirefox ublock-origin { }
+        (import inputs.nur { pkgs = pkgs; }).repos.rycee.firefox-addons.ublock-origin
         # 1Password extension
-        wrapFirefox _1password { }
+        (import inputs.nur { pkgs = pkgs; }).repos.rycee.firefox-addons._1password
       ];
     };
   };
