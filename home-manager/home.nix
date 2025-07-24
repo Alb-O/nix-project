@@ -40,8 +40,8 @@
   # The file will be symlinked into ~/.mozilla/firefox/albert/user.js
   home.file.".mozilla/firefox/albert/user.js".source =
     pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
-      sha256 = "0absj9hb17n91ykm0njrw18f9vjx4yvvaa6xmal42bax69p2lqnh";
+      url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/Peskyfox.js";
+      sha256 = "09f24aw5z4nf7jdgrj8bw80n8bkdvngndfl08c1cqn5lv47b86sv";
     };
 
   # Add stuff for your user as you see fit:
