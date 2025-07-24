@@ -34,7 +34,7 @@
       version = "master"; # You may set this to a specific version, e.g., "103.0"
     };
     */
-    preferences = {
+    settings.preferences = {
       "privacy.clearOnShutdown.history" = false;
       "privacy.clearOnShutdown.downloads" = false;
       "privacy.clearOnShutdown.sessions" = false;
