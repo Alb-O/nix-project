@@ -48,13 +48,15 @@
   programs.fish.enable = true;
   programs.firefox = {
     enable = true;
-    profiles.default = {
-      extensions = with pkgs; [
-        # uBlock Origin
-        pkgs.firefoxPackages.ublock-origin or (throw "ublock-origin not found")
-        # 1Password extension
-        pkgs.firefoxPackages._1password or (throw "1password not found")
-      ];
+    profiles.albert = {
+      extensions = {
+        packages = with pkgs; [
+          # uBlock Origin
+          nur.repos.rycee.firefox-addons.ublock-origin
+          # 1Password extension
+          nur.repos.rycee.firefox-addons.onepassword-password-manager
+        ];
+      };
     };
   };
 
