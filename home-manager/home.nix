@@ -24,10 +24,9 @@
     homeDirectory = "/home/albert";
   };
 
-  programs.firefox.enable = false; # Disable Firefox, use Librewolf instead
-  programs.librewolf = {
+  programs.firefox = {
     enable = true;
-    # package = pkgs.librewolf;
+    package = pkgs.librewolf;
     /*
     arkenfox = {
       enable = true;
