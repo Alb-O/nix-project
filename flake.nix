@@ -67,7 +67,7 @@
       "albert@gtx1080shitbox" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
-          overlays = builtins.attrValues (import ./overlays {inherit inputs;}) ++ [inputs.nur.overlay];
+          overlays = builtins.attrValues (import ./overlays {inherit inputs;}) ++ [inputs.nur.overlays.default];
           config.allowUnfree = true;
         };
         extraSpecialArgs = {inherit inputs outputs;};
