@@ -7,16 +7,7 @@
   config,
   pkgs,
   ...
-} @ args: let
-  lock-false = {
-    Value = false;
-    Status = "locked";
-  };
-  lock-true = {
-    Value = true;
-    Status = "locked";
-  };
-in {
+} @ args: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -107,23 +98,23 @@ in {
             Value = "strict";
             Status = "locked";
           };
-          "extensions.pocket.enabled" = lock-false;
-          "extensions.screenshots.disabled" = lock-true;
-          "browser.topsites.contile.enabled" = lock-false;
-          "browser.formfill.enable" = lock-false;
-          "browser.search.suggest.enabled" = lock-false;
-          "browser.search.suggest.enabled.private" = lock-false;
-          "browser.urlbar.suggest.searches" = lock-false;
-          "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
-          "browser.newtabpage.activity-stream.feeds.section.topstories" = lock-false;
-          "browser.newtabpage.activity-stream.feeds.snippets" = lock-false;
-          "browser.newtabpage.activity-stream.section.highlights.includePocket" = lock-false;
-          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = lock-false;
-          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = lock-false;
-          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = lock-false;
-          "browser.newtabpage.activity-stream.showSponsored" = lock-false;
-          "browser.newtabpage.activity-stream.system.showSponsored" = lock-false;
-          "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
+          "extensions.pocket.enabled" = false;
+          "extensions.screenshots.disabled" = true;
+          "browser.topsites.contile.enabled" = false;
+          "browser.formfill.enable" = false;
+          "browser.search.suggest.enabled" = false;
+          "browser.search.suggest.enabled.private" = false;
+          "browser.urlbar.suggest.searches" = false;
+          "browser.urlbar.showSearchSuggestionsFirst" = false;
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+          "browser.newtabpage.activity-stream.feeds.snippets" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includeVisited" = false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.system.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         };
       };
     };
@@ -153,7 +144,7 @@ in {
       ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/uborigin/latest.xpi";
           installation_mode = "force_installed";
         };
         # 1Password:
