@@ -34,6 +34,13 @@
       version = "master"; # You may set this to a specific version, e.g., "103.0"
     };
     */
+    preferences = {
+      "privacy.clearOnShutdown.history" = false;
+      "privacy.clearOnShutdown.downloads" = false;
+      "privacy.clearOnShutdown.sessions" = false;
+      "privacy.clearOnShutdown.cache" = false;
+      "privacy.clearOnShutdown.cookies" = false;
+    };
     profiles = {
       albert = {
         id = 0;
