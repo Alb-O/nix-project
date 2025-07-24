@@ -57,6 +57,9 @@
           pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
         ];
       };
+      settings = {
+        "extensions.autoDisableScopes" = 0;
+      };
     };
   };
 
