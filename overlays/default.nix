@@ -22,5 +22,5 @@
   };
 
   # NUR (Nix User Repository) overlay
-  nur = inputs.nur.overlay;
+  nur = inputs.nur.overlays.default;
 }
