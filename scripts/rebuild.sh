@@ -2,10 +2,11 @@
 
 set -euo pipefail
 
-# Step 1: Ensure we are on main branch
+
+# Step 1: Ensure we are on an allowed branch (main, deployed, building)
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "$CURRENT_BRANCH" != "main" ]; then
-  echo "Error: You must run this script from the main branch. (Current: $CURRENT_BRANCH)"
+if [[ "$CURRENT_BRANCH" != "main" && "$CURRENT_BRANCH" != "deployed" && "$CURRENT_BRANCH" != "building" ]]; then
+  echo "Error: You must run this script from main, deployed, or building. (Current: $CURRENT_BRANCH)"
   exit 3
 fi
 git add -A
@@ -25,12 +26,20 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 USER_HOST="albert@$HOSTNAME"
 # Step 3: Run the build using flake-based home-manager activation
+
 if nix run .#homeConfigurations."$USER_HOST".activationPackage; then
-  # Step 4: Force-update building and deployed to match main
-  git branch -f building main
-  git branch -f deployed main
-  echo "Build and deployment commit complete. Branches 'building' and 'deployed' now match 'main'."
+  # Step 4: Force-update downstream branches
+  if [ "$CURRENT_BRANCH" = "main" ]; then
+    git branch -f deployed main
+    git branch -f building deployed
+    echo "Build and deployment commit complete. 'deployed' now matches 'main', 'building' now matches 'deployed'."
+  elif [ "$CURRENT_BRANCH" = "deployed" ]; then
+    git branch -f building deployed
+    echo "Build and deployment commit complete. 'building' now matches 'deployed'."
+  else
+    echo "Build and deployment commit complete. 'building' updated."
+  fi
 else
-  echo "Build failed. Not updating deployed/building."
+  echo "Build failed. Not updating downstream branches."
   exit 1
 fi
