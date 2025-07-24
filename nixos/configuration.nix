@@ -165,6 +165,7 @@
     nixd
     gemini-cli
     vscode
+    sddm-astronaut
   ];
 
 programs._1password-gui = {
@@ -181,12 +182,8 @@ programs.niri.enable = true;
     package = pkgs.kdePackages.sddm;
     extraPackages = with pkgs; [ sddm-astronaut ];
     theme = "sddm-astronaut-theme";
-    # themePackages not available, workaround below
   };
-
-  environment.etc."sddm/themes/sddm-astronaut-theme".source =
-    "${pkgs.sddm-astronaut}/share/sddm/themes/sddm-astronaut-theme";
-
+  
 xdg.portal = {
   enable = true;
   extraPortals = [
