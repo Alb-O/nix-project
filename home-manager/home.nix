@@ -58,11 +58,50 @@ in {
 
   programs.firefox = {
     enable = true;
+    profiles = {
+      "user" = {
+        id = 0;
+        isDefault = true;
+
+        search.engines = {
+          "Nix Packages" = {
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@np"];
+          };
+          "Nix Options" = {
+            definedAliases = ["@no"];
+            urls = [
+              {
+                template = "https://search.nixos.org/options";
+                params = [
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+          };
+        };
+      };
+    };
     package = pkgs.librewolf;
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
-/*       NewTabPage = true;
+      /*
+         NewTabPage = true;
       Homepage = {
         StartPage = "previous-session";
       };
@@ -84,7 +123,8 @@ in {
         "general.autoScroll" = lock-true; # Enable auto-scrolling
         "sidebar.verticalTabs" = lock-true; # Enable vertical tabs
         "browser.search.suggest.enabled" = lock-true;
-      }; */
+      };
+      */
       ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
