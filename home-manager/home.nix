@@ -56,6 +56,8 @@
       Preferences = {
         "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
         "cookiebanners.service.mode" = 2; # Block cookie banners
+        "browser.sessionstore.resume_session_once" = true;
+        "browser.sessionstore.resuming_after_os_restart" = true;
         "privacy.clearOnShutdown.history" = false; # Do not clear history on shutdown
         "privacy.clearOnShutdown.downloads" = false; # Do not clear downloads on shutdown
         "middlemouse.paste" = false; # Disable middle mouse paste
