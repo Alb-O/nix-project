@@ -34,12 +34,14 @@
       version = "master"; # You may set this to a specific version, e.g., "103.0"
     };
     */
-    settings.preferences = {
-      "privacy.clearOnShutdown.history" = false;
-      "privacy.clearOnShutdown.downloads" = false;
-      "privacy.clearOnShutdown.sessions" = false;
-      "privacy.clearOnShutdown.cache" = false;
-      "privacy.clearOnShutdown.cookies" = false;
+    policies = {
+      Preferences = {
+        "privacy.clearOnShutdown.history" = false;
+        "privacy.clearOnShutdown.downloads" = false;
+        "privacy.clearOnShutdown.sessions" = false;
+        "privacy.clearOnShutdown.cache" = false;
+        "privacy.clearOnShutdown.cookies" = false;
+      };
     };
     profiles = {
       albert = {
