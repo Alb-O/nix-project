@@ -62,7 +62,7 @@ in {
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
-      NewTabPage = true;
+/*       NewTabPage = true;
       Homepage = {
         StartPage = "previous-session";
       };
@@ -84,7 +84,7 @@ in {
         "general.autoScroll" = lock-true; # Enable auto-scrolling
         "sidebar.verticalTabs" = lock-true; # Enable vertical tabs
         "browser.search.suggest.enabled" = lock-true;
-      };
+      }; */
       ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
