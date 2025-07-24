@@ -65,7 +65,11 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "albert@gtx1080shitbox" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = builtins.attrValues (import ./overlays {inherit inputs;});
+          config.allowUnfree = true;
+        };
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <

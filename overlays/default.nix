@@ -22,5 +22,9 @@
   };
 
   # NUR (Nix User Repository) overlay
-  nur = inputs.nur.overlay;
+  nur = final: prev: {
+    nur = import inputs.nur {
+      pkgs = prev;
+    };
+  };
 }

@@ -49,11 +49,11 @@
   programs.firefox = {
     enable = true;
     profiles.default = {
-      extensions = with pkgs.nur.repos; [
+      extensions = [
         # uBlock Origin
-        rycee.firefox-addons.ublock-origin
+        pkgs.nur.repos.rycee.firefox-addons.ublock-origin
         # 1Password extension
-        rycee.firefox-addons._1password
+        pkgs.nur.repos.rycee.firefox-addons._1password
       ];
     };
   };
