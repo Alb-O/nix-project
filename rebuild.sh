@@ -28,7 +28,6 @@ if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
   git merge building --no-edit
   git add -A
   git commit -m "auto: deployed after successful build $(date -Iseconds)" || echo "No changes to commit after build."
-  git checkout main
   echo "Build and deployment commit complete."
 else
   echo "Build failed. Not updating deployed."
