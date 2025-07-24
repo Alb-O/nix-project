@@ -7,7 +7,16 @@
   config,
   pkgs,
   ...
-} @ args: {
+} @ args: let
+  lock-false = {
+    Value = false;
+    Status = "locked";
+  };
+  lock-true = {
+    Value = true;
+    Status = "locked";
+  };
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -53,24 +62,25 @@
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
+      NewTabPage = true;
       Preferences = {
         "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
         "cookiebanners.service.mode" = 2; # Block cookie banners
-        "browser.sessionstore.resuming_after_os_restart" = 1;
+        "browser.sessionstore.resuming_after_os_restart" = lock-true;
         "browser.startup.page" = 3;
-        "privacy.clearOnShutdown.history" = 0;
-        "privacy.clearOnShutdown.downloads" = 0;
-        "privacy.clearOnShutdown.sessions" = 0;
-        "privacy.clearOnShutdown.cookies" = 0;
-        "privacy.clearOnShutdown.cache" = 0;
-        "privacy.clearOnShutdown.formdata" = 0;
-        "privacy.clearOnShutdown_v2.cookiesAndStorage" = 0;
-        "privacy.clearOnShutdown_v2.cache" = 0;
-        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = 0;
-        "middlemouse.paste" = 0; # Disable middle mouse paste
-        "general.autoScroll" = 0; # Enable auto-scrolling
-        "sidebar.verticalTabs" = 0; # Enable vertical tabs
-        "browser.search.suggest.enabled" = 0;
+        "privacy.clearOnShutdown.history" = lock-false;
+        "privacy.clearOnShutdown.downloads" = lock-false;
+        "privacy.clearOnShutdown.sessions" = lock-false;
+        "privacy.clearOnShutdown.cookies" = lock-false;
+        "privacy.clearOnShutdown.cache" = lock-false;
+        "privacy.clearOnShutdown.formdata" = lock-false;
+        "privacy.clearOnShutdown_v2.cookiesAndStorage" = lock-false;
+        "privacy.clearOnShutdown_v2.cache" = lock-false;
+        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = lock-false;
+        "middlemouse.paste" = lock-false; # Disable middle mouse paste
+        "general.autoScroll" = lock-true; # Enable auto-scrolling
+        "sidebar.verticalTabs" = lock-true; # Enable vertical tabs
+        "browser.search.suggest.enabled" = lock-true;
       };
       ExtensionSettings = {
         # uBlock Origin:
