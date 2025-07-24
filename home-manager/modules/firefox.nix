@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+/* { config, pkgs, lib, ... }:
 {
   programs.firefox = {
     enable = true;
@@ -98,7 +98,7 @@
         StartPage = "previous-session";
       };
 
-/*       ExtensionSettings = {
+/*      ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/uborigin/latest.xpi";
@@ -119,7 +119,8 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
           installation_mode = "force_installed";
         };
-      }; */
+      };
     };
   };
 }
+ */
