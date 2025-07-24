@@ -17,9 +17,13 @@ if [ $# -lt 1 ]; then
 fi
 HOSTNAME="$1"
 
-# Step 2: Run the build
+# Step 2: Clean up .nixbackup files before build
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+"$SCRIPT_DIR/find-and-clean-nixbackups.sh"
+
+# Step 3: Run the build
 if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
-  # Step 3: Commit to 'deployed' after successful build
+  # Step 4: Commit to 'deployed' after successful build
   if git show-ref --verify --quiet refs/heads/deployed; then
     git checkout deployed
   else
