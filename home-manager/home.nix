@@ -149,7 +149,6 @@ in {
       Homepage = {
         StartPage = "previous-session";
       };
-      NewTabPage = false;
 
       ExtensionSettings = {
         # uBlock Origin:
