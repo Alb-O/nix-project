@@ -24,9 +24,9 @@
     homeDirectory = "/home/albert";
   };
 
+
   programs.firefox = {
     enable = true;
-    package = pkgs.floorp;
     profiles = {
       albert = {
         id = 0;
@@ -34,6 +34,15 @@
       };
     };
   };
+
+  # Install Betterfox user.js for Firefox profile 'albert'
+  # This fetches the latest user.js from the Betterfox GitHub repo and pins it for reproducibility.
+  # The file will be symlinked into ~/.mozilla/firefox/albert/user.js
+  home.file.".mozilla/firefox/albert/user.js".source =
+    pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js";
+      sha256 = "0absj9hb17n91ykm0njrw18f9vjx4yvvaa6xmal42bax69p2lqnh";
+    };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
