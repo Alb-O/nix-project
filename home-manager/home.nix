@@ -58,11 +58,19 @@
         "cookiebanners.service.mode" = 2; # Block cookie banners
         "browser.sessionstore.resuming_after_os_restart" = true;
         "browser.startup.page" = 3;
-        "privacy.clearOnShutdown.history" = false; # Do not clear history on shutdown
-        "privacy.clearOnShutdown.downloads" = false; # Do not clear downloads on shutdown
+        "privacy.clearOnShutdown.history" = false;
+        "privacy.clearOnShutdown.downloads" = false;
+        "privacy.clearOnShutdown.sessions" = false;
+        "privacy.clearOnShutdown.cookies" = false;
+        "privacy.clearOnShutdown.cache" = false;
+        "privacy.clearOnShutdown.formdata" = false;
+        "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+        "privacy.clearOnShutdown_v2.cache" = false;
+        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = false;
         "middlemouse.paste" = false; # Disable middle mouse paste
         "general.autoScroll" = true; # Enable auto-scrolling
         "sidebar.verticalTabs" = true; # Enable vertical tabs
+        "browser.search.suggest.enabled" = true;
       };
       ExtensionSettings = {
         # uBlock Origin:
