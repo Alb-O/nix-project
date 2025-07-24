@@ -49,11 +49,11 @@
   programs.firefox = {
     enable = true;
     profiles.default = {
-      extensions = [
+      extensions = with pkgs; [
         # uBlock Origin
-        pkgs.firefox-addons.ublock-origin
+        ublock-origin
         # 1Password extension
-        pkgs.firefox-addons._1password
+        _1password
       ];
     };
   };
