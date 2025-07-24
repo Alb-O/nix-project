@@ -101,31 +101,24 @@ in {
       Homepage = {
         StartPage = "previous-session";
       };
-      /*
-         NewTabPage = true;
-      Homepage = {
-        StartPage = "previous-session";
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
       };
-      Preferences = {
-        "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
-        "cookiebanners.service.mode" = 2; # Block cookie banners
-        "browser.sessionstore.resuming_after_os_restart" = lock-true;
-        "browser.startup.page" = 3;
-        "privacy.clearOnShutdown.history" = lock-false;
-        "privacy.clearOnShutdown.downloads" = lock-false;
-        "privacy.clearOnShutdown.sessions" = lock-false;
-        "privacy.clearOnShutdown.cookies" = lock-false;
-        "privacy.clearOnShutdown.cache" = lock-false;
-        "privacy.clearOnShutdown.formdata" = lock-false;
-        "privacy.clearOnShutdown_v2.cookiesAndStorage" = lock-false;
-        "privacy.clearOnShutdown_v2.cache" = lock-false;
-        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = lock-false;
-        "middlemouse.paste" = lock-false; # Disable middle mouse paste
-        "general.autoScroll" = lock-true; # Enable auto-scrolling
-        "sidebar.verticalTabs" = lock-true; # Enable vertical tabs
-        "browser.search.suggest.enabled" = lock-true;
-      };
-      */
+      DisablePocket = true;
+      DisableFirefoxAccounts = true;
+      DisableAccounts = true;
+      DisableFirefoxScreenshots = true;
+      OverrideFirstRunPage = "";
+      OverridePostUpdatePage = "";
+      DontCheckDefaultBrowser = true;
+      DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
+      DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
+      SearchBar = "unified"; # alternative: "separate"
+      NewTabPage = false;
+
       ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
