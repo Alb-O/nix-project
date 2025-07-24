@@ -15,8 +15,8 @@
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
-    
-    # ./modules/firefox.nix
+
+    # The arkenfox module is imported via flake.nix
   ];
 
   home = {
@@ -27,22 +27,22 @@
 
   programs.firefox = {
     enable = true;
+    arkenfox = {
+      enable = true;
+      version = "master"; # You may set this to a specific version, e.g., "103.0"
+    };
     profiles = {
       albert = {
         id = 0;
         isDefault = true;
+        arkenfox = {
+          enable = true;
+          # Example: enable all sections (optional, see README for fine-tuning)
+          enableAllSections = true;
+        };
       };
     };
   };
-
-  # Install Betterfox user.js for Firefox profile 'albert'
-  # This fetches the latest user.js from the Betterfox GitHub repo and pins it for reproducibility.
-  # The file will be symlinked into ~/.mozilla/firefox/albert/user.js
-  home.file.".mozilla/firefox/albert/user.js".source =
-    pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/yokoffing/Betterfox/main/Peskyfox.js";
-      sha256 = "09f24aw5z4nf7jdgrj8bw80n8bkdvngndfl08c1cqn5lv47b86sv";
-    };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
