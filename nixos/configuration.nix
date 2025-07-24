@@ -199,7 +199,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    backupFileExtension = "backup";
+    backupFileExtension = "nixbackup";
     users.albert = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
   };
 
