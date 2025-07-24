@@ -49,6 +49,9 @@
           # specify profile-specific preferences here; check about:config for options
           "privacy.clearOnShutdown.history" = false;
           "privacy.clearOnShutdown.downloads" = false;
+          "privacy.clearOnShutdown.sessions" = false;
+          "privacy.clearOnShutdown.cache" = false;
+          "privacy.clearOnShutdown.cookies" = false;
         };
       };
     };
