@@ -52,9 +52,9 @@
       extensions = {
         packages = with pkgs; [
           # uBlock Origin
-          nur.repos.rycee.firefox-addons.ublock-origin
+          (import inputs.nur { pkgs = pkgs; }).repos.rycee.firefox-addons.ublock-origin
           # 1Password extension
-          nur.repos.rycee.firefox-addons.onepassword-password-manager
+          (import inputs.nur { pkgs = pkgs; }).repos.rycee.firefox-addons.onepassword-password-manager
         ];
       };
     };
