@@ -51,9 +51,9 @@
     profiles.default = {
       extensions = with pkgs; [
         # uBlock Origin
-        ublock-origin
+        firefoxPackages.ublock-origin
         # 1Password extension
-        _1password
+        firefoxPackages._1password
       ];
     };
   };
