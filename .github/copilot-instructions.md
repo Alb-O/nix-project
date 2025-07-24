@@ -6,7 +6,7 @@
    - Recursively follow and fetch all relevant links until you have complete context.
 
 2. **NixOS and Flake Best Practices**
-   - Use flakes for reproducible, version-pinned configurations. Always include a flake.nix and flake.lock.
+   - Use flakes for reproducible, version-pinned configurations.
    - Structure flake.nix with `description`, `inputs`, `outputs`, and (optionally) `nixConfig`.
    - Use the `outputs` function to define `nixosConfigurations`, `packages`, `apps`, `devShells`, and overlays.
    - Pass `specialArgs` to modules for flake input access.
@@ -33,15 +33,15 @@
    - Prefer minimal, functional, and idiomatic Nix code. Use community templates as a starting point.
    - Document any non-obvious choices or workarounds in comments.
 
-5. **Testing and Validation**
-   - After making changes, run `nixos-rebuild test` or `nixos-rebuild switch --flake .#hostname` to validate.
-   - For home-manager, run `home-manager switch` and check for errors.
-   - If possible, add or update tests for custom modules or packages.
 
-6. **General Coding Standards**
-   - Use a formatter (e.g., `nixpkgs-fmt`, `alejandra`) for all Nix code.
-   - Avoid deprecated or legacy patterns (e.g., imperative `nix-env`).
-   - Keep all dependencies and inputs up to date using `nix flake update`.
+5. **Testing and Validation**
+   - After making changes, validate your configuration using the flake-based workflow:
+     - Run `./rebuild.sh <hostname>` to build, checkpoint, and deploy your NixOS configuration.
+     - This script will handle git commits and branch management automatically.
+   - For home-manager as a NixOS module, configuration is applied as part of the system rebuild.
+   - For standalone home-manager, use `home-manager switch --flake .#<username>@<hostname>` if configured, or follow your flake's documented invocation.
+   - Always check for errors after switching or rebuilding.
+   - If possible, add or update tests for custom modules or packages.
 
 ---
 
