@@ -37,10 +37,14 @@
             ];
           };
         };
+        extensions.packages = [
+          pkgs.nur.repos.crazazy.firefox-addons.ublock-origin
+          pkgs.nur.repos.rycee.firefox-addon.darkreader
+          pkgs.nur.repos.rycee.firefox-addon.onepassword
+        ];
         settings = {
           # specify profile-specific preferences here; check about:config for options
           "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-          "browser.startup.homepage" = "https://nixos.org";
           "browser.newtabpage.pinned" = [
             {
               title = "NixOS";
@@ -53,6 +57,7 @@
           };
           "extensions.pocket.enabled" = false;
           "extensions.screenshots.disabled" = true;
+          "extensions.autoDisableScopes" = false;
           "browser.topsites.contile.enabled" = false;
           "browser.formfill.enable" = false;
           "browser.urlbar.showSearchSuggestionsFirst" = false;
@@ -91,7 +96,7 @@
         StartPage = "previous-session";
       };
 
-      ExtensionSettings = {
+/*       ExtensionSettings = {
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/uborigin/latest.xpi";
@@ -112,7 +117,7 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
           installation_mode = "force_installed";
         };
-      };
+      }; */
     };
   };
 }
