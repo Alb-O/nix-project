@@ -25,7 +25,6 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
-    
   ];
 
   nixpkgs = {
@@ -73,12 +72,11 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = ["ntfs"];
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -86,7 +84,7 @@
   services.xserver.videoDrivers = ["nvidia"];
 
   # NVIDIA driver integration (handles early loading and module setup)
-  boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=0" ];
+  boot.kernelParams = ["nvidia-drm.modeset=1" "nvidia-drm.fbdev=0"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -138,7 +136,7 @@
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-      extraGroups = [ "wheel" "networkmanager" "audio" "video" "docker" ];
+      extraGroups = ["wheel" "networkmanager" "audio" "video" "docker"];
     };
   };
 
@@ -155,7 +153,6 @@
     };
   };
 
-
   environment.systemPackages = with pkgs; [
     helix
     wget
@@ -169,42 +166,42 @@
     sddm-astronaut
   ];
 
-programs._1password-gui = {
-  enable = true;
-  polkitPolicyOwners = [ "albert" ];
-};
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = ["albert"];
+  };
 
-programs._1password.enable = true;
-programs.niri.enable = true;
+  programs._1password.enable = true;
+  programs.niri.enable = true;
 
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     package = pkgs.kdePackages.sddm;
-    extraPackages = with pkgs; [ sddm-astronaut ];
+    extraPackages = with pkgs; [sddm-astronaut];
     theme = "sddm-astronaut-theme";
   };
-  
-xdg.portal = {
-  enable = true;
-  extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+  };
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    nerd-fonts.jetbrains-mono
   ];
-};
 
-fonts.packages = with pkgs; [
-  noto-fonts
-  noto-fonts-cjk-sans
-  noto-fonts-emoji
-  nerd-fonts.jetbrains-mono
-];
-
-home-manager = {
-  useGlobalPkgs = true;
-  useUserPackages = true;
-  users.albert = import ../home-manager/home.nix { inherit inputs outputs lib config pkgs; };
-  backupFileExtension = "backup";
-};
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.albert = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
+    backupFileExtension = "backup";
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05";

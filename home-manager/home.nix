@@ -7,7 +7,7 @@
   config,
   pkgs,
   ...
-}@ args: {
+} @ args: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -19,7 +19,7 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
-  
+
   home = {
     username = "albert";
     homeDirectory = "/home/albert";
@@ -46,27 +46,36 @@
   };
 
   programs.fish.enable = true;
-  programs.firefox.enable = false;
 
-  programs.librewolf = {
+  programs.firefox = {
     enable = true;
-    settings = {
-      "extensions.autoDisableScopes" = 0;
-    };
+    package = pkgs.librewolf;
     policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      Preferences = {
+        "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
+        "cookiebanners.service.mode" = 2; # Block cookie banners
+        "privacy.donottrackheader.enabled" = true;
+        "privacy.fingerprintingProtection" = true;
+        "privacy.resistFingerprinting" = true;
+        "privacy.trackingprotection.emailtracking.enabled" = true;
+        "privacy.trackingprotection.enabled" = true;
+        "privacy.trackingprotection.fingerprinting.enabled" = true;
+        "privacy.trackingprotection.socialtracking.enabled" = true;
+      };
       ExtensionSettings = {
-        "uBlock0@raymondhill.net" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+        "jid1-ZAdIEUB7XOzOJw@jetpack" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/duckduckgo-for-firefox/latest.xpi";
           installation_mode = "force_installed";
         };
-        "aeblfdkhhhdcdjpifhhbdiojplfjncoa@jetbrains.com" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
           installation_mode = "force_installed";
         };
       };
     };
   };
-
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -87,7 +96,7 @@
   systemd.user.services.swww-daemon = {
     Unit = {
       Description = "swww wallpaper daemon";
-      After = [ "graphical-session.target" ];
+      After = ["graphical-session.target"];
     };
     Service = {
       ExecStart = "${lib.getExe pkgs.swww}-daemon";
@@ -95,21 +104,21 @@
       Restart = "on-failure";
     };
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
   };
 
   systemd.user.services."1password-gui" = {
     Unit = {
       Description = "1Password GUI";
-      After = [ "graphical-session.target" ];
+      After = ["graphical-session.target"];
     };
     Service = {
       ExecStart = "${lib.getExe pkgs._1password-gui} --silent --enable-features=UseOzonePlatform --ozone-platform=wayland";
       Restart = "on-failure";
     };
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = ["graphical-session.target"];
     };
   };
 
