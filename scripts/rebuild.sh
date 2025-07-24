@@ -21,8 +21,9 @@ HOSTNAME="$1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 "$SCRIPT_DIR/find-and-clean-nixbackups.sh"
 
+USER_HOST="albert@$HOSTNAME"
 # Step 3: Run the build
-if sudo home-manager switch --flake .#"$HOSTNAME"; then
+if home-manager switch --flake .#"$USER_HOST"; then
   # Step 4: Commit to 'deployed' after successful build
   if git show-ref --verify --quiet refs/heads/deployed; then
     git checkout deployed
