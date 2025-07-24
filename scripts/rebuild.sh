@@ -18,7 +18,7 @@ fi
 HOSTNAME="$1"
 
 # Step 2: Clean up .nixbackup files before build
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 "$SCRIPT_DIR/find-and-clean-nixbackups.sh"
 
 # Step 3: Run the build
