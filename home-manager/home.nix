@@ -16,12 +16,23 @@
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
     
-    ./modules/firefox.nix
+    # ./modules/firefox.nix
   ];
 
   home = {
     username = "albert";
     homeDirectory = "/home/albert";
+  };
+
+  programs.firefox = {
+    enable = true;
+    package = pkgs.floorp;
+    profiles = {
+      albert = {
+        id = 0;
+        isDefault = true;
+      };
+    };
   };
 
   # Add stuff for your user as you see fit:
