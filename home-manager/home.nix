@@ -46,7 +46,17 @@
   };
 
   programs.fish.enable = true;
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      extensions = with pkgs.nur.repos; [
+        # uBlock Origin
+        rycee.firefox-addons.ublock-origin
+        # 1Password extension
+        rycee.firefox-addons._1password
+      ];
+    };
+  };
 
 
   dconf.settings = {
