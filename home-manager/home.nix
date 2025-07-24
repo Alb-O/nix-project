@@ -46,34 +46,20 @@
   };
 
   programs.fish.enable = true;
-  programs.firefox = {
+  programs.firefox.enable = false;
+
+  programs.librewolf = {
     enable = true;
+    settings = {
+      "extensions.autoDisableScopes" = 0;
+    };
     profiles.albert = {
       extensions = {
+        force = true;
         packages = with pkgs; [
-          # uBlock Origin
           pkgs.nur.repos.rycee.firefox-addons.ublock-origin
-          # 1Password extension
           pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
         ];
-      };
-      settings = {
-        "extensions.autoDisableScopes" = 0;
-        "extensions.enabledScopes" = 15;
-        "xpinstall.signatures.required" = false;
-        "extensions.blocklist.enabled" = false;
-      };
-    };
-    policies = {
-      ExtensionSettings = {
-        "uBlock0@raymondhill.net" = {
-          installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-        };
-        "2c4c2bfa-7b5a-4c0b-9c5a-1c7a1b7d8a74@jetbrains" = {
-          installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
-        };
       };
     };
   };
