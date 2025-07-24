@@ -40,7 +40,7 @@
         extensions.packages = [
           pkgs.nur.repos.crazazy.firefox-addons.ublock-origin
           pkgs.nur.repos.rycee.firefox-addons.darkreader
-          pkgs.nur.repos.rycee.firefox-addons.onepassword
+          pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
         ];
         settings = {
           # specify profile-specific preferences here; check about:config for options
