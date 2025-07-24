@@ -23,8 +23,9 @@
     username = "albert";
     homeDirectory = "/home/albert";
   };
-
-  programs.firefox = {
+  
+  programs.firefox.enable = false;
+  programs.librewolf = {
     enable = true;
     package = pkgs.librewolf;
     /*
