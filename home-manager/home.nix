@@ -56,13 +56,11 @@
       Preferences = {
         "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
         "cookiebanners.service.mode" = 2; # Block cookie banners
-        "privacy.donottrackheader.enabled" = true;
-        "privacy.fingerprintingProtection" = true;
-        "privacy.resistFingerprinting" = true;
-        "privacy.trackingprotection.emailtracking.enabled" = true;
-        "privacy.trackingprotection.enabled" = true;
-        "privacy.trackingprotection.fingerprinting.enabled" = true;
-        "privacy.trackingprotection.socialtracking.enabled" = true;
+        "privacy.clearOnShutdown.history" = false; # Do not clear history on shutdown
+        "privacy.clearOnShutdown.downloads" = false; # Do not clear downloads on shutdown
+        "middlemouse.paste" = false; # Disable middle mouse paste
+        "general.autoScroll" = true; # Enable auto-scrolling
+        "sidebar.verticalTabs" = true; # Enable vertical tabs
       };
       ExtensionSettings = {
         # uBlock Origin:
