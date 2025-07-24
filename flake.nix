@@ -16,7 +16,7 @@
     # NUR (Nix User Repository)
     nur.url = "github:nix-community/NUR";
     # Arkenfox user.js module for NixOS + home-manager
-    arkenfox-nixos.url = "github:dwarfmaster/arkenfox-nixos";
+    # arkenfox-nixos.url = "github:dwarfmaster/arkenfox-nixos";
   };
 
   outputs = {
