@@ -56,21 +56,21 @@
       Preferences = {
         "cookiebanners.service.mode.privateBrowsing" = 2; # Block cookie banners in private browsing
         "cookiebanners.service.mode" = 2; # Block cookie banners
-        "browser.sessionstore.resuming_after_os_restart" = true;
+        "browser.sessionstore.resuming_after_os_restart" = 1;
         "browser.startup.page" = 3;
-        "privacy.clearOnShutdown.history" = false;
-        "privacy.clearOnShutdown.downloads" = false;
-        "privacy.clearOnShutdown.sessions" = false;
-        "privacy.clearOnShutdown.cookies" = false;
-        "privacy.clearOnShutdown.cache" = false;
-        "privacy.clearOnShutdown.formdata" = false;
-        "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
-        "privacy.clearOnShutdown_v2.cache" = false;
-        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = false;
-        "middlemouse.paste" = false; # Disable middle mouse paste
-        "general.autoScroll" = true; # Enable auto-scrolling
-        "sidebar.verticalTabs" = true; # Enable vertical tabs
-        "browser.search.suggest.enabled" = true;
+        "privacy.clearOnShutdown.history" = 0;
+        "privacy.clearOnShutdown.downloads" = 0;
+        "privacy.clearOnShutdown.sessions" = 0;
+        "privacy.clearOnShutdown.cookies" = 0;
+        "privacy.clearOnShutdown.cache" = 0;
+        "privacy.clearOnShutdown.formdata" = 0;
+        "privacy.clearOnShutdown_v2.cookiesAndStorage" = 0;
+        "privacy.clearOnShutdown_v2.cache" = 0;
+        "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = 0;
+        "middlemouse.paste" = 0; # Disable middle mouse paste
+        "general.autoScroll" = 0; # Enable auto-scrolling
+        "sidebar.verticalTabs" = 0; # Enable vertical tabs
+        "browser.search.suggest.enabled" = 0;
       };
       ExtensionSettings = {
         # uBlock Origin:
