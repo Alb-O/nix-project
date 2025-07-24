@@ -53,13 +53,16 @@
     settings = {
       "extensions.autoDisableScopes" = 0;
     };
-    profiles.albert = {
-      extensions = {
-        force = true;
-        packages = with pkgs; [
-          pkgs.nur.repos.rycee.firefox-addons.ublock-origin
-          pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
-        ];
+    policies = {
+      ExtensionSettings = {
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        "aeblfdkhhhdcdjpifhhbdiojplfjncoa@jetbrains.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+          installation_mode = "force_installed";
+        };
       };
     };
   };
