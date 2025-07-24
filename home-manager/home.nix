@@ -68,7 +68,10 @@
           "privacy.clearOnShutdown.sessions" = false;
           "privacy.clearOnShutdown.cache" = false;
           "privacy.clearOnShutdown.cookies" = false;
-          "browser.startup.page" = 3;
+          "browser.startup.page" = {
+            Value = 3;
+            Status = "locked";
+          };
         };
       };
     };
