@@ -7,7 +7,7 @@
   config,
   pkgs,
   ...
-}: {
+}@ args: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -51,9 +51,9 @@
     profiles.default = {
       extensions = with pkgs; [
         # uBlock Origin
-        nur.repos.rycee.firefox-addons.ublock-origin
+        inputs.nur.repos.rycee.firefox-addons.ublock-origin
         # 1Password extension
-        nur.repos.rycee.firefox-addons._1password
+        inputs.nur.repos.rycee.firefox-addons._1password
       ];
     };
   };
