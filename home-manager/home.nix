@@ -59,6 +59,21 @@
       };
       settings = {
         "extensions.autoDisableScopes" = 0;
+        "extensions.enabledScopes" = 15;
+        "xpinstall.signatures.required" = false;
+        "extensions.blocklist.enabled" = false;
+      };
+    };
+    policies = {
+      ExtensionSettings = {
+        "uBlock0@raymondhill.net" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+        };
+        "2c4c2bfa-7b5a-4c0b-9c5a-1c7a1b7d8a74@jetbrains" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+        };
       };
     };
   };
