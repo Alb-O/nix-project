@@ -41,6 +41,7 @@
         "privacy.clearOnShutdown.sessions" = false;
         "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.cookies" = false;
+        "browser.startup.page" = 3;
       };
       Homepage = {
         StartPage = "previous-session";
