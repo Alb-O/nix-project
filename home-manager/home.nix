@@ -58,6 +58,7 @@
         "cookiebanners.service.mode" = 2; # Block cookie banners
         "browser.sessionstore.resume_session_once" = true;
         "browser.sessionstore.resuming_after_os_restart" = true;
+        "browser.startup.page" = 3;
         "privacy.clearOnShutdown.history" = false; # Do not clear history on shutdown
         "privacy.clearOnShutdown.downloads" = false; # Do not clear downloads on shutdown
         "middlemouse.paste" = false; # Disable middle mouse paste
