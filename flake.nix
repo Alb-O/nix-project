@@ -15,6 +15,8 @@
 
     # NUR (Nix User Repository)
     nur.url = "github:nix-community/NUR";
+    # Arkenfox user.js module for NixOS + home-manager
+    arkenfox-nixos.url = "github:dwarfmaster/arkenfox-nixos";
   };
 
   outputs = {
@@ -72,6 +74,8 @@
         };
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
+          # Import the arkenfox home-manager module
+          inputs.arkenfox-nixos.hmModules.arkenfox
           # > Our main home-manager configuration file <
           ./home-manager/home.nix
         ];
