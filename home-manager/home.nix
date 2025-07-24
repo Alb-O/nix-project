@@ -7,7 +7,7 @@
   config,
   pkgs,
   ...
-}: {
+}@ args: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -46,7 +46,19 @@
   };
 
   programs.fish.enable = true;
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    profiles.albert = {
+      extensions = {
+        packages = with pkgs; [
+          # uBlock Origin
+          pkgs.nur.repos.rycee.firefox-addons.ublock-origin
+          # 1Password extension
+          pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
+        ];
+      };
+    };
+  };
 
 
   dconf.settings = {

@@ -20,4 +20,7 @@
       config.allowUnfree = true;
     };
   };
+
+  # NUR (Nix User Repository) overlay
+  nur = inputs.nur.overlay;
 }
