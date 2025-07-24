@@ -59,10 +59,9 @@ in {
   programs.firefox = {
     enable = true;
     profiles = {
-      "user" = {
+      albert = {
         id = 0;
         isDefault = true;
-
         search.engines = {
           "Nix Packages" = {
             urls = [
@@ -99,6 +98,9 @@ in {
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
+      Homepage = {
+        StartPage = "previous-session";
+      };
       /*
          NewTabPage = true;
       Homepage = {
