@@ -18,7 +18,7 @@ fi
 HOSTNAME="$1"
 
 # Step 2: Run the build
-if sudo home-manager switch --flake .#albert@"$HOSTNAME"; then
+if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
   # Step 3: Commit to 'deployed' after successful build
   if git show-ref --verify --quiet refs/heads/deployed; then
     git checkout deployed
