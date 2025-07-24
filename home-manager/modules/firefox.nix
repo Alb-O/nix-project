@@ -39,8 +39,8 @@
         };
         extensions.packages = [
           pkgs.nur.repos.crazazy.firefox-addons.ublock-origin
-          pkgs.nur.repos.rycee.firefox-addon.darkreader
-          pkgs.nur.repos.rycee.firefox-addon.onepassword
+          pkgs.nur.repos.rycee.firefox-addons.darkreader
+          pkgs.nur.repos.rycee.firefox-addons.onepassword
         ];
         settings = {
           # specify profile-specific preferences here; check about:config for options
