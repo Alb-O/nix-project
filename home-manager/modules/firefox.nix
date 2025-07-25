@@ -112,8 +112,10 @@
           };
           seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action"];
         };
-        # Restore session
+        # Restore session on startup
         "browser.startup.page" = 3;
+        # Disable about:config warning
+        "general.warnOnAboutConfig" = false;
       };
     };
   };
