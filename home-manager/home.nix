@@ -51,7 +51,7 @@
           "privacy.clearOnShutdown.sessions" = false;
           "privacy.clearOnShutdown.cache" = false;
           "privacy.clearOnShutdown.cookies" = false;
-          "browser.startup.page" = {
+          "browser.startup.page" = lib.mkForce {
             Value = 3;
             Status = "locked";
           };
