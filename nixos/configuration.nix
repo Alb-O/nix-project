@@ -182,10 +182,26 @@
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
     ];
     config = {
       common = {
         default = [
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.FileChooser" = [
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Screenshot" = [
+          "wlr"
+        ];
+        "org.freedesktop.impl.portal.ScreenCast" = [
+          "wlr"
+        ];
+      };
+      niri = {
+        default = [
+          "wlr"
           "gtk"
         ];
         "org.freedesktop.impl.portal.FileChooser" = [
