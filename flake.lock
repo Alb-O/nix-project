@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "arkenfox-nixos": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs",
-        "pre-commit": "pre-commit"
-      },
-      "locked": {
-        "lastModified": 1751321356,
-        "narHash": "sha256-7vrKgcIg7jOHVEJrpfjNjcqZnsAoXnJvKK8NuV1x2kU=",
-        "owner": "dwarfmaster",
-        "repo": "arkenfox-nixos",
-        "rev": "3f04af64f37dad55446417fc2f8c6cf754fde879",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dwarfmaster",
-        "repo": "arkenfox-nixos",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -165,11 +145,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1753115646,
-        "narHash": "sha256-yLuz5cz5Z+sn8DRAfNkrd2Z1cV6DaYO9JMrEz4KZo/c=",
+        "lastModified": 1753345091,
+        "narHash": "sha256-CdX2Rtvp5I8HGu9swBmYuq+ILwRxpXdJwlpg8jvN4tU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "92c2e04a475523e723c67ef872d8037379073681",
+        "rev": "3ff0e34b1383648053bba8ed03f201d3466f90c9",
         "type": "github"
       },
       "original": {
@@ -201,11 +181,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1753363521,
-        "narHash": "sha256-ozWeLx1WbZVQ6fpX7a/PVNP7Ef+0GMUAPszOwRv1Qo4=",
+        "lastModified": 1753429468,
+        "narHash": "sha256-yPDJZjb/WNm3RqgninTkum2Uhf6H1okDbxGnQapSn58=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "6e2cdbdc31ee76844ce7cbfbd942736a6ec51f1f",
+        "rev": "3f1687c8ff2b49052dd4a43d266b6c71013b16eb",
         "type": "github"
       },
       "original": {
