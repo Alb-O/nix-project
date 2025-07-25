@@ -64,6 +64,7 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     swww
+    luakit
   ];
 
   # Enable home-manager and git
