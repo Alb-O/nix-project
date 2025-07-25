@@ -47,7 +47,7 @@ success() {
 }
 
 warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}⚠️ $1${NC}"
 }
 
 error() {
