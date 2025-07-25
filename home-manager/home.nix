@@ -31,6 +31,7 @@
     luakit
     nil
     nixd
+    claude-code
   ];
 
   # Enable home-manager and git
