@@ -41,6 +41,8 @@
   libnotify,
   xdg-utils,
   autoPatchelfHook,
+  webkitgtk_4_1,
+  libsoup_3,
 }:
 
 let
@@ -98,6 +100,8 @@ stdenv.mkDerivation {
     libsecret
     libnotify
     xdg-utils
+    webkitgtk_4_1
+    libsoup_3
   ];
 
   unpackPhase = ''
