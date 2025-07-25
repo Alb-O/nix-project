@@ -109,46 +109,6 @@
   # Configure niri compositor
   wayland.windowManager.niri = {
     enable = true;
-    settings = {
-      input = {
-        keyboard = {
-          xkb = {
-            layout = "us";
-          };
-          numlock = true;
-        };
-        touchpad = {
-          tap = true;
-          natural-scroll = true;
-        };
-      };
-      layout = {
-        gaps = 16;
-        center-focused-column = "never";
-        default-column-width = { proportion = 0.5; };
-        focus-ring = {
-          width = 4;
-          active-color = "#7fc8ff";
-          inactive-color = "#505050";
-        };
-      };
-      binds = {
-        "Mod+T" = ''spawn "kitty"'';
-        "Mod+D" = ''spawn "fuzzel"'';
-        "Mod+Q" = "close-window";
-        "Mod+Left" = "focus-column-left";
-        "Mod+Right" = "focus-column-right";
-        "Mod+Up" = "focus-window-up";
-        "Mod+Down" = "focus-window-down";
-      };
-      spawnAtStartup = [
-        "waybar"
-      ];
-      screenshotPath = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
-    };
-    extraConfig = ''
-      prefer-no-csd
-    '';
   };
 
   # Nicely reload system units when changing configs
