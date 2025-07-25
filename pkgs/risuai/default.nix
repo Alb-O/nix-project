@@ -105,20 +105,10 @@ appimageTools.wrapType2 {
     # Install icon
     install -Dm444 ${appimageContents}/RisuAI.png $out/share/pixmaps/risuai.png
     
-    # Fix desktop file paths and add environment variables for Wayland/GTK
+    # Fix desktop file paths
     substituteInPlace $out/share/applications/risuai.desktop \
-      --replace 'Exec=AppRun' 'Exec=env GDK_BACKEND=wayland,x11 WEBKIT_DISABLE_COMPOSITING_MODE=1 ${pname}' \
-      --replace 'Icon=RisuAI' 'Icon=${pname}'
-      
-    # Create wrapper script with proper environment
-    makeWrapper $out/bin/${pname} $out/bin/${pname}-wrapped \
-      --set GDK_BACKEND "wayland,x11" \
-      --set WEBKIT_DISABLE_COMPOSITING_MODE "1" \
-      --set GTK_USE_PORTAL "1" \
-      --set NIXOS_OZONE_WL "1"
-      
-    # Replace the original binary with the wrapper
-    mv $out/bin/${pname}-wrapped $out/bin/${pname}
+      --replace-fail 'Exec=RisuAI' 'Exec=${pname}' \
+      --replace-fail 'Icon=RisuAI' 'Icon=${pname}'
   '';
 
   meta = with lib; {
