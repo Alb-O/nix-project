@@ -36,6 +36,9 @@
     claude-code
     fastfetch
     sillytavern
+  ] ++ [
+    # Custom packages
+    pkgs.risuai
   ];
 
   # State version - don't change this
