@@ -25,7 +25,7 @@
       DisablePasswordReveal = true;
       DontCheckDefaultBrowser = true; # Stop being attention whore
       HardwareAcceleration = false; # Disabled as it's exposes points for fingerprinting
-      OfferToSaveLogins = false; # Managed by KeepAss instead
+      OfferToSaveLogins = false; # Managed by 1Password instead
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
@@ -52,52 +52,11 @@
         # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.darkreader}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/addon@darkreader.org.xpi";
         # 	installation_mode = "force_installed";
         # };
-        # "7esoorv3@alefvanoon.anonaddy.me" = {
-        # 	# LibRedirect
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.libredirect}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/7esoorv3@alefvanoon.anonaddy.me.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "jid0-3GUEt1r69sQNSrca5p8kx9Ezc3U@jetpack" = {
-        # 	# Terms of Service, Didn't Read
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.terms-of-service-didnt-read}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/jid0-3GUEt1r69sQNSrca5p8kx9Ezc3U@jetpack.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "keepassxc-browser@keepassxc.org" = {
-        # 	# KeepAssXC-Browser
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.keepassxc-browser}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/keepassxc-browser@keepassxc.org.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # # FIXME(Krey): Contribute this in NUR
-        # "dont-track-me-google@robwu.nl" = {
-        # 	# Don't Track Me Google
-        # 	install_url = "https://addons.mozilla.org/firefox/downloads/latest/dont-track-me-google1/latest.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "jid1-BoFifL9Vbdl2zQ@jetpack" = {
-        # 	# Decentrayeles
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.decentraleyes}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/jid1-BoFifL9Vbdl2zQ@jetpack.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "{73a6fe31-595d-460b-a920-fcc0f8843232}" = {
-        # 	# NoScript
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.noscript}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/{73a6fe31-595d-460b-a920-fcc0f8843232}.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "{74145f27-f039-47ce-a470-a662b129930a}" = {
-        # 	# ClearURLs
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.clearurls}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/{74145f27-f039-47ce-a470-a662b129930a}.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "sponsorBlocker@ajay.app" = {
-        # 	# Sponsor Block
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.sponsorblock}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/sponsorBlocker@ajay.app.xpi";
-        # 	installation_mode = "force_installed";
-        # };
-        # "jid1-MnnxcxisBPnSXQ@jetpack" = {
-        # 	# Privacy Badger
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.privacy-badger}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/jid1-MnnxcxisBPnSXQ@jetpack.xpi";
-        # 	installation_mode = "force_installed";
-        # };
+        "sponsorBlocker@ajay.app" = {
+        	# Sponsor Block
+        	install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorBlocker@ajay.app.xpi";
+        	installation_mode = "force_installed";
+        };
         "uBlock0@raymondhill.net" = {
           # uBlock Origin
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -212,6 +171,8 @@
           };
           seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action"];
         };
+        # Enable vertical tabs
+        "sidebar.verticalTabs" = true;
         # Restore session on startup
         "browser.startup.page" = 3;
         "privacy.clearOnShutdown.history" = false;
