@@ -10,7 +10,7 @@
     profiles.albert = {
       id = 0;
       isDefault = true;
-      extensions.packages = with nur.repos.rycee.firefox-addons; [
+      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         onepassword-password-manager
         darkreader
       ];
