@@ -3,12 +3,12 @@
   lib,
   ...
 }: {
-  # programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
     profiles.albert = {
       id = 0;
       isDefault = true;
+      /*
       search = {
         force = true;
         default = "kagi";
@@ -23,6 +23,7 @@
           bing.metaData.hidden = true;
         };
       };
+      */
       settings = {
         "browser.startup.homepage" = "about:home";
 
