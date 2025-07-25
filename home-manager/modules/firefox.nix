@@ -1,3 +1,5 @@
+# Credit: https://github.com/Misterio77/nix-config
+
 {
   pkgs,
   lib,
@@ -120,7 +122,7 @@
         "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.cookies" = false;
         # Disable about:config warning
-        "general.warnOnAboutConfig" = false;
+        "browser.aboutConfig.showWarning" = false;
       };
     };
   };
