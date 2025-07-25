@@ -50,6 +50,5 @@ if nix run .#homeConfigurations."$USER_HOST".activationPackage; then
     echo "Build and deployment commit complete. 'building' updated."
   fi
 else
-  echo "Build failed. Not updating downstream branches."
   exit 1
 fi
