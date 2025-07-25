@@ -171,8 +171,15 @@
           };
           seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action"];
         };
-        # Enable vertical tabs
+        # Enable sidebar/vertical tabs
+        "sidebar.position_start" = true;
+        "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
+        "sidebar.main.tools" = [
+          "aichat"
+          "bookmarks"
+          "history"
+        ];
         # Restore session on startup
         "browser.startup.page" = 3;
         "privacy.clearOnShutdown.history" = false;
