@@ -1,5 +1,6 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+# Home Manager configuration
+# Main entry point for user environment configuration
+
 {
   inputs,
   outputs,
@@ -8,25 +9,25 @@
   pkgs,
   ...
 } @ args: {
-  # You can import other home-manager modules here
+  # Import modular configuration
   imports = [
-    # If you want to use modules your own flake exports (from modules/home-manager):
+    # Custom modules
+    ./modules/programs
+    ./modules/desktop
+    ./modules/services
+
+    # Example external modules (commented out):
     # outputs.homeManagerModules.example
-
-    # Or modules exported from other flakes (e.g. nix-colors):
     # inputs.nix-colors.homeManagerModules.default
-
-    ./modules/firefox.nix
-    ./modules/niri.nix
   ];
 
+  # Basic user information
   home = {
     username = "albert";
     homeDirectory = "/home/albert";
   };
 
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
+  # User packages
   home.packages = with pkgs; [
     swww
     luakit
@@ -35,85 +36,7 @@
     pkgs.unstable.claude-code
   ];
 
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git = {
-    enable = true;
-    userName = "Albert O'Shea";
-    userEmail = "albertoshea2@gmail.com";
-  };
-
-  programs.kitty = {
-    enable = true;
-    font.name = "JetBrains Mono";
-    font.package = pkgs.nerd-fonts.jetbrains-mono;
-  };
-
-  programs.fish.enable = true;
-
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      # If running interactively and fish is available, launch fish
-      if [[ $- == *i* ]] && command -v fish >/dev/null 2>&1; then
-        exec fish
-      fi
-    '';
-  };
-
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-  };
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-    font.name = "JetBrains Mono";
-    font.package = pkgs.nerd-fonts.jetbrains-mono;
-  };
-
-  systemd.user.services.swww-daemon = {
-    Unit = {
-      Description = "swww wallpaper daemon";
-      After = ["graphical-session.target"];
-    };
-    Service = {
-      ExecStart = "${lib.getExe pkgs.swww}-daemon";
-      ExecStartPost = "${lib.getExe pkgs.swww} clear '#3b224c'";
-      Restart = "on-failure";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-  };
-
-  systemd.user.services."1password-gui" = {
-    Unit = {
-      Description = "1Password GUI";
-      After = ["graphical-session.target"];
-    };
-    Service = {
-      ExecStart = "${lib.getExe pkgs._1password-gui} --silent --enable-features=UseOzonePlatform --ozone-platform=wayland";
-      Restart = "on-failure";
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-  };
-
-  # Configure niri compositor
-  wayland.windowManager.niri = {
-    enable = true;
-  };
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
+  # State version - don't change this
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "25.05";
 }
