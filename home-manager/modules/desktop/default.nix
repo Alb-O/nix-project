@@ -8,12 +8,12 @@
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      # GTK UI scaling - 1.25 = 125% scale
-      text-scaling-factor = 1.25;
+      # GTK UI scaling - 1.1 = 110% scale
+      text-scaling-factor = 1.1;
     };
   };
 
-  # GTK theme configuration with larger font size
+  # GTK theme configuration
   gtk = {
     enable = true;
     theme = {
@@ -23,8 +23,6 @@
     font = {
       name = "JetBrains Mono";
       package = pkgs.nerd-fonts.jetbrains-mono;
-      # Increase font size from default (usually 11) to 13 for better readability
-      size = 13;
     };
   };
 }
