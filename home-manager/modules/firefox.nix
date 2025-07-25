@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  inputs,
   ...
 }: {
   # programs.browserpass.enable = true;
@@ -24,12 +23,6 @@
           bing.metaData.hidden = true;
         };
       };
-      bookmarks = {};
-      extensions.packages = with pkgs.inputs.firefox-addons; [
-        ublock-origin
-        browserpass
-      ];
-      bookmarks = {};
       settings = {
         "browser.startup.homepage" = "about:home";
 
