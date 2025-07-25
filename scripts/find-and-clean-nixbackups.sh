@@ -9,7 +9,7 @@ readonly BLUE='\033[0;34m'
 readonly NC='\033[0m' # No Color
 
 log() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}$1${NC}"
 }
 
 success() {
@@ -17,7 +17,7 @@ success() {
 }
 
 warn() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}⚠️ $1${NC}"
 }
 
 error() {
