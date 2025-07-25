@@ -27,6 +27,18 @@
     homeDirectory = "/home/albert";
   };
 
+  # sops-nix configuration for home-manager
+  sops = {
+    defaultSopsFile = ../secrets/example.yaml;
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    
+    secrets = {
+      example-password = {};
+      database-url = {};
+      api-key = {};
+    };
+  };
+
   # User packages
   home.packages = with pkgs.unstable; [
     swww

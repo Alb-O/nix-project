@@ -174,6 +174,18 @@
   programs._1password.enable = true;
   programs.niri.enable = true;
 
+  # sops-nix configuration
+  sops = {
+    defaultSopsFile = ../secrets/example.yaml;
+    age.keyFile = "/home/albert/.config/sops/age/keys.txt";
+    
+    secrets = {
+      example-password = {};
+      database-url = {};
+      api-key = {};
+    };
+  };
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
