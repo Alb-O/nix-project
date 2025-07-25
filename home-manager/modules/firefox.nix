@@ -114,6 +114,11 @@
         };
         # Restore session on startup
         "browser.startup.page" = 3;
+        "privacy.clearOnShutdown.history" = false;
+        "privacy.clearOnShutdown.downloads" = false;
+        "privacy.clearOnShutdown.sessions" = false;
+        "privacy.clearOnShutdown.cache" = false;
+        "privacy.clearOnShutdown.cookies" = false;
         # Disable about:config warning
         "general.warnOnAboutConfig" = false;
       };
