@@ -1,0 +1,9 @@
+{
+    "chat.mcp.serverSampling": {
+        "nix-config/.vscode/mcp.json: nixos": {
+            "allowedModels": [
+                "github.copilot-chat/gpt-4.1"
+            ]
+        }
+    }
+}
