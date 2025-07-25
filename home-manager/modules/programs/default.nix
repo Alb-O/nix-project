@@ -5,6 +5,7 @@
 
 {
   imports = [
+    ./kitty.nix
     ./firefox.nix
     ./niri.nix
   ];
@@ -16,12 +17,6 @@
     enable = true;
     userName = "Albert O'Shea";
     userEmail = "albertoshea2@gmail.com";
-  };
-
-  programs.kitty = {
-    enable = true;
-    font.name = "JetBrains Mono";
-    font.package = pkgs.nerd-fonts.jetbrains-mono;
   };
 
   programs.fish.enable = true;

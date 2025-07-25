@@ -156,7 +156,6 @@
   environment.systemPackages = with pkgs; [
     helix
     wget
-    kitty
     fuzzel
     gemini-cli
     vscode
