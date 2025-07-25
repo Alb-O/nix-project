@@ -175,7 +175,7 @@
         "sidebar.position_start" = true;
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
-        "sidebar.main.tools" = "aichat,bookmarks,history"
+        "sidebar.main.tools" = "aichat,bookmarks,history";
         # Restore session on startup
         "browser.startup.page" = 3;
         "privacy.clearOnShutdown.history" = false;
