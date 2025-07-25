@@ -121,13 +121,6 @@
     };
   };
 
-  home = {
-    persistence = {
-      # Not persisting is safer
-      # "/persist/${config.home.homeDirectory}".directories = [ ".mozilla/firefox" ];
-    };
-  };
-
   xdg.mimeApps.defaultApplications = {
     "text/html" = ["firefox.desktop"];
     "text/xml" = ["firefox.desktop"];
