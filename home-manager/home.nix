@@ -31,17 +31,6 @@
       version = "master"; # You may set this to a specific version, e.g., "103.0"
     };
     policies = {
-      Preferences = {
-        "privacy.clearOnShutdown.history" = false;
-        "privacy.clearOnShutdown.downloads" = false;
-        "privacy.clearOnShutdown.sessions" = false;
-        "privacy.clearOnShutdown.cache" = false;
-        "privacy.clearOnShutdown.cookies" = false;
-        "browser.startup.page" = {
-          Value = 3;
-          Status = "locked";
-        };
-      };
       Homepage = {
         StartPage = "previous-session";
       };
