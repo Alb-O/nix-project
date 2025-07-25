@@ -1,7 +1,7 @@
 # -- DATA CONFIGURATION --
 # Root directory for user data storage
 # Using user local path for compatibility with Nix immutable filesystem
-dataRoot: $HOME/.local/share/sillytavern/data
+dataRoot: ~/.local/share/sillytavern/data
 # -- SERVER CONFIGURATION --
 # Listen for incoming connections
 listen: false
