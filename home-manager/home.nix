@@ -15,8 +15,6 @@
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
-
-    # The arkenfox module is imported via flake.nix
   ];
 
   home = {
@@ -26,10 +24,6 @@
   
   programs.firefox = {
     enable = true;
-    arkenfox = {
-      enable = true;
-      version = "master"; # available: "master"
-    };
     policies = {
       Homepage = {
         StartPage = "previous-session";
@@ -39,11 +33,6 @@
       albert = {
         id = 0;
         isDefault = true;
-        arkenfox = {
-          enable = true;
-          # Example: enable all sections (optional, see README for fine-tuning)
-          enableAllSections = true;
-        };
         settings = {
           # specify profile-specific preferences here; check about:config for options
           "privacy.clearOnShutdown.history" = false;
