@@ -161,6 +161,9 @@
     vscode
     sddm-astronaut
     nautilus  # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
+    sops
+    age
+    ssh-to-age
   ];
 
   programs._1password-gui = {

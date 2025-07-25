@@ -15,12 +15,17 @@
 
     # NUR (Nix User Repository)
     nur.url = "github:nix-community/NUR";
+
+    # sops-nix for secrets management
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -58,6 +63,7 @@
         modules = [
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
     };
@@ -75,6 +81,7 @@
         modules = [
           # > Our main home-manager configuration file <
           ./home-manager/home.nix
+          sops-nix.homeManagerModules.sops
         ];
       };
     };
