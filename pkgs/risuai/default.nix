@@ -4,45 +4,18 @@
   fetchurl,
   dpkg,
   wrapGAppsHook,
+  autoPatchelfHook,
+  # Runtime dependencies
   gtk3,
   glib,
+  webkitgtk_4_1,
+  libsoup_3,
   cairo,
   pango,
   gdk-pixbuf,
-  atk,
-  at-spi2-atk,
-  dbus,
-  libX11,
-  libXcursor,
-  libXrandr,
-  libXi,
-  libXext,
-  libXfixes,
-  libXrender,
-  libXcomposite,
-  libXdamage,
-  libxkbcommon,
-  wayland,
-  mesa,
-  vulkan-loader,
-  alsa-lib,
-  pulseaudio,
-  fontconfig,
-  freetype,
-  libdrm,
   nss,
-  nspr,
-  cups,
-  expat,
-  systemd,
-  libuuid,
-  at-spi2-core,
   libsecret,
   libnotify,
-  xdg-utils,
-  autoPatchelfHook,
-  webkitgtk_4_1,
-  libsoup_3,
 }:
 
 let
@@ -64,44 +37,25 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
+    # Core GTK and GLib
     gtk3
     glib
+    
+    # WebKit dependencies (essential for Tauri apps)
+    webkitgtk_4_1
+    libsoup_3
+    
+    # Basic graphics and rendering
     cairo
     pango
     gdk-pixbuf
-    atk
-    at-spi2-atk
-    at-spi2-core
-    dbus
-    libX11
-    libXcursor
-    libXrandr
-    libXi
-    libXext
-    libXfixes
-    libXrender
-    libXcomposite
-    libXdamage
-    libxkbcommon
-    wayland
-    mesa
-    vulkan-loader
-    alsa-lib
-    pulseaudio
-    fontconfig
-    freetype
-    libdrm
+    
+    # Security and crypto
     nss
-    nspr
-    cups
-    expat
-    systemd
-    libuuid
+    
+    # System integration
     libsecret
     libnotify
-    xdg-utils
-    webkitgtk_4_1
-    libsoup_3
   ];
 
   unpackPhase = ''
