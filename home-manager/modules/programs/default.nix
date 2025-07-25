@@ -35,4 +35,18 @@
   wayland.windowManager.niri = {
     enable = true;
   };
+
+  # Desktop application entries
+  xdg.desktopEntries = {
+    sillytavern = {
+      name = "SillyTavern";
+      comment = "LLM Frontend for Power Users";
+      icon = "applications-games"; # Generic game icon, can be customized
+      exec = "sillytavern --configPath ${config.home.homeDirectory}/.config/nix-config/configs/sillytavern/config.yaml";
+      categories = [ "Network" "Chat" "Development" ];
+      terminal = false;
+      type = "Application";
+      startupNotify = true;
+    };
+  };
 }
