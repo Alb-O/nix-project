@@ -25,15 +25,15 @@ appimageTools.wrapType2 {
 
   extraInstallCommands = ''
     # Install desktop file
-    install -Dm444 ${appimageContents}/risuai.desktop $out/share/applications/risuai.desktop
+    install -Dm444 ${appimageContents}/RisuAI.desktop $out/share/applications/risuai.desktop
     
     # Install icon
-    install -Dm444 ${appimageContents}/risuai.png $out/share/pixmaps/risuai.png
+    install -Dm444 ${appimageContents}/RisuAI.png $out/share/pixmaps/risuai.png
     
     # Fix desktop file paths
     substituteInPlace $out/share/applications/risuai.desktop \
       --replace 'Exec=AppRun' 'Exec=${pname}' \
-      --replace 'Icon=risuai' 'Icon=${pname}'
+      --replace 'Icon=RisuAI' 'Icon=${pname}'
   '';
 
   meta = with lib; {
