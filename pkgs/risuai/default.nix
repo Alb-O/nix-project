@@ -2,8 +2,8 @@
   lib,
   stdenv,
   fetchurl,
-  appimageTools,
-  makeWrapper,
+  dpkg,
+  wrapGAppsHook,
   gtk3,
   glib,
   cairo,
@@ -27,6 +27,20 @@
   vulkan-loader,
   alsa-lib,
   pulseaudio,
+  fontconfig,
+  freetype,
+  libdrm,
+  nss,
+  nspr,
+  cups,
+  expat,
+  systemd,
+  libuuid,
+  at-spi2-core,
+  libsecret,
+  libnotify,
+  xdg-utils,
+  autoPatchelfHook,
 }:
 
 let
@@ -34,26 +48,22 @@ let
   version = "164.1.2";
 
   src = fetchurl {
-    url = "https://github.com/kwaroran/RisuAI/releases/download/v${version}/RisuAI_${version}_amd64.AppImage";
-    sha256 = "0wlcqbk14pa4p6p1pj4pxd87v71dd4kpabnaq8g457vq5qlk61k3";
-  };
-
-  appimageContents = appimageTools.extractType2 {
-    inherit pname version src;
+    url = "https://github.com/kwaroran/RisuAI/releases/download/v${version}/RisuAI_${version}_amd64.deb";
+    sha256 = "03k05prpj6hblg92hjdmgl4lz5hpa4q89jj4zz4r8bz0wr346f5l";
   };
 in
-appimageTools.wrapType2 {
+stdenv.mkDerivation {
   inherit pname version src;
 
-  # Add necessary runtime dependencies for GTK and graphics
-  multiArch = false;
-  extraPkgs = pkgs: with pkgs; [
+  nativeBuildInputs = [ 
+    dpkg 
+    autoPatchelfHook 
+    wrapGAppsHook 
+  ];
+
+  buildInputs = [
     gtk3
-    gtk4
     glib
-    gsettings-desktop-schemas
-    hicolor-icon-theme
-    adwaita-icon-theme
     cairo
     pango
     gdk-pixbuf
@@ -61,7 +71,6 @@ appimageTools.wrapType2 {
     at-spi2-atk
     at-spi2-core
     dbus
-    dbus-glib
     libX11
     libXcursor
     libXrandr
@@ -73,20 +82,15 @@ appimageTools.wrapType2 {
     libXdamage
     libxkbcommon
     wayland
-    wayland-protocols
     mesa
     vulkan-loader
     alsa-lib
     pulseaudio
     fontconfig
     freetype
-    harfbuzz
-    libGL
     libdrm
-    xorg.libXinerama
-    xorg.libXScrnSaver
-    nspr
     nss
+    nspr
     cups
     expat
     systemd
@@ -94,22 +98,36 @@ appimageTools.wrapType2 {
     libsecret
     libnotify
     xdg-utils
-    shared-mime-info
-    desktop-file-utils
   ];
 
-  extraInstallCommands = ''
-    # Install desktop file
-    install -Dm444 ${appimageContents}/RisuAI.desktop $out/share/applications/risuai.desktop
-    
-    # Install icon
-    install -Dm444 ${appimageContents}/RisuAI.png $out/share/pixmaps/risuai.png
-    
-    # Fix desktop file paths
-    substituteInPlace $out/share/applications/risuai.desktop \
-      --replace-fail 'Exec=RisuAI' 'Exec=${pname}' \
-      --replace-fail 'Icon=RisuAI' 'Icon=${pname}'
+  unpackPhase = ''
+    dpkg-deb -x $src .
   '';
+
+  installPhase = ''
+    runHook preInstall
+    
+    # Install the application
+    mkdir -p $out/bin $out/share
+    cp -r usr/share/* $out/share/
+    cp -r usr/bin/* $out/bin/ || true
+    
+    # Find and install the actual binary
+    find . -name "risuai" -o -name "RisuAI" -type f -executable | head -1 | xargs -I {} cp {} $out/bin/${pname}
+    
+    # Fix desktop file if it exists
+    if [ -f $out/share/applications/risuai.desktop ]; then
+      substituteInPlace $out/share/applications/risuai.desktop \
+        --replace-fail 'Exec=RisuAI' 'Exec=${pname}' \
+        --replace-fail 'Exec=risuai' 'Exec=${pname}' \
+        --replace-fail 'Icon=RisuAI' 'Icon=risuai' || true
+    fi
+    
+    runHook postInstall
+  '';
+
+  # Let wrapGAppsHook handle the GTK setup
+  dontWrapGApps = false;
 
   meta = with lib; {
     description = "A fully featured AI chat client with support for multiple backends";
