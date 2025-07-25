@@ -13,8 +13,9 @@ Personal NixOS configuration using flakes with home-manager integration, featuri
 - **`flake.nix`** - Main flake configuration defining inputs, outputs, and system/home-manager configurations
 - **`nixos/configuration.nix`** - System-wide NixOS configuration
 - **`nixos/hardware-configuration.nix`** - Hardware-specific configuration (auto-generated)
-- **`home-manager/home.nix`** - User environment configuration via home-manager
-- **`home-manager/modules/firefox.nix`** - Firefox-specific configuration module with security hardening
+- **`home-manager/home.nix`** - Main home-manager entry point with modular imports
+- **`configs/`** - Raw configuration files for applications
+- **`home-manager/modules/`** - Modular home-manager configuration components
 
 ### Directory Structure
 
@@ -25,17 +26,30 @@ Personal NixOS configuration using flakes with home-manager integration, featuri
 │   ├── configuration.nix        # System configuration
 │   └── hardware-configuration.nix # Hardware configuration
 ├── home-manager/
-│   ├── home.nix                 # Home-manager configuration
-│   └── modules/
-│       └── firefox.nix          # Firefox module
+│   ├── home.nix                 # Main entry point with modular imports
+│   └── modules/                 # Modular configuration components
+│       ├── programs/            # Application configurations
+│       │   ├── default.nix      # Core programs (git, kitty, fish, bash, niri)
+│       │   ├── firefox.nix      # Firefox security configuration
+│       │   └── niri.nix         # Niri compositor module
+│       ├── desktop/             # Desktop environment settings
+│       │   └── default.nix      # GTK themes, fonts, dconf settings
+│       └── services/            # User systemd services
+│           └── default.nix      # swww daemon, 1Password GUI
+├── configs/                     # Raw configuration files
+│   └── niri/
+│       └── config.kdl           # Niri compositor configuration
 ├── overlays/
 │   └── default.nix              # Package overlays
 ├── pkgs/
 │   └── default.nix              # Custom packages (currently empty)
-└── scripts/
-    ├── rebuild.sh               # Main rebuild script
-    ├── sync-scripts.sh          # Script synchronization utility
-    └── find-and-clean-nixbackups.sh # Cleanup utility
+├── scripts/
+│   ├── rebuild.sh               # Main rebuild script
+│   ├── sync-scripts.sh          # Script synchronization utility
+│   └── find-and-clean-nixbackups.sh # Cleanup utility
+└── .githooks/                   # Git hooks for automation
+    ├── pre-commit               # Pre-commit script sync
+    └── post-commit              # Post-commit script sync
 ```
 
 ## Configuration Architecture
@@ -51,10 +65,12 @@ The flake uses NixOS 25.05 stable as the base with nixpkgs-unstable overlay for 
 ### Key Features
 
 1. **Integrated home-manager**: System configuration includes home-manager for user environment
-2. **Overlays**: Support for unstable packages, custom packages, and NUR
-3. **Security hardening**: Comprehensive Firefox security configuration
-4. **Wayland setup**: Uses Niri window manager with SDDM display manager
-5. **Development tools**: Includes Helix editor, VSCode, and claude-code
+2. **Modular configuration**: Clean separation of programs, desktop, and services
+3. **Overlays**: Support for unstable packages, custom packages, and NUR
+4. **Security hardening**: Comprehensive Firefox security configuration
+5. **Wayland setup**: Uses Niri window manager with SDDM display manager
+6. **Development tools**: Includes Helix editor, VSCode, and claude-code
+7. **Automated shell switching**: Bash automatically launches Fish when interactive
 
 ### System Configuration Highlights
 
@@ -66,10 +82,13 @@ The flake uses NixOS 25.05 stable as the base with nixpkgs-unstable overlay for 
 
 ### Home Manager Configuration
 
-- **Shell**: Fish shell with Kitty terminal
-- **Theme**: Adwaita dark theme with dark color scheme preference
-- **Applications**: Firefox with extensive security policies, 1Password integration
-- **Services**: swww wallpaper daemon, 1Password GUI auto-start
+The configuration is now organized into modular components:
+
+- **Programs** (`modules/programs/`): Core applications including Fish shell, Kitty terminal, Git, Firefox with security policies, and Niri compositor
+- **Desktop** (`modules/desktop/`): Adwaita dark theme, GTK configuration, and dconf settings
+- **Services** (`modules/services/`): User systemd services for swww wallpaper daemon and 1Password GUI auto-start
+- **Shell Integration**: Bash automatically launches Fish when run interactively
+- **Configuration Management**: Raw config files stored in `configs/` directory for easy editing
 
 ## Three-Branch Workflow
 
@@ -230,7 +249,7 @@ The repository provides access to comprehensive NixOS research tools:
 
 ### Firefox Hardening
 
-The Firefox module (`home-manager/modules/firefox.nix`) implements comprehensive security policies:
+The Firefox module (`home-manager/modules/programs/firefox.nix`) implements comprehensive security policies:
 
 - **Disabled features**: Telemetry, studies, Pocket, form history, master password creation
 - **Privacy**: Tracking protection, fingerprinting protection, email tracking protection
@@ -269,20 +288,33 @@ The Firefox module (`home-manager/modules/firefox.nix`) implements comprehensive
 2. `sync-scripts.sh` automatically runs during rebuilds
 3. Scripts stay synchronized across all branches
 
+### Module Development
+
+The modular structure allows for easy customization:
+
+1. **Adding new programs**: Create modules in `modules/programs/` and import in `programs/default.nix`
+2. **Desktop customization**: Modify `modules/desktop/default.nix` for themes and appearance
+3. **Service management**: Add new services to `modules/services/default.nix`
+4. **Raw configurations**: Place config files in `configs/` directory and reference from modules
+
 ### Troubleshooting
 
 - **Build failures**: Script automatically returns to original branch and restores stashed changes
 - **Inconsistent scripts**: `sync-scripts.sh` runs automatically during builds or can be run manually
 - **Backup files**: Use `find-and-clean-nixbackups.sh` to clean .nixbackup files created by home-manager
 - **Firefox issues**: Use `firefox-reset-nixos` command to reset to NixOS-managed state
-- **Git hooks**: Custom hooks in `.githooks/` automatically sync scripts on commits
+- **Git hooks**: Executable hooks in `.githooks/` automatically sync scripts on commits
 - **Branch workflow**: Only work from main/building/deployed branches - script validates this
+- **Module imports**: If modules fail to load, check import paths in module `default.nix` files
 
 ## Current State
 
 - **Active branch**: `deployed` 
 - **System**: `gtx1080shitbox` with AMD CPU and NVIDIA GPU
-- **User**: `albert` with comprehensive home-manager configuration
-- **Recent activity**: Regular checkpoint commits with build timestamps
+- **User**: `albert` with modular home-manager configuration
+- **Architecture**: Modular design with separate programs, desktop, and services components
+- **Niri Integration**: Custom module with direct config file management
+- **Git Hooks**: Executable and functional for automated script synchronization
+- **Recent activity**: Restructured for maintainability and modularity
 
-This configuration provides a robust, secure, and maintainable NixOS setup with a sophisticated deployment workflow suitable for both development and production use.
+This configuration provides a robust, secure, and highly maintainable NixOS setup with a sophisticated deployment workflow and modular architecture suitable for both development and production use.
