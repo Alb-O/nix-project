@@ -18,11 +18,11 @@ STASH_NAME=""
 cleanup() {
     local exit_code=$?
     if [[ $exit_code -ne 0 ]]; then
-        echo -e "${RED}❌ Build failed. Attempting recovery...${NC}" >&2
+        echo -e "${RED}Build failed. Attempting recovery...${NC}" >&2
         
         # Restore stash if we created one
         if [[ "$STASH_CREATED" == "true" && -n "$STASH_NAME" ]]; then
-            echo -e "${YELLOW}🔄 Restoring stashed changes...${NC}" >&2
+            echo -e "${YELLOW}Restoring stashed changes...${NC}" >&2
             if git stash list | grep -q "$STASH_NAME"; then
                 git stash pop "stash@{$(git stash list | grep -n "$STASH_NAME" | cut -d: -f1 | head -1)}"
             fi
@@ -30,7 +30,7 @@ cleanup() {
         
         # Return to original branch if possible
         if [[ -n "$ORIGINAL_BRANCH" && "$ORIGINAL_BRANCH" != "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')" ]]; then
-            echo -e "${YELLOW}🔄 Returning to original branch: $ORIGINAL_BRANCH${NC}" >&2
+            echo -e "${YELLOW}Returning to original branch: $ORIGINAL_BRANCH${NC}" >&2
             git checkout "$ORIGINAL_BRANCH" 2>/dev/null || true
         fi
     fi
@@ -39,7 +39,7 @@ cleanup() {
 trap cleanup EXIT
 
 log() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
+    echo -e "${BLUE}$1${NC}"
 }
 
 success() {
