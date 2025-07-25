@@ -28,7 +28,7 @@
     enable = true;
     arkenfox = {
       enable = true;
-      version = "master"; # You may set this to a specific version, e.g., "103.0"
+      version = "140.0.4"; # available: "master"
     };
     policies = {
       Homepage = {
