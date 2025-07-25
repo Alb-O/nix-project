@@ -49,13 +49,19 @@ appimageTools.wrapType2 {
   multiArch = false;
   extraPkgs = pkgs: with pkgs; [
     gtk3
+    gtk4
     glib
+    gsettings-desktop-schemas
+    hicolor-icon-theme
+    adwaita-icon-theme
     cairo
     pango
     gdk-pixbuf
     atk
     at-spi2-atk
+    at-spi2-core
     dbus
+    dbus-glib
     libX11
     libXcursor
     libXrandr
@@ -67,6 +73,7 @@ appimageTools.wrapType2 {
     libXdamage
     libxkbcommon
     wayland
+    wayland-protocols
     mesa
     vulkan-loader
     alsa-lib
@@ -84,10 +91,11 @@ appimageTools.wrapType2 {
     expat
     systemd
     libuuid
-    at-spi2-core
     libsecret
     libnotify
     xdg-utils
+    shared-mime-info
+    desktop-file-utils
   ];
 
   extraInstallCommands = ''
@@ -97,10 +105,20 @@ appimageTools.wrapType2 {
     # Install icon
     install -Dm444 ${appimageContents}/RisuAI.png $out/share/pixmaps/risuai.png
     
-    # Fix desktop file paths
+    # Fix desktop file paths and add environment variables for Wayland/GTK
     substituteInPlace $out/share/applications/risuai.desktop \
-      --replace 'Exec=AppRun' 'Exec=${pname}' \
+      --replace 'Exec=AppRun' 'Exec=env GDK_BACKEND=wayland,x11 WEBKIT_DISABLE_COMPOSITING_MODE=1 ${pname}' \
       --replace 'Icon=RisuAI' 'Icon=${pname}'
+      
+    # Create wrapper script with proper environment
+    makeWrapper $out/bin/${pname} $out/bin/${pname}-wrapped \
+      --set GDK_BACKEND "wayland,x11" \
+      --set WEBKIT_DISABLE_COMPOSITING_MODE "1" \
+      --set GTK_USE_PORTAL "1" \
+      --set NIXOS_OZONE_WL "1"
+      
+    # Replace the original binary with the wrapper
+    mv $out/bin/${pname}-wrapped $out/bin/${pname}
   '';
 
   meta = with lib; {
