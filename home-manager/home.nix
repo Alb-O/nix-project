@@ -31,7 +31,7 @@
     luakit
     nil
     nixd
-    claude-code
+    pkgs.unstable.claude-code
   ];
 
   # Enable home-manager and git
