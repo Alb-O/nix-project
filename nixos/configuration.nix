@@ -156,7 +156,6 @@
   environment.systemPackages = with pkgs; [
     helix
     wget
-    alacritty
     kitty
     fuzzel
     nil

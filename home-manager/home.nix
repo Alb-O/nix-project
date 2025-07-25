@@ -65,6 +65,8 @@
   home.packages = with pkgs; [
     swww
     luakit
+    nil
+    nixd
   ];
 
   # Enable home-manager and git
