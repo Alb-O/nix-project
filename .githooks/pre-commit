@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Pre-commit hook to sync scripts across branches
+
+set -euo pipefail
+
+# Only run if we're committing script changes
+if git diff --cached --name-only | grep -q "^scripts/"; then
+    echo "Script changes detected in commit, will sync across branches after commit..."
+    
+    # Create a flag file to trigger post-commit sync
+    touch .git/SCRIPT_SYNC_NEEDED
+fi
+
+exit 0
