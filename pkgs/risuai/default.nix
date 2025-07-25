@@ -4,7 +4,29 @@
   fetchurl,
   appimageTools,
   makeWrapper,
-  electron,
+  gtk3,
+  glib,
+  cairo,
+  pango,
+  gdk-pixbuf,
+  atk,
+  at-spi2-atk,
+  dbus,
+  libX11,
+  libXcursor,
+  libXrandr,
+  libXi,
+  libXext,
+  libXfixes,
+  libXrender,
+  libXcomposite,
+  libXdamage,
+  libxkbcommon,
+  wayland,
+  mesa,
+  vulkan-loader,
+  alsa-lib,
+  pulseaudio,
 }:
 
 let
@@ -22,6 +44,51 @@ let
 in
 appimageTools.wrapType2 {
   inherit pname version src;
+
+  # Add necessary runtime dependencies for GTK and graphics
+  multiArch = false;
+  extraPkgs = pkgs: with pkgs; [
+    gtk3
+    glib
+    cairo
+    pango
+    gdk-pixbuf
+    atk
+    at-spi2-atk
+    dbus
+    libX11
+    libXcursor
+    libXrandr
+    libXi
+    libXext
+    libXfixes
+    libXrender
+    libXcomposite
+    libXdamage
+    libxkbcommon
+    wayland
+    mesa
+    vulkan-loader
+    alsa-lib
+    pulseaudio
+    fontconfig
+    freetype
+    harfbuzz
+    libGL
+    libdrm
+    xorg.libXinerama
+    xorg.libXScrnSaver
+    nspr
+    nss
+    cups
+    expat
+    systemd
+    libuuid
+    at-spi2-core
+    libsecret
+    libnotify
+    xdg-utils
+  ];
 
   extraInstallCommands = ''
     # Install desktop file
