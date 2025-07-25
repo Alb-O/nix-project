@@ -15,6 +15,8 @@
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
+
+    "./modules/firefox.nix"
   ];
 
   home = {
@@ -22,33 +24,6 @@
     homeDirectory = "/home/albert";
   };
   
-  programs.firefox = {
-    enable = true;
-    policies = {
-      Homepage = {
-        StartPage = "previous-session";
-      };
-    };
-    profiles = {
-      albert = {
-        id = 0;
-        isDefault = true;
-        settings = {
-          # specify profile-specific preferences here; check about:config for options
-          "privacy.clearOnShutdown.history" = false;
-          "privacy.clearOnShutdown.downloads" = false;
-          "privacy.clearOnShutdown.sessions" = false;
-          "privacy.clearOnShutdown.cache" = false;
-          "privacy.clearOnShutdown.cookies" = false;
-          "browser.startup.page" = lib.mkForce {
-            Value = 3;
-            Status = "locked";
-          };
-        };
-      };
-    };
-  };
-
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
