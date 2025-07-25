@@ -65,6 +65,7 @@
     profiles.albert = {
       id = 0;
       isDefault = true;
+      path = "albert";  # Explicitly set profile path for consistency
       /*
       search = {
         force = true;
@@ -170,6 +171,7 @@
           seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action"];
         };
         # Enable sidebar/vertical tabs
+        "sidebar.visibility" = "always-show";
         "sidebar.position_start" = true;
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
@@ -177,7 +179,7 @@
         # Restore session on startup
         "browser.startup.page" = 3;
         "privacy.clearOnShutdown.history" = false;
-        "privacy.clearOnShutdown.downloads" = false;
+        "privacy.clearOnShutdown.downloads" = falsehide-sidebar;
         "privacy.clearOnShutdown.sessions" = false;
         "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.cookies" = false;
@@ -185,9 +187,56 @@
         "browser.aboutConfig.showWarning" = false;
         # Enable extensions automatically
         "extensions.autoDisableScopes" = 0;
+        
+        # Ensure NixOS-managed settings take priority
+        "general.config.filename" = "nixos-firefox.cfg";
+        "general.config.obscure_value" = 0;
+        "general.config.sandbox_enabled" = false;
+        
+        # Prevent Firefox from overriding NixOS-managed settings
+        "browser.preferences.instantApply" = false;
+        "browser.preferences.animateFadeIn" = true;
+        
+        # Force profile consistency
+        "browser.profiles.updateCheckIntervalMS" = 0;
+        "browser.migration.version" = 999;
       };
     };
   };
+
+  # Script to reset Firefox to NixOS-managed state
+  home.packages = [
+    (pkgs.writeShellScriptBin "firefox-reset-nixos" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      
+      echo "🔄 Resetting Firefox to NixOS-managed state..."
+      
+      # Kill Firefox if running
+      pkill firefox || true
+      sleep 2
+      
+      # Remove problematic cache and state files that can cause inconsistencies
+      rm -rf ~/.cache/mozilla/firefox/*/safebrowsing/
+      rm -rf ~/.cache/mozilla/firefox/*/startupCache/
+      rm -rf ~/.cache/mozilla/firefox/*/shader-cache/
+      
+      # Remove files that Firefox might use to override NixOS settings
+      find ~/.mozilla/firefox/albert/ -name "compatibility.ini" -delete 2>/dev/null || true
+      find ~/.mozilla/firefox/albert/ -name "times.json" -delete 2>/dev/null || true
+      find ~/.mozilla/firefox/albert/ -name "addonStartup.json.lz4" -delete 2>/dev/null || true
+      
+      # Remove extension state that might conflict with force-installed extensions
+      rm -rf ~/.mozilla/firefox/albert/browser-extension-data/ 2>/dev/null || true
+      rm -rf ~/.mozilla/firefox/albert/extensions/ 2>/dev/null || true
+      
+      # Remove search engine overrides
+      rm -f ~/.mozilla/firefox/albert/search.json.mozlz4 2>/dev/null || true
+      
+      echo "✅ Firefox reset complete. Your NixOS settings will be applied on next startup."
+      echo "💡 Run 'home-manager switch' to ensure latest configuration is active."
+    '')
+  ];
 
   xdg.mimeApps.defaultApplications = {
     "text/html" = ["firefox.desktop"];
