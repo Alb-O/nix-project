@@ -14,10 +14,10 @@
       DisableFirefoxAccounts = true; # Disable Firefox Sync
       DisableFirefoxScreenshots = true; # No screenshots?
       DisableForgetButton = true; # Thing that can wipe history for X time, handled differently
-      DisableMasterPasswordCreation = true; # To be determined how to handle master password
+      DisableMasterPasswordCreation = true;
       DisableProfileImport = true; # Purity enforcement: Only allow nix-defined profiles
       DisableProfileRefresh = true; # Disable the Refresh Firefox button on about:support and support.mozilla.org
-      DisableSetDesktopBackground = true; # Remove the “Set As Desktop Background…” menuitem when right clicking on an image, because Nix is the only thing that can manage the backgroud
+      DisableSetDesktopBackground = true; # Nix is the only thing that can manage the background
       DisplayMenuBar = "default-off";
       DisablePocket = true;
       DisableTelemetry = true;
@@ -47,11 +47,11 @@
           installation_mode = "blocked";
           blocked_install_message = "FUCKING FORGET IT!";
         };
-        # "addon@darkreader.org" = {
-        # 	# Dark Reader
-        # 	install_url = "file:///${self.inputs.firefox-addons.packages.x86_64-linux.darkreader}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/addon@darkreader.org.xpi";
-        # 	installation_mode = "force_installed";
-        # };
+        "addon@darkreader.org" = {
+        	# Dark Reader
+        	install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+        	installation_mode = "force_installed";
+        };
         "sponsorBlocker@ajay.app" = {
         	# Sponsor Block
         	install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorBlocker@ajay.app.xpi";
@@ -60,6 +60,11 @@
         "uBlock0@raymondhill.net" = {
           # uBlock Origin
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # 1Password:
+        "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
           installation_mode = "force_installed";
         };
       };
