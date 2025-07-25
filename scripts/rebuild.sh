@@ -36,6 +36,10 @@ if nix run .#homeConfigurations."$USER_HOST".activationPackage; then
   elif [ "$CURRENT_BRANCH" = "deployed" ]; then
     git branch -f building deployed
     echo "Build and deployment commit complete. 'building' now matches 'deployed'."
+  elif [ "$CURRENT_BRANCH" = "building" ]; then
+    git branch -f deployed building
+    git checkout deployed
+    echo "Build and deployment commit complete. 'deployed' now matches 'building'. Checked out 'deployed'."
   else
     echo "Build and deployment commit complete. 'building' updated."
   fi
