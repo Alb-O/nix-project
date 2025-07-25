@@ -35,6 +35,7 @@
     nixd
     claude-code
     fastfetch
+    sillytavern
   ];
 
   # State version - don't change this

@@ -100,8 +100,7 @@
         "browser.bookmarks.restore_default_bookmarks" = false;
         "browser.bookmarks.addedImportButton" = true;
 
-        # Don't ask for download dir
-        "browser.download.useDownloadDir" = false;
+        "browser.download.useDownloadDir" = false; # Don't ask for download dir
 
         # Disable crappy home activity stream page
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
@@ -148,10 +147,9 @@
         "toolkit.telemetry.unifiedIsOptIn" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
 
-        # Disable fx accounts
-        "identity.fxaccounts.enabled" = false;
-        # Disable "save password" prompt
-        "signon.rememberSignons" = false;
+        "identity.fxaccounts.enabled" = false; # Disable fx accounts
+        "signon.rememberSignons" = false; # Disable "save password" prompt
+
         # Harden
         "privacy.trackingprotection.enabled" = true;
         "dom.security.https_only_mode" = true;
@@ -170,6 +168,8 @@
           };
           seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action"];
         };
+        browser.uidensity = 1; # Compact mode
+
         # Enable sidebar/vertical tabs
         "sidebar.visibility" = "always-show";
         "sidebar.position_start" = true;
@@ -183,10 +183,9 @@
         "privacy.clearOnShutdown.sessions" = false;
         "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.cookies" = false;
-        # Disable about:config warning
-        "browser.aboutConfig.showWarning" = false;
-        # Enable extensions automatically
-        "extensions.autoDisableScopes" = 0;
+
+        "browser.aboutConfig.showWarning" = false; # Disable about:config warning
+        "extensions.autoDisableScopes" = 0; # Enable extensions automatically
         
         # Ensure NixOS-managed settings take priority
         "general.config.filename" = "nixos-firefox.cfg";
@@ -202,6 +201,7 @@
         "browser.migration.version" = 999;
 
         # Enable smooth scrolling
+        "layers.acceleration.force-enabled" = true;
         "apz.overscroll.enabled" = true; # DEFAULT NON-LINUX
         "general.smoothScroll" = true; # DEFAULT
         "general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS" = 12;
