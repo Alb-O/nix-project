@@ -28,12 +28,13 @@
   };
 
   # User packages
-  home.packages = with pkgs; [
+  home.packages = with pkgs.unstable; [
     swww
     luakit
     nil
     nixd
-    pkgs.unstable.claude-code
+    claude-code
+    fastfetch
   ];
 
   # State version - don't change this
