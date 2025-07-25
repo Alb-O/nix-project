@@ -37,8 +37,7 @@
     fastfetch
     sillytavern
   ] ++ [
-    # Custom packages
-    pkgs.risuai
+    # Custom packages can be added here
   ];
 
   # State version - don't change this

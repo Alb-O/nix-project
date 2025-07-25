@@ -1,6 +1,7 @@
 # -- DATA CONFIGURATION --
 # Root directory for user data storage
-dataRoot: ./data
+# Using full path for compatibility with Nix immutable filesystem
+dataRoot: /home/albert/.local/share/sillytavern/data
 # -- SERVER CONFIGURATION --
 # Listen for incoming connections
 listen: false
