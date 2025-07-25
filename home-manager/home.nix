@@ -24,16 +24,12 @@
     homeDirectory = "/home/albert";
   };
   
-  programs.firefox.enable = false;
-  programs.librewolf = {
+  programs.firefox = {
     enable = true;
-    package = pkgs.librewolf;
-    /*
     arkenfox = {
       enable = true;
       version = "master"; # You may set this to a specific version, e.g., "103.0"
     };
-    */
     policies = {
       Preferences = {
         "privacy.clearOnShutdown.history" = false;
@@ -54,13 +50,11 @@
       albert = {
         id = 0;
         isDefault = true;
-        /*
         arkenfox = {
           enable = true;
           # Example: enable all sections (optional, see README for fine-tuning)
           enableAllSections = true;
         };
-        */
         settings = {
           # specify profile-specific preferences here; check about:config for options
           "privacy.clearOnShutdown.history" = false;
