@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "arkenfox-nixos": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs": "nixpkgs",
+        "pre-commit": "pre-commit"
+      },
+      "locked": {
+        "lastModified": 1751321356,
+        "narHash": "sha256-7vrKgcIg7jOHVEJrpfjNjcqZnsAoXnJvKK8NuV1x2kU=",
+        "owner": "dwarfmaster",
+        "repo": "arkenfox-nixos",
+        "rev": "3f04af64f37dad55446417fc2f8c6cf754fde879",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dwarfmaster",
+        "repo": "arkenfox-nixos",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {

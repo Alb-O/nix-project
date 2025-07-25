@@ -158,8 +158,6 @@
     wget
     kitty
     fuzzel
-    nil
-    nixd
     gemini-cli
     vscode
     sddm-astronaut
