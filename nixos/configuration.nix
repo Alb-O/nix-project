@@ -160,6 +160,7 @@
     gemini-cli
     vscode
     sddm-astronaut
+    nautilus  # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
   ];
 
   programs._1password-gui = {
@@ -178,37 +179,64 @@
     theme = "sddm-astronaut-theme";
   };
 
+  # XDG Desktop Portal Configuration for GTK4 File Pickers
+  # 
+  # Technical Implementation Notes:
+  # - xdg-desktop-portal-gtk (1.15.3) is built against GTK3, produces GTK3 file dialogs
+  # - xdg-desktop-portal-gnome (48.0) is built against GTK4, uses Nautilus (GTK4) for file operations
+  # - GNOME portal delegates FileChooser to Nautilus, which provides native GTK4 dialogs
+  # - GTK portal serves as fallback for interfaces GNOME doesn't implement
+  # 
+  # Portal Backend Selection Priority:
+  # 1. GNOME portal: GTK4-based file choosers via Nautilus integration
+  # 2. GTK portal: GTK3-based fallback for other desktop integration features
+  #
+  # Dependencies: Requires nautilus package for GNOME portal file chooser delegation
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk      # GTK3-based portal (fallback)
+      pkgs.xdg-desktop-portal-gnome    # GTK4-based portal (primary for file operations)
     ];
     config = {
+      # Common configuration for all desktop environments
       common = {
         default = [
-          "gtk"
+          "gnome"  # Prioritize GNOME portal (GTK4)
+          "gtk"    # Fallback to GTK portal (GTK3)
         ];
+        # Force GTK4 file pickers via GNOME portal -> Nautilus delegation
         "org.freedesktop.impl.portal.FileChooser" = [
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Screenshot" = [
-          "wlr"
-        ];
-        "org.freedesktop.impl.portal.ScreenCast" = [
-          "wlr"
+          "gnome"
         ];
       };
+      # Niri compositor specific configuration
+      # Niri is a newer Wayland compositor that benefits from explicit portal configuration
       niri = {
         default = [
-          "wlr"
+          "gnome"  # GNOME portal provides GTK4 integration
+          "gtk"    # GTK portal handles remaining interfaces
+        ];
+        # Critical: Use GNOME portal for GTK4 file choosers
+        # This ensures modern file dialogs instead of legacy GTK3 versions
+        "org.freedesktop.impl.portal.FileChooser" = [
+          "gnome"
+        ];
+        # GTK portal handles these interfaces well on Wayland
+        "org.freedesktop.impl.portal.Access" = [
           "gtk"
         ];
-        "org.freedesktop.impl.portal.FileChooser" = [
+        "org.freedesktop.impl.portal.Notification" = [
           "gtk"
+        ];
+        # GNOME keyring for secure credential storage
+        "org.freedesktop.impl.portal.Secret" = [  
+          "gnome-keyring"
         ];
       };
     };
+    # Enable portal integration for xdg-open commands
+    # This ensures file operations use portal-based file choosers
     xdgOpenUsePortal = true;
   };
 
