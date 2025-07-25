@@ -15,6 +15,8 @@
 
     # NUR (Nix User Repository)
     nur.url = "github:nix-community/NUR";
+    # Claude Code (always up-to-date)
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs = {
@@ -40,7 +42,9 @@
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
+    overlays = import ./overlays {inherit inputs;} // {
+      claude-code = inputs.claude-code.overlays.default;
+    };
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
@@ -66,7 +70,7 @@
       "albert@gtx1080shitbox" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
-          overlays = builtins.attrValues (import ./overlays {inherit inputs;}) ++ [inputs.nur.overlays.default];
+        overlays = builtins.attrValues (import ./overlays {inherit inputs;}) ++ [inputs.nur.overlays.default inputs.claude-code.overlays.default];
           config.allowUnfree = true;
         };
         extraSpecialArgs = {inherit inputs outputs;};
