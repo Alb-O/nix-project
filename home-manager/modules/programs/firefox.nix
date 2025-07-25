@@ -200,6 +200,20 @@
         # Force profile consistency
         "browser.profiles.updateCheckIntervalMS" = 0;
         "browser.migration.version" = 999;
+
+        # Enable smooth scrolling
+        "apz.overscroll.enabled" = true; # DEFAULT NON-LINUX
+        "general.smoothScroll" = true; # DEFAULT
+        "general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS" = 12;
+        "general.smoothScroll.msdPhysics.enabled" = true;
+        "general.smoothScroll.msdPhysics.motionBeginSpringConstant" = 600;
+        "general.smoothScroll.msdPhysics.regularSpringConstant" = 650;
+        "general.smoothScroll.msdPhysics.slowdownMinDeltaMS" = 25;
+        "general.smoothScroll.msdPhysics.slowdownMinDeltaRatio" = "2";
+        "general.smoothScroll.msdPhysics.slowdownSpringConstant" = 250;
+        "general.smoothScroll.currentVelocityWeighting" = "1";
+        "general.smoothScroll.stopDecelerationWeighting" = "1";
+        "mousewheel.default.delta_multiplier_y" = 300; # 250-400; adjust this number to your liking
       };
     };
   };
