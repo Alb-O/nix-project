@@ -10,6 +10,10 @@
     profiles.albert = {
       id = 0;
       isDefault = true;
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        onepassword-password-manager
+        darkreader
+      ];
       /*
       search = {
         force = true;
