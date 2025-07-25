@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "mcp__nixos__nixos_search",
+      "mcp__nixos__home_manager_search",
+      "mcp__nixos__nixos_info",
+      "mcp__nixos__home_manager_options_by_prefix",
+      "mcp__nixos__nixos_flakes_search",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(nix log:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}
