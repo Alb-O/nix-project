@@ -46,7 +46,7 @@
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace'";
         "editor.fontSize" = 15;
         "editor.fontLigatures" = true;
-        "editor.lineHeight" = 1;
+        "editor.lineHeight" = 1.5;
 
         # Terminal font configuration
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
