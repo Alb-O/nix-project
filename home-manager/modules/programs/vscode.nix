@@ -3,7 +3,9 @@
   programs.vscode = {
     enable = true;
 
-    # Declarative extension management - prevents extension conflicts
+    # Prevent VSCode from managing extensions imperatively - key to preventing conflicts
+    mutableExtensionsDir = false;
+
     profiles.default.extensions = with pkgs.vscode-marketplace; [
       # Language support
       ms-python.python
