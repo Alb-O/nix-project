@@ -12,7 +12,7 @@
       enableExtensionUpdateCheck = true;
 
       # Core extensions for development - using only basic, commonly available extensions
-      extensions = with pkgs.unstable.vscode-extensions; [
+      extensions = with pkgs.vscode-extensions; [
         # Language support
         ms-python.python
         rust-lang.rust-analyzer
