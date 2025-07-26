@@ -66,13 +66,23 @@ writeShellScriptBin "blender-daily" ''
     pkgs.xorg.libXi
     pkgs.xorg.libXrender
     pkgs.xorg.libXxf86vm
+    pkgs.xorg.libXfixes
+    pkgs.xorg.libXcursor
+    pkgs.xorg.libXinerama
+    pkgs.xorg.libXrandr
+    pkgs.xorg.libXt
+    pkgs.xorg.libSM
+    pkgs.xorg.libICE
     pkgs.libGL
+    pkgs.libGLU
     pkgs.freetype
     pkgs.zlib
     pkgs.glib
     pkgs.alsa-lib
     pkgs.pulseaudio
     pkgs.stdenv.cc.cc.lib
+    pkgs.fontconfig
+    pkgs.dbus
   ]}:$BUILD_DIR/lib"
   
   # Patch main Blender binary
