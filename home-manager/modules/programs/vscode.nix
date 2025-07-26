@@ -24,10 +24,10 @@
         # Productivity and diagnostics
         usernamehw.errorlens
 
-        # AI and code assistance - commented out for now until we verify the correct names
-        # anthropic.claude-code
-        # github.copilot
-        # github.copilot-chat
+        # AI and code assistance
+        anthropic.claude-code
+        github.copilot
+        github.copilot-chat
       ];
 
       # Declarative settings.json configuration
