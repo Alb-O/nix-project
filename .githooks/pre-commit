@@ -1,9 +1,35 @@
 #!/usr/bin/env bash
-# Pre-commit hook to sync scripts across branches
+# Pre-commit hook to sync scripts across branches and maintain documentation
 
 set -euo pipefail
 
-# Only run if we're committing script changes
+# Function to sync CLAUDE.md to copilot-instructions.md
+sync_claude_md() {
+    local claude_file="CLAUDE.md"
+    local copilot_file=".github/copilot-instructions.md"
+    
+    # Check if CLAUDE.md is being committed
+    if git diff --cached --name-only | grep -q "^CLAUDE\.md$"; then
+        echo "CLAUDE.md changes detected, syncing to copilot-instructions.md..."
+        
+        if [[ -f "$claude_file" ]]; then
+            # Copy CLAUDE.md content to copilot-instructions.md
+            cp "$claude_file" "$copilot_file"
+            
+            # Add the updated copilot-instructions.md to this commit
+            git add "$copilot_file"
+            
+            echo "Synced CLAUDE.md to .github/copilot-instructions.md and added to commit"
+        else
+            echo "Warning: CLAUDE.md not found"
+        fi
+    fi
+}
+
+# Sync CLAUDE.md to copilot-instructions.md if needed
+sync_claude_md
+
+# Only run script sync setup if we're committing script changes
 if git diff --cached --name-only | grep -q "^scripts/"; then
     echo "Script changes detected in commit, will sync across branches after commit..."
     

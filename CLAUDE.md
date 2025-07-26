@@ -4,317 +4,196 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # NixOS Configuration Repository
 
-Personal NixOS configuration using flakes with home-manager integration, featuring a three-branch workflow for safe configuration management.
+Personal NixOS configuration using flakes with home-manager integration, featuring a three-branch workflow for safe configuration management and global variable system for easy customization.
 
-## Repository Structure
+## Architecture Overview
 
-### Core Configuration Files
+### Configuration Philosophy
+- **Modular design**: Separate concerns (programs, desktop, services)
+- **Global variables**: Centralized application definitions in `lib/globals.nix`
+- **Declarative**: All system state defined in configuration files
+- **Reproducible**: Flake-based with locked dependencies
+- **Secure**: Hardened configurations and secrets management
 
-- **`flake.nix`** - Main flake configuration defining inputs, outputs, and system/home-manager configurations
-- **`nixos/configuration.nix`** - System-wide NixOS configuration
-- **`nixos/hardware-configuration.nix`** - Hardware-specific configuration (auto-generated)
-- **`home-manager/home.nix`** - Main home-manager entry point with modular imports
-- **`configs/`** - Raw configuration files for applications
-- **`home-manager/modules/`** - Modular home-manager configuration components
+### Key Technologies
+- **NixOS 25.05** stable with unstable overlay for select packages
+- **Home Manager** for user environment management
+- **Wayland** display server with modern compositor
+- **sops-nix** for encrypted secrets management
+- **Flakes** for reproducible configurations
 
-### Directory Structure
+## Global Variables System
 
-```
-├── flake.nix                    # Main flake configuration
-├── flake.lock                   # Flake dependency lockfile
-├── nixos/
-│   ├── configuration.nix        # System configuration
-│   └── hardware-configuration.nix # Hardware configuration
-├── home-manager/
-│   ├── home.nix                 # Main entry point with modular imports
-│   └── modules/                 # Modular configuration components
-│       ├── programs/            # Application configurations
-│       │   ├── default.nix      # Core programs (git, kitty, fish, bash, niri)
-│       │   ├── firefox.nix      # Firefox security configuration
-│       │   └── niri.nix         # Niri compositor module
-│       ├── desktop/             # Desktop environment settings
-│       │   └── default.nix      # GTK themes, fonts, dconf settings
-│       └── services/            # User systemd services
-│           └── default.nix      # swww daemon, 1Password GUI
-├── configs/                     # Raw configuration files
-│   └── niri/
-│       └── config.kdl           # Niri compositor configuration
-├── overlays/
-│   └── default.nix              # Package overlays
-├── pkgs/
-│   └── default.nix              # Custom packages (currently empty)
-├── scripts/
-│   ├── rebuild.sh               # Main rebuild script
-│   ├── sync-scripts.sh          # Script synchronization utility
-│   └── find-and-clean-nixbackups.sh # Cleanup utility
-└── .githooks/                   # Git hooks for automation
-    ├── pre-commit               # Pre-commit script sync
-    └── post-commit              # Post-commit script sync
+Applications and system settings are centralized in `lib/globals.nix`:
+
+```nix
+let
+  globals = import ../lib/globals.nix;
+in
+{
+  programs.${globals.shell}.enable = true;
+  networking.hostName = globals.system.hostname;
+}
 ```
 
-## Configuration Architecture
-
-### Flake Configuration
-
-The flake uses NixOS 25.05 stable as the base with nixpkgs-unstable overlay for bleeding-edge packages:
-
-- **System**: `gtx1080shitbox` (AMD-based system with NVIDIA GPU)
-- **User**: `albert@gtx1080shitbox`
-- **Architecture**: x86_64-linux
-
-### Key Features
-
-1. **Integrated home-manager**: System configuration includes home-manager for user environment
-2. **Modular configuration**: Clean separation of programs, desktop, and services
-3. **Overlays**: Support for unstable packages, custom packages, and NUR
-4. **Security hardening**: Comprehensive Firefox security configuration
-5. **Wayland setup**: Uses Niri window manager with SDDM display manager
-6. **Development tools**: Includes Helix editor, VSCode, and claude-code
-7. **Automated shell switching**: Bash automatically launches Fish when interactive
-
-### System Configuration Highlights
-
-- **Boot**: systemd-boot with EFI support
-- **Kernel**: Latest Linux kernel with NVIDIA proprietary drivers  
-- **Display**: Wayland with Niri compositor, SDDM login manager
-- **Security**: Passwordless sudo for wheel users, SSH with key-only authentication
-- **Fonts**: JetBrains Mono Nerd Font, Noto fonts with emoji support
-
-### Home Manager Configuration
-
-The configuration is now organized into modular components:
-
-- **Programs** (`modules/programs/`): Core applications including Fish shell, Kitty terminal, Git, Firefox with security policies, and Niri compositor
-- **Desktop** (`modules/desktop/`): Adwaita dark theme, GTK configuration, and dconf settings
-- **Services** (`modules/services/`): User systemd services for swww wallpaper daemon and 1Password GUI auto-start
-- **Shell Integration**: Bash automatically launches Fish when run interactively
-- **Configuration Management**: Raw config files stored in `configs/` directory for easy editing
+This allows easy system-wide changes (e.g., switching terminal emulators) by modifying one file.
 
 ## Three-Branch Workflow
 
-This repository implements a sophisticated three-branch workflow for safe configuration management:
+### Branch Purpose
+- **`main`** - Clean, stable configuration for development
+- **`building`** - Testing branch for builds and validation
+- **`deployed`** - Currently active system configuration
 
-### Branch Structure
-
-1. **`main`** - Clean, stable configuration
-2. **`building`** - Testing branch for builds
-3. **`deployed`** - Currently active configuration
-
-### Workflow Process
-
-The `rebuild.sh` script manages the entire workflow:
-
-1. **Starting from `main`**: Creates/updates `building` branch, performs build there
-2. **Starting from `deployed`**: Rebuilds in place, creates checkpoint commits
-3. **Starting from `building`**: Rebuilds in place, moves to `deployed` on success
-
-### Build Script Features
-
-- **Automatic stashing**: Handles uncommitted changes safely
-- **Checkpoint commits**: Creates timestamped commits before builds
-- **Error recovery**: Returns to original branch on failure
-- **Cleanup integration**: Automatically removes .nixbackup files
-- **Script synchronization**: Keeps scripts consistent across branches
-
-## Essential Commands
-
-### Building and Deployment
-
+### Workflow Commands
 ```bash
-# Build and deploy configuration
-./scripts/rebuild.sh gtx1080shitbox
+# Main build command - handles all branch management automatically
+./scripts/rebuild.sh <hostname>
 
-# Build with automatic backup cleanup
-./scripts/rebuild.sh gtx1080shitbox --auto-clean
-
-# Apply home-manager configuration directly
-home-manager switch --flake .#albert@gtx1080shitbox
-
-# Rebuild NixOS system configuration
-sudo nixos-rebuild switch --flake .#gtx1080shitbox
+# Additional utilities
+./scripts/sync-scripts.sh                   # Sync scripts across branches
+./scripts/find-and-clean-nixbackups.sh      # Clean backup files
 ```
 
-### Script Management
+The rebuild script automatically:
+- Manages branch switching and stashing
+- Creates checkpoint commits before builds
+- Handles error recovery and rollback
+- Synchronizes scripts across branches
 
-```bash
-# Sync scripts across all branches
-./scripts/sync-scripts.sh
+## Configuration Structure
 
-# Clean up .nixbackup files interactively  
-./scripts/find-and-clean-nixbackups.sh
+### System Level (`nixos/`)
+- Core system configuration
+- Hardware settings
+- Security policies
+- System services
 
-# Clean up .nixbackup files automatically
-./scripts/find-and-clean-nixbackups.sh --auto
-```
+### User Level (`home-manager/`)
+- Modular user environment
+- Application configurations
+- Desktop environment
+- User services
 
-### Firefox Management
-
-```bash
-# Reset Firefox to NixOS-managed state
-firefox-reset-nixos
-```
-
-### MCP NixOS Tools
-
-This repository has access to comprehensive NixOS MCP server tools for package and configuration research:
-
-```bash
-# Search for packages, options, or programs
-mcp__nixos__nixos_search(query="firefox", search_type="packages", channel="unstable")
-
-# Get detailed package information
-mcp__nixos__nixos_info(name="firefox", type="package", channel="unstable")
-
-# Search Home Manager configuration options
-mcp__nixos__home_manager_search(query="programs.firefox")
-
-# Get specific Home Manager option details
-mcp__nixos__home_manager_info(name="programs.firefox.enable")
-
-# Find package version history with commit hashes
-mcp__nixos__nixhub_package_versions(package_name="firefox", limit=10)
-
-# Search community flakes
-mcp__nixos__nixos_flakes_search(query="firefox")
-```
-
-## Scripts
-
-### `rebuild.sh <hostname> [--auto-clean]`
-
-Primary build and deployment script with comprehensive error handling:
-
-- Validates git state and current branch (must be main/building/deployed)
-- Manages branch switching and updates
-- Creates checkpoint commits with timestamps
-- Runs home-manager configuration builds via flake
-- Synchronizes scripts across branches automatically
-- Updates branch relationships on successful builds
-
-**Branch behavior**:
-- From `main` → switches to `building`, updates `deployed` to match on success
-- From `deployed` → rebuilds in place, updates `building` to match
-- From `building` → rebuilds in place, moves to `deployed` on success
-
-**Error recovery**: Automatically restores stashed changes and returns to original branch on failure.
-
-### `sync-scripts.sh`
-
-Synchronizes the `scripts/` directory across all three branches:
-- Detects script changes between branches
-- Automatically commits synchronized scripts
-- Ensures consistency across the workflow
-
-### `find-and-clean-nixbackups.sh [--auto]`
-
-Cleans up .nixbackup files created by home-manager:
-- Scans home directory for backup files
-- Interactive or automatic cleanup modes
-- Excludes common directories (.git, node_modules, .cache)
-
-## Package Management
-
-### Overlays (`overlays/default.nix`)
-
-- **additions**: Custom packages from the `pkgs/` directory
-- **modifications**: Package overrides and patches
-- **unstable-packages**: Access to nixpkgs-unstable via `pkgs.unstable`
-- **nur**: Nix User Repository integration
-
-### Available MCP Tools
-
-The repository provides access to comprehensive NixOS research tools:
-
-- **Package search**: `mcp__nixos__nixos_search()` for packages, options, programs
-- **Package details**: `mcp__nixos__nixos_info()` with version and dependency information
-- **Version history**: `mcp__nixos__nixhub_package_versions()` with nixpkgs commit hashes
-- **Home Manager**: `mcp__nixos__home_manager_search()` and `mcp__nixos__home_manager_info()`
-- **Community flakes**: `mcp__nixos__nixos_flakes_search()` for third-party packages
-- **Channel information**: `mcp__nixos__nixos_channels()` and `mcp__nixos__nixos_stats()`
-
-### System Packages
-
-- **Editors**: Helix, VSCode
-- **Terminal**: Kitty with JetBrains Mono font
-- **Applications**: Firefox, 1Password, Fuzzel launcher
-- **Development**: claude-code from unstable
-
-### Home Manager Packages
-
-- **Wayland**: swww wallpaper daemon, luakit browser
-- **Development**: nil and nixd LSP servers for Nix
-- **Tools**: claude-code from unstable channel
-
-## Security Configuration
-
-### Firefox Hardening
-
-The Firefox module (`home-manager/modules/programs/firefox.nix`) implements comprehensive security policies:
-
-- **Disabled features**: Telemetry, studies, Pocket, form history, master password creation
-- **Privacy**: Tracking protection, fingerprinting protection, email tracking protection
-- **Extensions**: Force-installed uBlock Origin, Dark Reader, SponsorBlock, 1Password
-- **Settings**: HTTPS-only mode, disabled password manager (1Password used instead)
-- **UI**: Vertical tabs, sidebar visibility always-show, custom toolbar layout
-- **Reset utility**: `firefox-reset-nixos` command removes cache/state files to ensure NixOS settings take priority
-
-### System Security
-
-- **SSH**: Key-only authentication, root login disabled
-- **Sudo**: Passwordless for wheel users
-- **Boot**: Secure boot compatible systemd-boot
-- **Drivers**: Proprietary NVIDIA drivers with proper kernel parameters
-
-## Hardware Support
-
-- **CPU**: AMD with microcode updates
-- **GPU**: NVIDIA GTX 1080 with proprietary drivers
-- **Storage**: NTFS support for external drives
-- **Boot**: EFI with systemd-boot
-- **File systems**: ext4 root, vfat boot, swap partition
+### Supporting Infrastructure
+- **`lib/`** - Global variables and shared utilities
+- **`scripts/`** - Build and maintenance automation
+- **`secrets/`** - Encrypted configuration secrets
+- **`docs/`** - Documentation and usage guides
 
 ## Development Workflow
 
 ### Making Changes
+1. Work on `main` branch for new features/changes
+2. Use `./scripts/rebuild.sh <hostname>` to test and deploy
+3. Script handles branch management automatically
+4. Successful builds are deployed to active system
 
-1. Work on the `main` branch for configuration changes
-2. Use `./scripts/rebuild.sh gtx1080shitbox` to test changes
-3. Script automatically handles branch management
-4. Successful builds update the `deployed` branch
+### Best Practices
+- Use global variables for system-wide settings
+- Keep modules focused and single-purpose
+- Test changes before committing
+- Document significant changes
+- Use secrets management for sensitive data
 
-### Script Development
+## Available Tools
 
-1. Modify scripts on any branch
-2. `sync-scripts.sh` automatically runs during rebuilds
-3. Scripts stay synchronized across all branches
+### NixOS MCP Integration
+Comprehensive package and configuration research tools available:
 
-### Module Development
+#### NixOS Tools
+- `nixos_search(query, type, channel)` - Search packages, options, or programs
+- `nixos_info(name, type, channel)` - Get detailed info about packages/options
+- `nixos_stats(channel)` - Package and option counts
+- `nixos_channels()` - List all available channels
+- `nixos_flakes_search(query)` - Search community flakes
+- `nixos_flakes_stats()` - Flake ecosystem statistics
 
-The modular structure allows for easy customization:
+#### Version History Tools
+- `nixhub_package_versions(package, limit)` - Get version history with commit hashes
+- `nixhub_find_version(package, version)` - Smart search for specific versions
 
-1. **Adding new programs**: Create modules in `modules/programs/` and import in `programs/default.nix`
-2. **Desktop customization**: Modify `modules/desktop/default.nix` for themes and appearance
-3. **Service management**: Add new services to `modules/services/default.nix`
-4. **Raw configurations**: Place config files in `configs/` directory and reference from modules
+#### Home Manager Tools
+- `home_manager_search(query)` - Search user config options
+- `home_manager_info(name)` - Get option details (with suggestions!)
+- `home_manager_stats()` - See what's available
+- `home_manager_list_options()` - Browse all 131 categories
+- `home_manager_options_by_prefix(prefix)` - Explore options by prefix
 
-### Troubleshooting
+#### Darwin Tools
+- `darwin_search(query)` - Search macOS options
+- `darwin_info(name)` - Get option details
+- `darwin_stats()` - macOS configuration statistics
+- `darwin_list_options()` - Browse all 21 categories
+- `darwin_options_by_prefix(prefix)` - Explore macOS options
 
-- **Build failures**: Script automatically returns to original branch and restores stashed changes
-- **Inconsistent scripts**: `sync-scripts.sh` runs automatically during builds or can be run manually
-- **Backup files**: Use `find-and-clean-nixbackups.sh` to clean .nixbackup files created by home-manager
-- **Firefox issues**: Use `firefox-reset-nixos` command to reset to NixOS-managed state
-- **Git hooks**: Executable hooks in `.githooks/` automatically sync scripts on commits
-- **Branch workflow**: Only work from main/building/deployed branches - script validates this
-- **Module imports**: If modules fail to load, check import paths in module `default.nix` files
+### Secrets Management
+- **sops-nix** integration for encrypted secrets
+- Age-based encryption with user key
+- Runtime secret deployment to `/run/secrets/`
+- Git-safe encrypted storage
 
-## Current State
+### Build Automation
+- Integrated rebuild workflow
+- Automatic script synchronization
+- Error recovery and rollback
+- Cleanup automation
 
-- **Active branch**: `deployed` 
-- **System**: `gtx1080shitbox` with AMD CPU and NVIDIA GPU
-- **User**: `albert` with modular home-manager configuration
-- **Architecture**: Modular design with separate programs, desktop, and services components
-- **Niri Integration**: Custom module with direct config file management
-- **Git Hooks**: Executable and functional for automated script synchronization
-- **Recent activity**: Restructured for maintainability and modularity
+## System Capabilities
 
-This configuration provides a robust, secure, and highly maintainable NixOS setup with a sophisticated deployment workflow and modular architecture suitable for both development and production use.
+### Desktop Environment
+- Modern Wayland compositor
+- Secure display manager
+- GTK theme integration
+- Font and icon management
+
+### Development Tools
+- Multiple editors and IDEs
+- Language servers and tooling
+- Terminal emulators
+- Version control integration
+
+### Security Features
+- Hardened browser configuration
+- SSH key-only authentication
+- Encrypted secrets management
+- Minimal attack surface
+
+### Hardware Support
+- Modern Linux kernel
+- Proprietary driver support
+- Multiple filesystem compatibility
+- Power management
+
+## Troubleshooting
+
+### Common Issues
+- **Build failures**: Script provides automatic rollback
+- **Configuration errors**: Check global variables and module imports
+- **Secret access**: Verify sops-nix configuration and key permissions
+- **Package conflicts**: Review overlays and package selections
+
+### Recovery Tools
+- Branch-based recovery via git workflow
+- Automatic stashing and restoration
+- System rollback capabilities
+- Backup file cleanup utilities
+
+## Customization
+
+### Changing Applications
+Modify `lib/globals.nix` to change applications system-wide:
+```nix
+terminal = "alacritty";  # Changes from default
+```
+
+### Adding Modules
+Create new modules in appropriate directories and import in parent `default.nix`.
+
+### Managing Secrets
+Use sops to encrypt sensitive configuration:
+```bash
+sops secrets/example.yaml  # Edit encrypted secrets
+```
+
+This configuration provides a robust, maintainable NixOS setup with modern tooling, security features, and automated management workflows.
