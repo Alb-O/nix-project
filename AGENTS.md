@@ -1,100 +1,103 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents when working with code in this repository.
+NixOS configuration with flakes, home-manager, three-branch workflow, and global variables.
 
-# NixOS Configuration Repository
+## Code Style & Documentation
 
-Personal NixOS configuration using flakes with home-manager integration, featuring a three-branch workflow for safe configuration management and global variable system for easy customization.
+### Documentation Philosophy
+- **Inline comments**: Technical, functional comments in Nix files, not verbose markdown
+- **Brevity**: Short, precise explanations focused on function and purpose
+- **No self-congratulation**: Avoid adjectives like "robust", "sophisticated", "comprehensive"
+- **Technical focus**: What it does, not why it's good
 
-## Architecture Overview
-
-### Configuration Philosophy
-- **Modular design**: Separate concerns (programs, desktop, services)
-- **Global variables**: Centralized application definitions in `lib/globals.nix`
-- **Declarative**: All system state defined in configuration files
-- **Reproducible**: Flake-based with locked dependencies
-- **Secure**: Hardened configurations and secrets management
-
-### Key Technologies
-- **NixOS 25.05** stable with unstable overlay for select packages
-- **Home Manager** for user environment management
-- **Wayland** display server with modern compositor
-- **sops-nix** for encrypted secrets management
-- **Flakes** for reproducible configurations
-
-## Global Variables System
-
-Applications and system settings are centralized in `lib/globals.nix`:
-
+### Comment Style
 ```nix
-let
-  globals = import ../lib/globals.nix;
-in
+# Global system applications - change here to update everywhere
+terminal = "kitty";
+
+# Three-branch git workflow: main -> building -> deployed
+./scripts/rebuild.sh hostname
+
+# sops-nix: encrypted secrets via age, runtime at /run/secrets/
+sops.defaultSopsFile = ../secrets/example.yaml;
+```
+
+## Architecture
+
+### Structure
+- `lib/globals.nix` - System-wide application definitions
+- `nixos/` - System configuration
+- `home-manager/` - User environment, modular
+- `scripts/` - Build automation
+- `secrets/` - sops-nix encrypted files
+
+### Global Variables
+```nix
+# Import in any config file
+let globals = import ../lib/globals.nix; in
 {
   programs.${globals.shell}.enable = true;
   networking.hostName = globals.system.hostname;
 }
 ```
 
-This allows easy system-wide changes (e.g., switching terminal emulators) by modifying one file.
+## Build Commands
 
-## Three-Branch Workflow
-
-### Branch Purpose
-- **`main`** - Clean, stable configuration for development
-- **`building`** - Testing branch for builds and validation
-- **`deployed`** - Currently active system configuration
-
-### Workflow Commands
 ```bash
-# Main build command - handles all branch management automatically
-./scripts/rebuild.sh <hostname>
+# Primary build - handles branch management, stashing, rollback
+./scripts/rebuild.sh hostname
 
-# Additional utilities
-./scripts/sync-scripts.sh                   # Sync scripts across branches
-./scripts/find-and-clean-nixbackups.sh      # Clean backup files
+# Direct builds (bypass branch workflow)
+home-manager switch --flake .#albert@gtx1080shitbox
+sudo nixos-rebuild switch --flake .#gtx1080shitbox
+
+# Utilities
+./scripts/sync-scripts.sh                 # Sync scripts across branches
+./scripts/find-and-clean-nixbackups.sh   # Clean .nixbackup files
 ```
 
-The rebuild script automatically:
-- Manages branch switching and stashing
-- Creates checkpoint commits before builds
-- Handles error recovery and rollback
-- Synchronizes scripts across branches
+## Three-Branch Workflow
+- `main` - stable config for development
+- `building` - test builds 
+- `deployed` - active system
 
-## Configuration Structure
+Script behavior:
+- main → building → deployed (on success)
+- deployed → rebuild in place → update building
+- building → rebuild in place → move to deployed
 
-### System Level (`nixos/`)
-- Core system configuration
-- Hardware settings
-- Security policies
-- System services
+## Secrets Management
 
-### User Level (`home-manager/`)
-- Modular user environment
-- Application configurations
-- Desktop environment
-- User services
+```bash
+# Edit encrypted secrets
+sops secrets/example.yaml
 
-### Supporting Infrastructure
-- **`lib/`** - Global variables and shared utilities
-- **`scripts/`** - Build and maintenance automation
-- **`secrets/`** - Encrypted configuration secrets
-- **`docs/`** - Documentation and usage guides
+# View decrypted
+sops --decrypt secrets/example.yaml
 
-## Development Workflow
+# Runtime location
+ls /run/secrets/
+```
 
-### Making Changes
-1. Work on `main` branch for new features/changes
-2. Use `./scripts/rebuild.sh <hostname>` to test and deploy
-3. Script handles branch management automatically
-4. Successful builds are deployed to active system
+Configuration:
+```nix
+# System-level
+sops = {
+  defaultSopsFile = ../secrets/example.yaml;
+  age.keyFile = "${globals.user.homeDirectory}/.config/sops/age/keys.txt";
+  secrets.example-password = {};
+};
 
-### Best Practices
-- Use global variables for system-wide settings
-- Keep modules focused and single-purpose
-- Test changes before committing
-- Document significant changes
-- Use secrets management for sensitive data
+# Access in config
+systemd.services.myservice.script = "$(cat ${config.sops.secrets.example-password.path})";
+```
+
+## Development
+
+### Workflow
+1. Edit on `main` branch
+2. `./scripts/rebuild.sh hostname` - handles branching, testing, deployment
+3. Use global variables for system-wide changes
 
 ## Available Tools
 
@@ -139,46 +142,6 @@ Comprehensive package and configuration research tools available:
 - Error recovery and rollback
 - Cleanup automation
 
-## System Capabilities
-
-### Desktop Environment
-- Modern Wayland compositor
-- Secure display manager
-- GTK theme integration
-- Font and icon management
-
-### Development Tools
-- Multiple editors and IDEs
-- Language servers and tooling
-- Terminal emulators
-- Version control integration
-
-### Security Features
-- Hardened browser configuration
-- SSH key-only authentication
-- Encrypted secrets management
-- Minimal attack surface
-
-### Hardware Support
-- Modern Linux kernel
-- Proprietary driver support
-- Multiple filesystem compatibility
-- Power management
-
-## Troubleshooting
-
-### Common Issues
-- **Build failures**: Script provides automatic rollback
-- **Configuration errors**: Check global variables and module imports
-- **Secret access**: Verify sops-nix configuration and key permissions
-- **Package conflicts**: Review overlays and package selections
-
-### Recovery Tools
-- Branch-based recovery via git workflow
-- Automatic stashing and restoration
-- System rollback capabilities
-- Backup file cleanup utilities
-
 ## Customization
 
 ### Changing Applications
@@ -195,5 +158,3 @@ Use sops to encrypt sensitive configuration:
 ```bash
 sops secrets/example.yaml  # Edit encrypted secrets
 ```
-
-This configuration provides a robust, maintainable NixOS setup with modern tooling, security features, and automated management workflows.
