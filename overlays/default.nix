@@ -24,12 +24,6 @@
   # NUR (Nix User Repository) overlay
   nur = inputs.nur.overlays.default;
 
-  # VSCode extensions overlay - configure with allowUnfree
-  vscode-extensions = final: prev: 
-    let
-      vscode-extensions = inputs.nix-vscode-extensions.extensions.${final.system};
-    in {
-      vscode-marketplace = vscode-extensions.vscode-marketplace;
-      vscode-marketplace-release = vscode-extensions.vscode-marketplace-release;
-    };
+  # VSCode extensions overlay - use the nix-vscode-extensions overlay
+  vscode-extensions = inputs.nix-vscode-extensions.overlays.default;
 }
