@@ -39,7 +39,7 @@ in
     nil
     nixd
     claude-code
-    fastfetch
+    ufetch
     sillytavern
   ] ++ (with pkgs; [
     # Rust development toolchain
