@@ -53,32 +53,42 @@ writeShellScriptBin "blender-daily" ''
     mkdir -p "$BUILD_DIR"
     ${pkgs.gnutar}/bin/tar -xf "$TEMP_FILE" -C "$BUILD_DIR" --strip-components=1
     
-    # Patch Blender binary for NixOS dynamic linking
-    echo "Patching Blender binary for NixOS..."
-    if [[ -f "$BUILD_DIR/blender" ]]; then
-      ${pkgs.patchelf}/bin/patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 "$BUILD_DIR/blender"
-      ${pkgs.patchelf}/bin/patchelf --set-rpath "${pkgs.lib.makeLibraryPath [
-        pkgs.glibc
-        pkgs.gcc-unwrapped.lib
-        pkgs.xorg.libX11
-        pkgs.xorg.libXi
-        pkgs.xorg.libXrender
-        pkgs.xorg.libXxf86vm
-        pkgs.libGL
-        pkgs.freetype
-        pkgs.zlib
-        pkgs.glib
-        pkgs.alsa-lib
-        pkgs.pulseaudio
-      ]}" "$BUILD_DIR/blender"
-      echo "Blender binary patched successfully"
-    else
-      echo "Warning: Blender binary not found at $BUILD_DIR/blender"
-    fi
-
     # Cleanup
     rm -f "$TEMP_FILE"
   fi
+
+  # Always patch Blender binaries for NixOS (even for existing installations)
+  echo "Patching Blender binaries for NixOS..."
+  LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+    pkgs.glibc
+    pkgs.gcc-unwrapped.lib
+    pkgs.xorg.libX11
+    pkgs.xorg.libXi
+    pkgs.xorg.libXrender
+    pkgs.xorg.libXxf86vm
+    pkgs.libGL
+    pkgs.freetype
+    pkgs.zlib
+    pkgs.glib
+    pkgs.alsa-lib
+    pkgs.pulseaudio
+    pkgs.stdenv.cc.cc.lib
+  ]}:$BUILD_DIR/lib"
+  
+  # Patch main Blender binary
+  if [[ -f "$BUILD_DIR/blender" ]]; then
+    ${pkgs.patchelf}/bin/patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 "$BUILD_DIR/blender"
+    ${pkgs.patchelf}/bin/patchelf --set-rpath "$LIBRARY_PATH" "$BUILD_DIR/blender"
+    echo "Main Blender binary patched"
+  fi
+  
+  # Patch all shared libraries
+  echo "Patching shared libraries..."
+  find "$BUILD_DIR" -name "*.so*" -type f | while read -r lib; do
+    ${pkgs.patchelf}/bin/patchelf --set-rpath "$LIBRARY_PATH" "$lib" 2>/dev/null || true
+  done
+  
+  echo "Blender binaries patched successfully"
 
   # Update current symlink
   rm -f "$CURRENT_LINK"
