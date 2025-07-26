@@ -145,7 +145,6 @@ in {
     helix
     wget
     gemini-cli
-    vscode
     sddm-astronaut
     nautilus # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
     sops

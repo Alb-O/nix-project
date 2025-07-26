@@ -1,7 +1,13 @@
 # VSCode configuration with declarative settings management
-{pkgs, ...}: {
+{pkgs, ...}: let
+  # Wrap VSCode to always use Wayland platform
+  vscode-wayland = pkgs.writeShellScriptBin "code" ''
+    exec ${pkgs.vscode}/bin/code --ozone-platform=wayland "$@"
+  '';
+in {
   programs.vscode = {
     enable = true;
+    package = vscode-wayland;
 
     # Prevent VSCode from managing extensions imperatively - key to preventing conflicts
     mutableExtensionsDir = false;
