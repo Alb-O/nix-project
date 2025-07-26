@@ -37,7 +37,6 @@ in
     claude-code
     ufetch
     sillytavern
-  ] ++ (with pkgs; [
     # Rust development toolchain
     rustc
     cargo
@@ -49,7 +48,7 @@ in
     cargo-audit
     cargo-outdated
     gcc  # Required for linking during Rust compilation
-  ]) ++ [
+  ] ++ [
     # Custom packages can be added here
   ];
 
