@@ -7,7 +7,7 @@ in {
   programs.kitty = {
     enable = true;
     font.name = "JetBrainsMono Nerd Font Mono";
-    font.size = 12;
+    font.size = 13;
     font.package = pkgs.nerd-fonts.jetbrains-mono;
     settings = {
       # The basic colors
