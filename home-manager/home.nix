@@ -41,9 +41,26 @@ in
     claude-code
     fastfetch
     sillytavern
-  ] ++ [
+  ] ++ (with pkgs; [
+    # Rust development toolchain
+    rustc
+    cargo
+    rustfmt
+    clippy
+    rust-analyzer
+    cargo-watch
+    cargo-edit
+    cargo-audit
+    cargo-outdated
+    gcc  # Required for linking during Rust compilation
+  ]) ++ [
     # Custom packages can be added here
   ];
+
+  # Rust development environment variables
+  home.sessionVariables = {
+    RUST_SRC_PATH = "${pkgs.unstable.rust.packages.stable.rustPlatform.rustLibSrc}";
+  };
 
   # State version - don't change this
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
