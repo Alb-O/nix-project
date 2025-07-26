@@ -1,9 +1,15 @@
 # VSCode configuration with declarative settings management
 {pkgs, ...}: let
   # Wrap VSCode to always use Wayland platform
-  vscode-wayland = pkgs.writeShellScriptBin "code" ''
-    exec ${pkgs.vscode}/bin/code --ozone-platform=wayland "$@"
-  '';
+  vscode-wayland = pkgs.symlinkJoin {
+    name = "vscode-wayland";
+    paths = [ pkgs.vscode ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/code \
+        --add-flags "--ozone-platform=wayland"
+    '';
+  };
 in {
   programs.vscode = {
     enable = true;
