@@ -11,28 +11,18 @@
       enableUpdateCheck = true;
       enableExtensionUpdateCheck = true;
       
-      # Core extensions for development
+      # Core extensions for development - using only basic, commonly available extensions
       extensions = with pkgs.vscode-extensions; [
         # Language support
         ms-python.python
-        ms-vscode.cpptools
         rust-lang.rust-analyzer
         jnoortheen.nix-ide
         
         # Git integration
         eamodio.gitlens
         
-        # Themes and UI
-        catppuccin.catppuccin-vsc
-        catppuccin.catppuccin-vsc-icons
-        
-        # Productivity
-        ms-vscode.vscode-todo-highlight
+        # Productivity and diagnostics
         usernamehw.errorlens
-        
-        # Code formatting and linting
-        esbenp.prettier-vscode
-        ms-vscode.vscode-json
       ];
       
       # Declarative settings.json configuration
@@ -65,8 +55,7 @@
         "files.insertFinalNewline" = true;
         
         # Theme and appearance
-        "workbench.colorTheme" = "Catppuccin Mocha";
-        "workbench.iconTheme" = "catppuccin-mocha";
+        "workbench.colorTheme" = "Default Dark+";
         "workbench.startupEditor" = "welcomePage";
         
         # Git integration
@@ -90,7 +79,6 @@
         
         # Extension settings
         "errorLens.enabledDiagnosticLevels" = ["error" "warning" "info"];
-        "todo-highlight.keywordsPattern" = "TODO|FIXME|NOTE|HACK|XXX|BUG";
         
         # Performance and telemetry
         "telemetry.telemetryLevel" = "off";
