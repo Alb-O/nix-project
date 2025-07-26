@@ -28,6 +28,10 @@
         anthropic.claude-code
         github.copilot
         github.copilot-chat
+
+        # Icons
+        pkief.material-icon-theme
+        pkief.material-product-icons
       ];
 
       # Declarative settings.json configuration
@@ -62,6 +66,8 @@
         # Theme and appearance
         "workbench.colorTheme" = "Default Dark+";
         "workbench.startupEditor" = "welcomePage";
+        "workbench.productIconTheme" = "material-product-icons";
+        "workbench.iconTheme" = "material-icon-theme";
 
         # Git integration
         "git.enableSmartCommit" = true;
