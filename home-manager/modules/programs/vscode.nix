@@ -44,8 +44,9 @@
       userSettings = {
         # Font configuration - JetBrains Mono Nerd Font
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace'";
-        "editor.fontSize" = 14;
+        "editor.fontSize" = 15;
         "editor.fontLigatures" = true;
+        "editor.lineHeight" = 3;
 
         # Terminal font configuration
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
@@ -73,7 +74,8 @@
         "files.insertFinalNewline" = true;
 
         # Theme and appearance
-        "workbench.colorTheme" = "Default Dark+";
+        "workbench.colorTheme" = "2017 Dark (Visual Studio - C/C++)";
+        "workbench.preferredDarkColorTheme" = "";
         "workbench.startupEditor" = "welcomePage";
         "workbench.productIconTheme" = "material-product-icons";
         "workbench.iconTheme" = "material-icon-theme";
