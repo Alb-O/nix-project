@@ -1,10 +1,7 @@
 # Blender daily build downloader and runner
 {
   pkgs,
-  lib,
-  stdenv,
   writeShellScriptBin,
-  fetchurl,
   curl,
   jq,
   ...
