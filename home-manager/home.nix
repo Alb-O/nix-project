@@ -32,6 +32,9 @@ in {
       claude-code
       ufetch
       sillytavern
+      # Python development environment
+      python3
+      uv
       # Rust development toolchain
       rustc
       cargo
