@@ -69,7 +69,13 @@ input {
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
-// Configure DP-1 (ZOWIE monitor) for 144Hz
+// Configure DP-3 (LG monitor) - primary monitor on left
+output "LG Electronics LG ULTRAGEAR 103NTNH5S287" {
+    mode "2560x1440@143.973"
+    position x=0 y=0
+}
+
+// Configure DP-1 (ZOWIE monitor) for 144Hz - secondary monitor on right
 output "PNP(BNQ) ZOWIE XL LCD 95L03173SL0" {
     mode "1920x1080@144.001"
     position x=2560 y=0
