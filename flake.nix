@@ -19,6 +19,8 @@
     # sops-nix for secrets management
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    inputs.nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions/00e11463876a04a77fb97ba50c015ab9e5bee90d";
   };
 
   outputs = {
@@ -26,6 +28,7 @@
     nixpkgs,
     home-manager,
     sops-nix,
+    nix-vscode-extensions,
     ...
   } @ inputs: let
     inherit (self) outputs;

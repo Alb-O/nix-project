@@ -12,7 +12,7 @@
       enableExtensionUpdateCheck = true;
 
       # Core extensions for development - using only basic, commonly available extensions
-      extensions = with pkgs.vscode-extensions; [
+      extensions = with pkgs.vscode-marketplace; [
         # Language support
         ms-python.python
         rust-lang.rust-analyzer
