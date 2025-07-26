@@ -23,4 +23,9 @@
 
   # NUR (Nix User Repository) overlay
   nur = inputs.nur.overlays.default;
+
+  # VSCode extensions overlay
+  vscode-extensions = final: prev: {
+    vscode-marketplace = inputs.nix-vscode-extensions.extensions.${final.system}.vscode-marketplace;
+  };
 }
