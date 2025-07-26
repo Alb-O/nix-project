@@ -49,6 +49,7 @@ in {
     ]
     ++ [
       # Custom packages can be added here
+      pkgs.blender-daily
     ];
 
   # Rust development environment variables
