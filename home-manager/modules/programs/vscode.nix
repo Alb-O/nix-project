@@ -60,9 +60,6 @@ in {
         # Editor behavior
         "editor.lineNumbers" = "on";
         "editor.renderWhitespace" = "boundary";
-        "editor.tabSize" = 2;
-        "editor.insertSpaces" = false;
-        "editor.detectIndentation" = false;
         "editor.wordWrap" = "on";
         "editor.minimap.enabled" = true;
         "editor.cursorBlinking" = "smooth";
