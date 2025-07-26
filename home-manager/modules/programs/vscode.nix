@@ -74,6 +74,8 @@
         "workbench.startupEditor" = "welcomePage";
         "workbench.productIconTheme" = "material-product-icons";
         "workbench.iconTheme" = "material-icon-theme";
+        "workbench.activityBar.location" = "top";
+        "window.commandCenter" = false;
 
         # Git integration
         "git.enableSmartCommit" = true;
@@ -97,10 +99,10 @@
         # Extension settings
         "errorLens.enabledDiagnosticLevels" = ["error" "warning" "info"];
 
-        # Performance and telemetry
+        # Telemetry
         "telemetry.telemetryLevel" = "off";
         "update.mode" = "none";
-        "extensions.autoUpdate" = false;
+        "extensions.autoUpdate" = true;
       };
 
       # Custom keybindings
