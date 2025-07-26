@@ -24,6 +24,7 @@ in {
   # User packages
   home.packages = with pkgs.unstable;
     [
+			wl-clipboard
       swww
       luakit
       nil
