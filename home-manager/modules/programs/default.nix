@@ -11,6 +11,8 @@ in
     ./kitty.nix
     ./firefox.nix
     ./niri.nix
+    ./fish.nix
+    ./vscode.nix
   ];
 
   # Core programs
@@ -21,8 +23,6 @@ in
     userName = globals.user.name;
     userEmail = globals.user.email;
   };
-
-  programs.${globals.shell}.enable = true;
 
   programs.bash = {
     enable = true;

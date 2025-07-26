@@ -23,4 +23,7 @@
 
   # NUR (Nix User Repository) overlay
   nur = inputs.nur.overlays.default;
+
+  # VSCode extensions overlay - use the nix-vscode-extensions overlay
+  vscode-extensions = inputs.nix-vscode-extensions.overlays.default;
 }

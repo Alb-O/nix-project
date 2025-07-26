@@ -2,13 +2,9 @@
 # Main entry point for user environment configuration
 
 {
-  inputs,
-  outputs,
-  lib,
-  config,
   pkgs,
   ...
-} @ args: 
+}:
 
 let
   globals = import ../lib/globals.nix;
@@ -39,9 +35,8 @@ in
     nil
     nixd
     claude-code
-    fastfetch
+    ufetch
     sillytavern
-  ] ++ (with pkgs; [
     # Rust development toolchain
     rustc
     cargo
@@ -53,7 +48,7 @@ in
     cargo-audit
     cargo-outdated
     gcc  # Required for linking during Rust compilation
-  ]) ++ [
+  ] ++ [
     # Custom packages can be added here
   ];
 

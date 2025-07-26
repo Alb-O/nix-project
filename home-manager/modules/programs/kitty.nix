@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   colorscheme = import  ../../../lib/colorscheme.nix;
@@ -6,7 +6,8 @@ let
 in {
   programs.kitty = {
     enable = true;
-    font.name = "JetBrains Mono";
+    font.name = "JetBrainsMono Nerd Font Mono";
+    font.size = 13;
     font.package = pkgs.nerd-fonts.jetbrains-mono;
     settings = {
       # The basic colors
