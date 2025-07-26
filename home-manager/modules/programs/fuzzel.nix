@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  styles = import ./styles.nix;
+  colorscheme = import ../../../lib/colorscheme.nix;
   # Helper to add alpha to hex color (e.g. "#3b224c" + "dd" -> "3b224cdd")
   hexNoHash = hex: builtins.replaceStrings ["#"] [""] hex;
   withAlpha = hex: alpha: hexNoHash hex + alpha;
@@ -11,7 +11,7 @@ in
     enable = true;
     settings = {
       main = {
-        font = styles.font;
+        font = "JetBrainsMono Nerd Font Mono";
         exit-on-keyboard-focus-loss = "no";
         prompt = "> ";
         line-height = 32;
@@ -24,14 +24,14 @@ in
         icon-theme = "Adwaita";
       };
       colors = {
-        background = withAlpha styles.background "dd";
-        input = withAlpha styles.foreground "ff";
-        counter = withAlpha styles.foreground "ff";
-        text = withAlpha styles.selection_background "ee";
-        placeholder = withAlpha styles.background "ff";
-        selection = withAlpha styles.selection_background "ee";
-        selection-text = withAlpha styles.background "ff";
-        match = withAlpha styles.color1 "ff";
+        background = withAlpha colorscheme.background "dd";
+        input = withAlpha colorscheme.foreground "ff";
+        counter = withAlpha colorscheme.foreground "ff";
+        text = withAlpha colorscheme.selection_background "ee";
+        placeholder = withAlpha colorscheme.background "ff";
+        selection = withAlpha colorscheme.selection_background "ee";
+        selection-text = withAlpha colorscheme.background "ff";
+        match = withAlpha colorscheme.color1 "ff";
       };
       border = {
         width = 0;
