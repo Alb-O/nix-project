@@ -4,7 +4,7 @@
     enable = true;
 
     # Declarative extension management - prevents extension conflicts
-    extensions = with pkgs.vscode-marketplace; [
+    profiles.default.extensions = with pkgs.vscode-marketplace; [
       # Language support
       ms-python.python
       rust-lang.rust-analyzer
@@ -29,7 +29,7 @@
     ];
 
     # Declarative settings.json configuration
-    userSettings = {
+    profiles.default.userSettings = {
         # Font configuration - JetBrains Mono Nerd Font
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace'";
         "editor.fontSize" = 15;
@@ -103,7 +103,7 @@
       };
 
     # Custom keybindings
-    keybindings = [
+    profiles.default.keybindings = [
         {
           key = "ctrl+shift+p";
           command = "workbench.action.showCommands";
