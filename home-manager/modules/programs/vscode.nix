@@ -25,9 +25,9 @@
         usernamehw.errorlens
 
         # AI and code assistance
-        anthropic.claude-code
-        gitHub.copilot
-        gitHub.copilot-chat
+        Anthropic.claude-code
+        GitHub.copilot
+        GitHub.copilot-chat
       ];
 
       # Declarative settings.json configuration
