@@ -45,7 +45,7 @@
       #!/bin/bash
       export SILLYTAVERN_DATAROOT="$HOME/.local/share/sillytavern"
       mkdir -p "$SILLYTAVERN_DATAROOT"
-      exec ${pkgs.sillytavern}/opt/sillytavern/start.sh "$@"
+      exec ${pkgs.unstable.sillytavern}/opt/sillytavern/start.sh "$@"
     '';
     executable = true;
   };
