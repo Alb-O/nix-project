@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  colorscheme = import ../common/colorscheme.nix;
+  colorscheme = import  ../../../lib/colorscheme.nix;
 
 in {
   programs.kitty = {
