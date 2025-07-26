@@ -24,7 +24,7 @@
       DisableFormHistory = true;
       DisablePasswordReveal = true;
       DontCheckDefaultBrowser = true; # Stop being attention whore
-      HardwareAcceleration = false; # Disabled as it's exposes points for fingerprinting
+      HardwareAcceleration = true; # Enable for proper rendering and performance
       OfferToSaveLogins = false; # Managed by 1Password instead
       EnableTrackingProtection = {
         Value = true;
@@ -152,7 +152,7 @@
 
         # Harden
         "privacy.trackingprotection.enabled" = true;
-        "dom.security.https_only_mode" = true;
+        "dom.security.https_only_mode" = false; # Disable to allow HTTP sites during troubleshooting
         # Layout
         "browser.uiCustomization.state" = builtins.toJSON {
           currentVersion = 20;
@@ -205,7 +205,6 @@
         "browser.migration.version" = 999;
 
         # Enable smooth scrolling
-        "layers.acceleration.force-enabled" = true;
         "apz.overscroll.enabled" = true; # DEFAULT NON-LINUX
         "general.smoothScroll" = true; # DEFAULT
         "general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS" = 12;
@@ -274,6 +273,40 @@
       echo "✅ Firefox GNOME theme installed successfully!"
       echo "💡 Restart Firefox to see the theme changes."
       echo "📝 Note: The theme requires toolkit.legacyUserProfileCustomizations.stylesheets=true (already configured in NixOS)."
+    '')
+    (pkgs.writeShellScriptBin "firefox-debug-loading" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      
+      echo "🔍 Firefox loading issue diagnostics..."
+      
+      # Check if Firefox is running
+      if pgrep firefox > /dev/null; then
+        echo "⚠️  Firefox is currently running. Kill it and restart for clean test."
+      fi
+      
+      # Check profile directory
+      PROFILE_DIR="$HOME/.mozilla/firefox/albert"
+      if [[ -d "$PROFILE_DIR" ]]; then
+        echo "✅ Profile directory exists: $PROFILE_DIR"
+        
+        # Check for problematic settings
+        if [[ -f "$PROFILE_DIR/prefs.js" ]]; then
+          echo "📋 Checking critical settings in prefs.js..."
+          grep -E "(dom\.security\.https_only_mode|network\.|security\.|layers\.acceleration)" "$PROFILE_DIR/prefs.js" | head -10 || echo "No matching prefs found"
+        fi
+        
+        # Check console output
+        echo "🔧 Suggested debug steps:"
+        echo "1. Open Firefox Developer Tools (F12)"
+        echo "2. Check Console tab for errors"
+        echo "3. Try loading a simple HTTP site first: http://example.com"
+        echo "4. Check Network tab to see if requests are being blocked"
+        echo "5. Temporarily disable HTTPS-only mode in about:config"
+        
+      else
+        echo "❌ Profile directory not found. Run 'home-manager switch' first."
+      fi
     '')
   ];
 
