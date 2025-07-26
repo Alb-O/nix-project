@@ -218,12 +218,16 @@
         "general.smoothScroll.currentVelocityWeighting" = "1";
         "general.smoothScroll.stopDecelerationWeighting" = "1";
         "mousewheel.default.delta_multiplier_y" = 300; # 250-400; adjust this number to your liking
+
+        # Enable userChrome.css for GNOME theme support
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
     };
   };
 
-  # Script to reset Firefox to NixOS-managed state
+  # Script to reset Firefox to NixOS-managed state and theme installer
   home.packages = [
+    pkgs.addwater  # Firefox GNOME theme installer
     (pkgs.writeShellScriptBin "firefox-reset-nixos" ''
       #!/usr/bin/env bash
       set -euo pipefail
@@ -253,6 +257,23 @@
       
       echo "✅ Firefox reset complete. Your NixOS settings will be applied on next startup."
       echo "💡 Run 'home-manager switch' to ensure latest configuration is active."
+    '')
+    (pkgs.writeShellScriptBin "firefox-install-gnome-theme" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      
+      echo "🎨 Installing Firefox GNOME theme..."
+      
+      # Kill Firefox if running
+      pkill firefox || true
+      sleep 2
+      
+      # Use addwater to install the theme
+      ${pkgs.addwater}/bin/addwater -f
+      
+      echo "✅ Firefox GNOME theme installed successfully!"
+      echo "💡 Restart Firefox to see the theme changes."
+      echo "📝 Note: The theme requires toolkit.legacyUserProfileCustomizations.stylesheets=true (already configured in NixOS)."
     '')
   ];
 
