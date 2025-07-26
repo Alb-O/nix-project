@@ -2,13 +2,9 @@
 # Main entry point for user environment configuration
 
 {
-  inputs,
-  outputs,
-  lib,
-  config,
   pkgs,
   ...
-} @ args:
+}:
 
 let
   globals = import ../lib/globals.nix;

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   colorscheme = import  ../../../lib/colorscheme.nix;
