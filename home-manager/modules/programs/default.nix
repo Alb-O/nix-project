@@ -14,6 +14,7 @@ in {
     ./niri.nix
     ./fish.nix
     ./vscode.nix
+		./fuzzel.nix
   ];
 
   # Core programs

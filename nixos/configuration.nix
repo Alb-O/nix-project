@@ -144,7 +144,6 @@ in {
   environment.systemPackages = with pkgs; [
     helix
     wget
-    fuzzel
     gemini-cli
     vscode
     sddm-astronaut
