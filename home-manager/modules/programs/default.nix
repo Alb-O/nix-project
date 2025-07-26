@@ -57,9 +57,9 @@
       name = "SillyTavern";
       comment = "LLM Frontend for Power Users";
       icon = "applications-games"; # Generic game icon, can be customized
-      exec = "${config.home.homeDirectory}/.local/bin/sillytavern-start";
+      exec = "kitty ${config.home.homeDirectory}/.local/bin/sillytavern-start";
       categories = [ "Network" "Chat" "Development" ];
-      terminal = false;
+      terminal = true;
       type = "Application";
       startupNotify = true;
     };
