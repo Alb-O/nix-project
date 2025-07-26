@@ -48,9 +48,10 @@
         "editor.fontLigatures" = true;
         "editor.lineHeight" = 1.5;
 
-        # Terminal font configuration
+        # Terminal configuration
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
         "terminal.integrated.fontSize" = 14;
+        "terminal.integrated.smoothScrolling" = true;
 
         # Editor behavior
         "editor.lineNumbers" = "on";
@@ -81,6 +82,7 @@
         "workbench.iconTheme" = "material-icon-theme";
         "workbench.activityBar.location" = "top";
         "window.commandCenter" = false;
+        "workbench.list.smoothScrolling" = true;
 
         # Git integration
         "git.enableSmartCommit" = true;
