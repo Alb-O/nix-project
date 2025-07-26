@@ -1,15 +1,14 @@
 # Niri Home Manager Module
 # Configures niri, a scrollable-tiling Wayland compositor
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.wayland.windowManager.niri;
-in
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.wayland.windowManager.niri;
+in {
   options.wayland.windowManager.niri = {
     enable = mkEnableOption "niri, a scrollable-tiling Wayland compositor";
 
@@ -57,7 +56,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     xdg.configFile."niri/config.kdl" = {
       source = cfg.configFile;
@@ -66,27 +65,29 @@ in
     systemd.user.targets.niri-session = mkIf cfg.systemd.enable {
       Unit = {
         Description = "niri compositor session";
-        Documentation = [ "man:systemd.special(7)" ];
-        BindsTo = [ "graphical-session.target" ];
-        Wants = [ "graphical-session-pre.target" ];
-        After = [ "graphical-session-pre.target" ];
+        Documentation = ["man:systemd.special(7)"];
+        BindsTo = ["graphical-session.target"];
+        Wants = ["graphical-session-pre.target"];
+        After = ["graphical-session-pre.target"];
       };
     };
 
     systemd.user.services.niri-session = mkIf cfg.systemd.enable {
       Unit = {
         Description = "Import environment variables and start systemd user session for niri";
-        Documentation = [ "man:systemd.special(7)" ];
+        Documentation = ["man:systemd.special(7)"];
       };
       Service = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStart = [
-          "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd ${concatStringsSep " " cfg.systemd.variables}"
-          "${pkgs.systemd}/bin/systemctl --user start niri-session.target"
-        ] ++ optional (cfg.systemd.extraCommands != "") cfg.systemd.extraCommands;
+        ExecStart =
+          [
+            "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd ${concatStringsSep " " cfg.systemd.variables}"
+            "${pkgs.systemd}/bin/systemctl --user start niri-session.target"
+          ]
+          ++ optional (cfg.systemd.extraCommands != "") cfg.systemd.extraCommands;
       };
-      Install.WantedBy = [ "graphical-session.target" ];
+      Install.WantedBy = ["graphical-session.target"];
     };
   };
 }

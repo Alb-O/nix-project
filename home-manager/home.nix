@@ -1,15 +1,8 @@
 # Home Manager configuration
 # Main entry point for user environment configuration
-
-{
-  pkgs,
-  ...
-}:
-
-let
+{pkgs, ...}: let
   globals = import ../lib/globals.nix;
-in
-{
+in {
   # Import modular configuration
   imports = [
     # Custom modules
@@ -29,28 +22,30 @@ in
   };
 
   # User packages
-  home.packages = with pkgs.unstable; [
-    swww
-    luakit
-    nil
-    nixd
-    claude-code
-    ufetch
-    sillytavern
-    # Rust development toolchain
-    rustc
-    cargo
-    rustfmt
-    clippy
-    rust-analyzer
-    cargo-watch
-    cargo-edit
-    cargo-audit
-    cargo-outdated
-    gcc  # Required for linking during Rust compilation
-  ] ++ [
-    # Custom packages can be added here
-  ];
+  home.packages = with pkgs.unstable;
+    [
+      swww
+      luakit
+      nil
+      nixd
+      claude-code
+      ufetch
+      sillytavern
+      # Rust development toolchain
+      rustc
+      cargo
+      rustfmt
+      clippy
+      rust-analyzer
+      cargo-watch
+      cargo-edit
+      cargo-audit
+      cargo-outdated
+      gcc # Required for linking during Rust compilation
+    ]
+    ++ [
+      # Custom packages can be added here
+    ];
 
   # Rust development environment variables
   home.sessionVariables = {

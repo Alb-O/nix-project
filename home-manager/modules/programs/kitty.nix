@@ -1,8 +1,5 @@
-{ pkgs, ... }:
-
-let
-  colorscheme = import  ../../../lib/colorscheme.nix;
-
+{pkgs, ...}: let
+  colorscheme = import ../../../lib/colorscheme.nix;
 in {
   programs.kitty = {
     enable = true;

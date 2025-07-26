@@ -41,14 +41,14 @@
       ExtensionUpdate = false;
       ExtensionSettings = {
         "addon@darkreader.org" = {
-        	# Dark Reader
-        	install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
-        	installation_mode = "force_installed";
+          # Dark Reader
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+          installation_mode = "force_installed";
         };
         "sponsorBlocker@ajay.app" = {
-        	# Sponsor Block
-        	install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorBlocker@ajay.app.xpi";
-        	installation_mode = "force_installed";
+          # Sponsor Block
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorBlocker@ajay.app.xpi";
+          installation_mode = "force_installed";
         };
         "uBlock0@raymondhill.net" = {
           # uBlock Origin
@@ -65,7 +65,7 @@
     profiles.albert = {
       id = 0;
       isDefault = true;
-      path = "albert";  # Explicitly set profile path for consistency
+      path = "albert"; # Explicitly set profile path for consistency
       /*
       search = {
         force = true;
@@ -176,7 +176,7 @@
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
         "sidebar.main.tools" = "aichat,bookmarks,history";
-        
+
         # Use XDG portal
         "widget.use-xdg-desktop-portal.file-picker" = true;
 
@@ -190,16 +190,16 @@
 
         "browser.aboutConfig.showWarning" = false; # Disable about:config warning
         "extensions.autoDisableScopes" = 0; # Enable extensions automatically
-        
+
         # Ensure NixOS-managed settings take priority
         "general.config.filename" = "nixos-firefox.cfg";
         "general.config.obscure_value" = 0;
         "general.config.sandbox_enabled" = false;
-        
+
         # Prevent Firefox from overriding NixOS-managed settings
         "browser.preferences.instantApply" = false;
         "browser.preferences.animateFadeIn" = true;
-        
+
         # Force profile consistency
         "browser.profiles.updateCheckIntervalMS" = 0;
         "browser.migration.version" = 999;
@@ -226,50 +226,50 @@
 
   # Script to reset Firefox to NixOS-managed state and theme installer
   home.packages = [
-    pkgs.addwater  # Firefox GNOME theme installer
+    pkgs.addwater # Firefox GNOME theme installer
     (pkgs.writeShellScriptBin "firefox-reset-nixos" ''
       #!/usr/bin/env bash
       set -euo pipefail
-      
+
       echo "🔄 Resetting Firefox to NixOS-managed state..."
-      
+
       # Kill Firefox if running
       pkill firefox || true
       sleep 2
-      
+
       # Remove problematic cache and state files that can cause inconsistencies
       rm -rf ~/.cache/mozilla/firefox/*/safebrowsing/
       rm -rf ~/.cache/mozilla/firefox/*/startupCache/
       rm -rf ~/.cache/mozilla/firefox/*/shader-cache/
-      
+
       # Remove files that Firefox might use to override NixOS settings
       find ~/.mozilla/firefox/albert/ -name "compatibility.ini" -delete 2>/dev/null || true
       find ~/.mozilla/firefox/albert/ -name "times.json" -delete 2>/dev/null || true
       find ~/.mozilla/firefox/albert/ -name "addonStartup.json.lz4" -delete 2>/dev/null || true
-      
+
       # Remove extension state that might conflict with force-installed extensions
       rm -rf ~/.mozilla/firefox/albert/browser-extension-data/ 2>/dev/null || true
       rm -rf ~/.mozilla/firefox/albert/extensions/ 2>/dev/null || true
-      
+
       # Remove search engine overrides
       rm -f ~/.mozilla/firefox/albert/search.json.mozlz4 2>/dev/null || true
-      
+
       echo "✅ Firefox reset complete. Your NixOS settings will be applied on next startup."
       echo "💡 Run 'home-manager switch' to ensure latest configuration is active."
     '')
     (pkgs.writeShellScriptBin "firefox-install-gnome-theme" ''
       #!/usr/bin/env bash
       set -euo pipefail
-      
+
       echo "🎨 Installing Firefox GNOME theme..."
-      
+
       # Kill Firefox if running
       pkill firefox || true
       sleep 2
-      
+
       # Use addwater to install the theme
       ${pkgs.addwater}/bin/addwater -f
-      
+
       echo "✅ Firefox GNOME theme installed successfully!"
       echo "💡 Restart Firefox to see the theme changes."
       echo "📝 Note: The theme requires toolkit.legacyUserProfileCustomizations.stylesheets=true (already configured in NixOS)."
@@ -277,25 +277,25 @@
     (pkgs.writeShellScriptBin "firefox-debug-loading" ''
       #!/usr/bin/env bash
       set -euo pipefail
-      
+
       echo "🔍 Firefox loading issue diagnostics..."
-      
+
       # Check if Firefox is running
       if pgrep firefox > /dev/null; then
         echo "⚠️  Firefox is currently running. Kill it and restart for clean test."
       fi
-      
+
       # Check profile directory
       PROFILE_DIR="$HOME/.mozilla/firefox/albert"
       if [[ -d "$PROFILE_DIR" ]]; then
         echo "✅ Profile directory exists: $PROFILE_DIR"
-        
+
         # Check for problematic settings
         if [[ -f "$PROFILE_DIR/prefs.js" ]]; then
           echo "📋 Checking critical settings in prefs.js..."
           grep -E "(dom\.security\.https_only_mode|network\.|security\.|layers\.acceleration)" "$PROFILE_DIR/prefs.js" | head -10 || echo "No matching prefs found"
         fi
-        
+
         # Check console output
         echo "🔧 Suggested debug steps:"
         echo "1. Open Firefox Developer Tools (F12)"
@@ -303,7 +303,7 @@
         echo "3. Try loading a simple HTTP site first: http://example.com"
         echo "4. Check Network tab to see if requests are being blocked"
         echo "5. Temporarily disable HTTPS-only mode in about:config"
-        
+
       else
         echo "❌ Profile directory not found. Run 'home-manager switch' first."
       fi

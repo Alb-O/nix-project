@@ -1,7 +1,5 @@
 # VSCode configuration with declarative settings management
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.vscode = {
     enable = true;
 
@@ -12,6 +10,13 @@
       enableExtensionUpdateCheck = true;
 
       # Core extensions for development - using only basic, commonly available extensions
+      #
+      # Troubleshooting checklist:
+      # - Always launch VSCode from Nix (e.g., 'nix run nixpkgs#vscode' or from your system packages)
+      # - Ensure the nix-vscode-extensions overlay is first in overlays (see overlays/default.nix)
+      # - If only the last extension is installed, try moving the extensions block or updating Home Manager
+      # - For unfree extensions (Copilot, Claude, etc.), ensure allowUnfree = true in pkgs config
+      # - If extensions still do not appear, try rebooting or clearing VSCode's extension cache
       extensions = with pkgs.vscode-marketplace; [
         # Language support
         ms-python.python
@@ -45,18 +50,18 @@
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
         "terminal.integrated.fontSize" = 14;
 
-				# Editor behavior
-				"editor.lineNumbers" = "on";
-				"editor.renderWhitespace" = "boundary";
-				"editor.tabSize" = 4;                # Set tab width to 4 spaces (for tabs)
-				"editor.insertSpaces" = false;       # Use tabs, not spaces
-				"editor.detectIndentation" = false;  # Do not auto-detect indentation
-				"editor.wordWrap" = "on";
-				"editor.minimap.enabled" = true;
-				"editor.cursorBlinking" = "smooth";
-				"editor.cursorSmoothCaretAnimation" = "on";
-				"editor.smoothScrolling" = true;
-				"editor.formatOnSave" = true;        # Always format on save
+        # Editor behavior
+        "editor.lineNumbers" = "on";
+        "editor.renderWhitespace" = "boundary";
+        "editor.tabSize" = 2;
+        "editor.insertSpaces" = false;
+        "editor.detectIndentation" = false;
+        "editor.wordWrap" = "on";
+        "editor.minimap.enabled" = true;
+        "editor.cursorBlinking" = "smooth";
+        "editor.cursorSmoothCaretAnimation" = "on";
+        "editor.smoothScrolling" = true;
+        "editor.formatOnSave" = true;
 
         # File handling
         "files.autoSave" = "afterDelay";

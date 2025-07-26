@@ -1,12 +1,13 @@
 # Program configurations module
 # Configures various applications and tools
-
-{ config, lib, pkgs, ... }:
-
-let
-  globals = import ../../../lib/globals.nix;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  globals = import ../../../lib/globals.nix;
+in {
   imports = [
     ./kitty.nix
     ./firefox.nix
@@ -17,7 +18,7 @@ in
 
   # Core programs
   programs.home-manager.enable = true;
-  
+
   programs.git = {
     enable = true;
     userName = globals.user.name;
@@ -40,7 +41,7 @@ in
   };
 
   # Ensure .local/bin is in PATH
-  home.sessionPath = [ globals.dirs.localBin ];
+  home.sessionPath = [globals.dirs.localBin];
 
   # Create SillyTavern wrapper script
   home.file.".local/bin/sillytavern-start" = {
@@ -61,7 +62,7 @@ in
       comment = "LLM Frontend for Power Users";
       icon = "applications-games"; # Generic game icon, can be customized
       exec = "${globals.terminal} ${globals.dirs.localBin}/sillytavern-start";
-      categories = [ "Network" "Chat" "Development" ];
+      categories = ["Network" "Chat" "Development"];
       terminal = true;
       type = "Application";
       startupNotify = true;

@@ -1,9 +1,11 @@
 # User services configuration
 # Manages user-level systemd services
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Wallpaper daemon
   systemd.user.services.swww-daemon = {
     Unit = {

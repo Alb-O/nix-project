@@ -6,11 +6,9 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   globals = import ../lib/globals.nix;
-in
-{
+in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
@@ -150,7 +148,7 @@ in
     gemini-cli
     vscode
     sddm-astronaut
-    nautilus  # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
+    nautilus # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
     sops
     age
     ssh-to-age
@@ -168,7 +166,7 @@ in
   sops = {
     defaultSopsFile = ../secrets/example.yaml;
     age.keyFile = "${globals.user.homeDirectory}/.config/sops/age/keys.txt";
-    
+
     secrets = {
       example-password = {};
       database-url = {};
@@ -185,13 +183,13 @@ in
   };
 
   # XDG Desktop Portal Configuration for GTK4 File Pickers
-  # 
+  #
   # Technical Implementation Notes:
   # - xdg-desktop-portal-gtk (1.15.3) is built against GTK3, produces GTK3 file dialogs
   # - xdg-desktop-portal-gnome (48.0) is built against GTK4, uses Nautilus (GTK4) for file operations
   # - GNOME portal delegates FileChooser to Nautilus, which provides native GTK4 dialogs
   # - GTK portal serves as fallback for interfaces GNOME doesn't implement
-  # 
+  #
   # Portal Backend Selection Priority:
   # 1. GNOME portal: GTK4-based file choosers via Nautilus integration
   # 2. GTK portal: GTK3-based fallback for other desktop integration features
@@ -200,15 +198,15 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-gtk      # GTK3-based portal (fallback)
-      pkgs.xdg-desktop-portal-gnome    # GTK4-based portal (primary for file operations)
+      pkgs.xdg-desktop-portal-gtk # GTK3-based portal (fallback)
+      pkgs.xdg-desktop-portal-gnome # GTK4-based portal (primary for file operations)
     ];
     config = {
       # Common configuration for all desktop environments
       common = {
         default = [
-          "gnome"  # Prioritize GNOME portal (GTK4)
-          "gtk"    # Fallback to GTK portal (GTK3)
+          "gnome" # Prioritize GNOME portal (GTK4)
+          "gtk" # Fallback to GTK portal (GTK3)
         ];
         # Force GTK4 file pickers via GNOME portal -> Nautilus delegation
         "org.freedesktop.impl.portal.FileChooser" = [
@@ -219,8 +217,8 @@ in
       # Niri is a newer Wayland compositor that benefits from explicit portal configuration
       niri = {
         default = [
-          "gnome"  # GNOME portal provides GTK4 integration
-          "gtk"    # GTK portal handles remaining interfaces
+          "gnome" # GNOME portal provides GTK4 integration
+          "gtk" # GTK portal handles remaining interfaces
         ];
         # Critical: Use GNOME portal for GTK4 file choosers
         # This ensures modern file dialogs instead of legacy GTK3 versions
@@ -235,7 +233,7 @@ in
           "gtk"
         ];
         # GNOME keyring for secure credential storage
-        "org.freedesktop.impl.portal.Secret" = [  
+        "org.freedesktop.impl.portal.Secret" = [
           "gnome-keyring"
         ];
       };

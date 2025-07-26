@@ -1,9 +1,11 @@
 # Desktop environment configuration
 # Handles themes, fonts, and desktop-wide settings
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Dark theme preferences with UI scaling
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -24,7 +26,7 @@
       name = "JetBrains Mono";
       package = pkgs.nerd-fonts.jetbrains-mono;
     };
-    
+
     # Enable GTK4 features
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
@@ -32,7 +34,7 @@
       gtk-xft-hintstyle = "hintslight";
       gtk-xft-rgba = "rgb";
     };
-    
+
     gtk4.extraConfig = {
       gtk-xft-antialias = 1;
       gtk-xft-hinting = 1;
@@ -40,5 +42,4 @@
       gtk-xft-rgba = "rgb";
     };
   };
-
 }
