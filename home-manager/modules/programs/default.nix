@@ -42,10 +42,11 @@
   # Create SillyTavern wrapper script
   home.file.".local/bin/sillytavern-start" = {
     text = ''
-      #!/bin/bash
+      #!${pkgs.bash}/bin/bash
       export SILLYTAVERN_DATAROOT="$HOME/.local/share/sillytavern"
       mkdir -p "$SILLYTAVERN_DATAROOT"
-      exec ${pkgs.unstable.sillytavern}/opt/sillytavern/start.sh "$@"
+      cd ${pkgs.unstable.sillytavern}/opt/sillytavern
+      exec ${pkgs.nodejs}/bin/node server.js "$@"
     '';
     executable = true;
   };
