@@ -7,7 +7,7 @@
       end
       function fish_prompt
         set_color purple
-        date "+%I:%M:%S %p"
+        date "+%a %b %d %I:%M:%S %p"
         set_color green
         echo (prompt_pwd) (set_color normal)'-> '
       end
