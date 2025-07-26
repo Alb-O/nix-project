@@ -4,7 +4,7 @@
     enable = true;
 
     # Use profiles for declarative configuration
-    profiles.default = {
+    profiles."default" = {
       # Enable automatic updates and extension checks
       enableUpdateCheck = true;
       enableExtensionUpdateCheck = true;
