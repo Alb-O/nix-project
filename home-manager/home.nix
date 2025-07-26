@@ -8,7 +8,7 @@
   config,
   pkgs,
   ...
-} @ args: 
+} @ args:
 
 let
   globals = import ../lib/globals.nix;
