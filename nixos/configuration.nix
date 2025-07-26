@@ -75,7 +75,7 @@ in {
   boot.kernelParams = ["nvidia-drm.modeset=1" "nvidia-drm.fbdev=0"];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     open = false; # Use proprietary driver
     nvidiaSettings = true;
   };
