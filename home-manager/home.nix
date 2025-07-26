@@ -21,6 +21,11 @@ in {
     homeDirectory = globals.user.homeDirectory;
   };
 
+  # Rust development environment
+  home.sessionVariables = {
+    RUST_SRC_PATH = "${pkgs.unstable.rust.packages.stable.rustPlatform.rustLibSrc}";
+  };
+
   # User packages
   home.packages = with pkgs.unstable;
     [
