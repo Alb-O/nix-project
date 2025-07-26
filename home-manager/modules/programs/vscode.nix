@@ -31,12 +31,13 @@
 
         # AI and code assistance
         anthropic.claude-code
-        github.copilot
-        github.copilot-chat
 
         # Icons
         pkief.material-icon-theme
         pkief.material-product-icons
+
+        # Theme
+        ms-vscode.cpptools-themes
       ];
 
       # Declarative settings.json configuration
@@ -62,6 +63,8 @@
         "editor.cursorSmoothCaretAnimation" = "on";
         "editor.smoothScrolling" = true;
         "editor.formatOnSave" = true;
+        "editor.formatOnPaste" = true;
+        "editor.autoIndentOnPaste" = true;
 
         # File handling
         "files.autoSave" = "afterDelay";
@@ -103,6 +106,7 @@
         "telemetry.telemetryLevel" = "off";
         "update.mode" = "none";
         "extensions.autoUpdate" = true;
+
       };
 
       # Custom keybindings
