@@ -5,7 +5,7 @@
     enable = true;
     interactiveShellInit = ''
       function fish_greeting
-          fastfetch
+          ufetch
       end
       function fish_prompt
         set_color purple
