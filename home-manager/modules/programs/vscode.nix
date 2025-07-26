@@ -43,19 +43,20 @@
 
         # Terminal font configuration
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
-        "terminal.integrated.fontSize" = 13;
+        "terminal.integrated.fontSize" = 14;
 
-        # Editor behavior
-        "editor.lineNumbers" = "on";
-        "editor.renderWhitespace" = "boundary";
-        "editor.tabSize" = 2;
-        "editor.insertSpaces" = true;
-        "editor.detectIndentation" = true;
-        "editor.wordWrap" = "on";
-        "editor.minimap.enabled" = true;
-        "editor.cursorBlinking" = "smooth";
-        "editor.cursorSmoothCaretAnimation" = "on";
-        "editor.smoothScrolling" = true;
+				# Editor behavior
+				"editor.lineNumbers" = "on";
+				"editor.renderWhitespace" = "boundary";
+				"editor.tabSize" = 4;                # Set tab width to 4 spaces (for tabs)
+				"editor.insertSpaces" = false;       # Use tabs, not spaces
+				"editor.detectIndentation" = false;  # Do not auto-detect indentation
+				"editor.wordWrap" = "on";
+				"editor.minimap.enabled" = true;
+				"editor.cursorBlinking" = "smooth";
+				"editor.cursorSmoothCaretAnimation" = "on";
+				"editor.smoothScrolling" = true;
+				"editor.formatOnSave" = true;        # Always format on save
 
         # File handling
         "files.autoSave" = "afterDelay";
