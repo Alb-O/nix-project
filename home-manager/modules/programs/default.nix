@@ -36,13 +36,27 @@
     enable = true;
   };
 
+  # Ensure .local/bin is in PATH
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
+  # Create SillyTavern wrapper script
+  home.file.".local/bin/sillytavern-start" = {
+    text = ''
+      #!/bin/bash
+      export SILLYTAVERN_DATAROOT="$HOME/.local/share/sillytavern"
+      mkdir -p "$SILLYTAVERN_DATAROOT"
+      exec ${pkgs.sillytavern}/opt/sillytavern/start.sh "$@"
+    '';
+    executable = true;
+  };
+
   # Desktop application entries
   xdg.desktopEntries = {
     sillytavern = {
       name = "SillyTavern";
       comment = "LLM Frontend for Power Users";
       icon = "applications-games"; # Generic game icon, can be customized
-      exec = "sillytavern --configPath ${config.home.homeDirectory}/.config/nix-config/configs/sillytavern/config.yaml";
+      exec = "${config.home.homeDirectory}/.local/bin/sillytavern-start";
       categories = [ "Network" "Chat" "Development" ];
       terminal = false;
       type = "Application";
