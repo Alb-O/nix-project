@@ -8,7 +8,12 @@
   config,
   pkgs,
   ...
-} @ args: {
+} @ args: 
+
+let
+  globals = import ../lib/globals.nix;
+in
+{
   # Import modular configuration
   imports = [
     # Custom modules
@@ -23,8 +28,8 @@
 
   # Basic user information
   home = {
-    username = "albert";
-    homeDirectory = "/home/albert";
+    username = globals.user.username;
+    homeDirectory = globals.user.homeDirectory;
   };
 
   # User packages
@@ -42,5 +47,5 @@
 
   # State version - don't change this
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "25.05";
+  home.stateVersion = globals.system.stateVersion;
 }

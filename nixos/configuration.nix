@@ -7,7 +7,12 @@
   config,
   pkgs,
   ...
-}: {
+}:
+
+let
+  globals = import ../lib/globals.nix;
+in
+{
   # You can import other NixOS modules here
   imports = [
     # Enable home-manager
@@ -126,13 +131,13 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Set your system hostname
-  networking.hostName = "gtx1080shitbox";
+  networking.hostName = globals.system.hostname;
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
-    albert = {
+    ${globals.user.username} = {
       isNormalUser = true;
-      description = "Albert O'Shea";
+      description = globals.user.name;
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
@@ -168,16 +173,16 @@
 
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = ["albert"];
+    polkitPolicyOwners = [globals.user.username];
   };
 
   programs._1password.enable = true;
-  programs.niri.enable = true;
+  programs.${globals.windowManager}.enable = true;
 
   # sops-nix configuration
   sops = {
     defaultSopsFile = ../secrets/example.yaml;
-    age.keyFile = "/home/albert/.config/sops/age/keys.txt";
+    age.keyFile = "${globals.user.homeDirectory}/.config/sops/age/keys.txt";
     
     secrets = {
       example-password = {};
@@ -186,10 +191,10 @@
     };
   };
 
-  services.displayManager.sddm = {
+  services.displayManager.${globals.displayManager} = {
     enable = true;
     wayland.enable = true;
-    package = pkgs.kdePackages.sddm;
+    package = pkgs.kdePackages.${globals.displayManager};
     extraPackages = with pkgs; [sddm-astronaut];
     theme = "sddm-astronaut-theme";
   };
@@ -266,9 +271,9 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "nixbackup";
-    users.albert = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
+    users.${globals.user.username} = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "25.05";
+  system.stateVersion = globals.system.stateVersion;
 }
