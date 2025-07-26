@@ -20,18 +20,24 @@ cleanup() {
     if [[ $exit_code -ne 0 ]]; then
         echo -e "${RED}Build failed. Attempting recovery...${NC}" >&2
         
-        # Restore stash if we created one
+        # Return to original branch first if needed
+        local current_branch
+        current_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')"
+        if [[ -n "$ORIGINAL_BRANCH" && "$ORIGINAL_BRANCH" != "$current_branch" ]]; then
+            echo -e "${YELLOW}Returning to original branch: $ORIGINAL_BRANCH${NC}" >&2
+            git checkout "$ORIGINAL_BRANCH" 2>/dev/null || true
+        fi
+        
+        # Restore stash if we created one (now on correct branch)
         if [[ "$STASH_CREATED" == "true" && -n "$STASH_NAME" ]]; then
             echo -e "${YELLOW}Restoring stashed changes...${NC}" >&2
             if git stash list | grep -q "$STASH_NAME"; then
-                git stash pop "stash@{$(git stash list | grep -n "$STASH_NAME" | cut -d: -f1 | head -1)}"
+                local stash_num
+                stash_num=$(git stash list | grep -n "$STASH_NAME" | cut -d: -f1 | head -1)
+                if [[ -n "$stash_num" ]]; then
+                    git stash pop "stash@{$((stash_num-1))}" 2>/dev/null || true
+                fi
             fi
-        fi
-        
-        # Return to original branch if possible
-        if [[ -n "$ORIGINAL_BRANCH" && "$ORIGINAL_BRANCH" != "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')" ]]; then
-            echo -e "${YELLOW}Returning to original branch: $ORIGINAL_BRANCH${NC}" >&2
-            git checkout "$ORIGINAL_BRANCH" 2>/dev/null || true
         fi
     fi
 }
@@ -108,30 +114,40 @@ if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
     
     git checkout building
     TARGET_BRANCH="building"
+    
+    # Restore stashed changes from main to building branch
+    if [[ "$STASH_CREATED" == "true" ]]; then
+        log "Restoring stashed changes from main to building branch"
+        git stash pop
+        STASH_CREATED=false
+    fi
 elif [[ "$ORIGINAL_BRANCH" == "deployed" ]]; then
     log "On deployed branch, rebuilding in place"
     TARGET_BRANCH="deployed"
-else
-    log "On building branch, rebuilding in place"
-    TARGET_BRANCH="building"
-fi
-
-# Step 4: Create checkpoint commit (except when coming from main)
-if [[ "$ORIGINAL_BRANCH" != "main" ]]; then
+    
     # Restore stash for checkpoint if we created one
     if [[ "$STASH_CREATED" == "true" ]]; then
         log "Restoring changes for checkpoint commit"
         git stash pop
         STASH_CREATED=false
     fi
+else
+    log "On building branch, rebuilding in place"
+    TARGET_BRANCH="building"
     
-    if ! git diff-index --quiet HEAD --; then
-        git add -A
-        if git commit -m "auto: checkpoint before build $(date -Iseconds)"; then
-            success "Created checkpoint commit"
-        fi
-    else
-        log "No changes to checkpoint"
+    # Restore stash for checkpoint if we created one
+    if [[ "$STASH_CREATED" == "true" ]]; then
+        log "Restoring changes for checkpoint commit"
+        git stash pop
+        STASH_CREATED=false
+    fi
+fi
+
+# Step 4: Create checkpoint commit (for non-main branches only)
+if [[ "$ORIGINAL_BRANCH" != "main" ]] && ! git diff-index --quiet HEAD --; then
+    git add -A
+    if git commit -m "auto: checkpoint before build $(date -Iseconds)"; then
+        success "Created checkpoint commit"
     fi
 fi
 
