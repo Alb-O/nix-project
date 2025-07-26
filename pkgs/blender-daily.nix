@@ -73,6 +73,7 @@ writeShellScriptBin "blender-daily" ''
     pkgs.xorg.libXt
     pkgs.xorg.libSM
     pkgs.xorg.libICE
+    pkgs.libdecor
     pkgs.libGL
     pkgs.libGLU
     pkgs.libxkbcommon
