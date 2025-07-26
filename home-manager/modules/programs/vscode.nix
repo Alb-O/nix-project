@@ -3,6 +3,8 @@
   # Wrap VSCode to always use Wayland platform
   vscode-wayland = pkgs.symlinkJoin {
     name = "vscode-wayland";
+    pname = pkgs.vscode.pname;
+    version = pkgs.vscode.version;
     paths = [ pkgs.vscode ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
