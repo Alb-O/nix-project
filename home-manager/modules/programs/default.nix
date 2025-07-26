@@ -12,6 +12,7 @@ in
     ./firefox.nix
     ./niri.nix
     ./fish.nix
+    ./vscode.nix
   ];
 
   # Core programs
