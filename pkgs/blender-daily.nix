@@ -84,6 +84,7 @@ writeShellScriptBin "blender-daily" ''
     pkgs.stdenv.cc.cc.lib
     pkgs.fontconfig
     pkgs.dbus
+    pkgs.wayland
   ]}:$BUILD_DIR/lib"
 
   # Patch main Blender binary
@@ -109,8 +110,18 @@ writeShellScriptBin "blender-daily" ''
 
   # Run if no arguments given, otherwise just setup
   if [[ $# -eq 0 ]]; then
+    # Set up display environment for Wayland/X11
+    export QT_QPA_PLATFORM=wayland
+    export GDK_BACKEND=wayland
+    export SDL_VIDEODRIVER=wayland
+    export WAYLAND_DISPLAY=''${WAYLAND_DISPLAY:-wayland-1}
     exec "$CURRENT_LINK/blender"
   else
+    # Set up display environment for Wayland/X11
+    export QT_QPA_PLATFORM=wayland
+    export GDK_BACKEND=wayland
+    export SDL_VIDEODRIVER=wayland
+    export WAYLAND_DISPLAY=''${WAYLAND_DISPLAY:-wayland-1}
     exec "$CURRENT_LINK/blender" "$@"
   fi
 ''
