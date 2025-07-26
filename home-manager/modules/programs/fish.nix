@@ -1,0 +1,22 @@
+{ pkgs, ... }:
+
+{
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      function fish_greeting
+          fastfetch
+      end
+      function fish_prompt
+        set_color purple
+        date "+%c"
+        set_color green
+        echo (prompt_pwd) (set_color normal)'-> '
+      end
+      function fish_right_prompt
+        set_color blue
+        fish_git_prompt
+      end
+    '';
+  };
+}
