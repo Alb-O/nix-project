@@ -22,6 +22,7 @@
         ms-python.python
         rust-lang.rust-analyzer
         jnoortheen.nix-ide
+        tamasfe.even-better-toml
 
         # Git integration
         eamodio.gitlens
