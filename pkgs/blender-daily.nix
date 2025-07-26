@@ -21,17 +21,17 @@ writeShellScriptBin "blender-daily" ''
   # Fetch latest daily build from Blender API (JSON endpoint)
   echo "Fetching latest Blender daily build from API..."
   API_URL="https://builder.blender.org/download/daily/?format=json&v=1"
-  
+
   # Get architecture (x86_64 for most Linux systems)
   ARCH="x86_64"
-  
+
   echo "Querying API: $API_URL"
   LATEST_URL=$(${curl}/bin/curl -s "$API_URL" | \
     ${jq}/bin/jq -r --arg arch "$ARCH" '
       [.[] | select(.platform == "linux" and .architecture == $arch and (.file_name | test("tar\\.xz$")) and (.file_name | test("sha256") | not))] |
       sort_by(.file_mtime) | reverse | .[0].url // empty
     ')
-  
+
   echo "Found URL: $LATEST_URL"
 
   # Extract version/build info from URL
@@ -52,7 +52,7 @@ writeShellScriptBin "blender-daily" ''
     echo "Extracting to $BUILD_DIR..."
     mkdir -p "$BUILD_DIR"
     ${pkgs.gnutar}/bin/tar -xf "$TEMP_FILE" -C "$BUILD_DIR" --strip-components=1
-    
+
     # Cleanup
     rm -f "$TEMP_FILE"
   fi
@@ -75,6 +75,7 @@ writeShellScriptBin "blender-daily" ''
     pkgs.xorg.libICE
     pkgs.libGL
     pkgs.libGLU
+    pkgs.libxkbcommon
     pkgs.freetype
     pkgs.zlib
     pkgs.glib
@@ -84,20 +85,20 @@ writeShellScriptBin "blender-daily" ''
     pkgs.fontconfig
     pkgs.dbus
   ]}:$BUILD_DIR/lib"
-  
+
   # Patch main Blender binary
   if [[ -f "$BUILD_DIR/blender" ]]; then
     ${pkgs.patchelf}/bin/patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 "$BUILD_DIR/blender"
     ${pkgs.patchelf}/bin/patchelf --set-rpath "$LIBRARY_PATH" "$BUILD_DIR/blender"
     echo "Main Blender binary patched"
   fi
-  
+
   # Patch all shared libraries
   echo "Patching shared libraries..."
   find "$BUILD_DIR" -name "*.so*" -type f | while read -r lib; do
     ${pkgs.patchelf}/bin/patchelf --set-rpath "$LIBRARY_PATH" "$lib" 2>/dev/null || true
   done
-  
+
   echo "Blender binaries patched successfully"
 
   # Update current symlink
