@@ -3,31 +3,32 @@
 
 set -euo pipefail
 
-# Function to sync CLAUDE.md to copilot-instructions.md
-sync_claude_md() {
-    local claude_file="CLAUDE.md"
-    local copilot_file=".github/copilot-instructions.md"
-    
-    # Check if CLAUDE.md is being committed
-    if git diff --cached --name-only | grep -q "^CLAUDE\.md$"; then
-        echo "CLAUDE.md changes detected, syncing to copilot-instructions.md..."
+# Function to create symbolic links for agent documentation
+setup_agent_docs() {
+    # Check if AGENTS.md is being committed
+    if git diff --cached --name-only | grep -q "^AGENTS\.md$"; then
+        echo "AGENTS.md changes detected, updating symbolic links..."
         
-        if [[ -f "$claude_file" ]]; then
-            # Copy CLAUDE.md content to copilot-instructions.md
-            cp "$claude_file" "$copilot_file"
+        if [[ -f "AGENTS.md" ]]; then
+            # Remove existing files if they exist
+            rm -f "CLAUDE.md" ".github/copilot-instructions.md"
             
-            # Add the updated copilot-instructions.md to this commit
-            git add "$copilot_file"
+            # Create symbolic links
+            ln -sf "AGENTS.md" "CLAUDE.md"
+            ln -sf "../AGENTS.md" ".github/copilot-instructions.md"
             
-            echo "Synced CLAUDE.md to .github/copilot-instructions.md and added to commit"
+            # Add the symbolic links to this commit
+            git add "CLAUDE.md" ".github/copilot-instructions.md"
+            
+            echo "Created symbolic links: CLAUDE.md and .github/copilot-instructions.md -> AGENTS.md"
         else
-            echo "Warning: CLAUDE.md not found"
+            echo "Warning: AGENTS.md not found"
         fi
     fi
 }
 
-# Sync CLAUDE.md to copilot-instructions.md if needed
-sync_claude_md
+# Setup agent documentation links if needed
+setup_agent_docs
 
 # Only run script sync setup if we're committing script changes
 if git diff --cached --name-only | grep -q "^scripts/"; then
