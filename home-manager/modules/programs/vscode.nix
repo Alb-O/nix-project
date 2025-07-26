@@ -3,46 +3,33 @@
   programs.vscode = {
     enable = true;
 
-    # Use profiles for declarative configuration
-    profiles."default" = {
-      # Enable automatic updates and extension checks
-      enableUpdateCheck = true;
-      enableExtensionUpdateCheck = true;
+    # Declarative extension management - prevents extension conflicts
+    extensions = with pkgs.vscode-marketplace; [
+      # Language support
+      ms-python.python
+      rust-lang.rust-analyzer
+      jnoortheen.nix-ide
+      tamasfe.even-better-toml
 
-      # Core extensions for development - using only basic, commonly available extensions
-      #
-      # Troubleshooting checklist:
-      # - Always launch VSCode from Nix (e.g., 'nix run nixpkgs#vscode' or from your system packages)
-      # - Ensure the nix-vscode-extensions overlay is first in overlays (see overlays/default.nix)
-      # - If only the last extension is installed, try moving the extensions block or updating Home Manager
-      # - For unfree extensions (Copilot, Claude, etc.), ensure allowUnfree = true in pkgs config
-      # - If extensions still do not appear, try rebooting or clearing VSCode's extension cache
-      extensions = with pkgs.vscode-marketplace; [
-        # Language support
-        ms-python.python
-        rust-lang.rust-analyzer
-        jnoortheen.nix-ide
-        tamasfe.even-better-toml
+      # Git integration
+      eamodio.gitlens
 
-        # Git integration
-        eamodio.gitlens
+      # Productivity and diagnostics
+      usernamehw.errorlens
 
-        # Productivity and diagnostics
-        usernamehw.errorlens
+      # AI and code assistance
+      anthropic.claude-code
 
-        # AI and code assistance
-        anthropic.claude-code
+      # Icons
+      pkief.material-icon-theme
+      pkief.material-product-icons
 
-        # Icons
-        pkief.material-icon-theme
-        pkief.material-product-icons
+      # Theme
+      ms-vscode.cpptools-themes
+    ];
 
-        # Theme
-        ms-vscode.cpptools-themes
-      ];
-
-      # Declarative settings.json configuration
-      userSettings = {
+    # Declarative settings.json configuration
+    userSettings = {
         # Font configuration - JetBrains Mono Nerd Font
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace'";
         "editor.fontSize" = 15;
@@ -107,15 +94,16 @@
         # Extension settings
         "errorLens.enabledDiagnosticLevels" = ["error" "warning" "info"];
 
-        # Telemetry
+        # Telemetry and updates - disable to prevent conflicts with Nix management
         "telemetry.telemetryLevel" = "off";
         "update.mode" = "none";
-        "extensions.autoUpdate" = true;
+        "extensions.autoUpdate" = false;
+        "extensions.autoCheckUpdates" = false;
 
       };
 
-      # Custom keybindings
-      keybindings = [
+    # Custom keybindings
+    keybindings = [
         {
           key = "ctrl+shift+p";
           command = "workbench.action.showCommands";
@@ -125,6 +113,5 @@
           command = "workbench.action.terminal.toggleTerminal";
         }
       ];
-    };
   };
 }
