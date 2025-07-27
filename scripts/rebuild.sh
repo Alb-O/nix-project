@@ -114,14 +114,17 @@ TARGET_BRANCH="building"
 if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
     log "On main branch, switching to building for rebuild"
     
-    # Ensure building branch exists and is up to date with main
-    if git show-ref --verify --quiet "refs/heads/building"; then
-        git branch -f building main
-    else
+    # Ensure building branch exists
+    if ! git show-ref --verify --quiet "refs/heads/building"; then
+        log "Creating building branch from main"
         git branch building main
     fi
     
     git checkout building
+    
+    # Merge latest main changes into building
+    log "Merging main into building to get latest changes"
+    git merge main --no-edit
     
     # Restore stashed changes from main to building branch
     if [[ "$STASH_CREATED" == "true" ]]; then
@@ -132,9 +135,17 @@ if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
 elif [[ "$ORIGINAL_BRANCH" == "deployed" ]]; then
     log "On deployed branch, switching to building for rebuild"
     
-    # Create building branch from deployed
-    git branch -f building deployed
+    # Ensure building branch exists
+    if ! git show-ref --verify --quiet "refs/heads/building"; then
+        log "Creating building branch from deployed"
+        git branch building deployed
+    fi
+    
     git checkout building
+    
+    # Merge latest deployed changes into building
+    log "Merging deployed into building to get latest changes"
+    git merge deployed --no-edit
     
     # Restore stash for rebuild if we created one
     if [[ "$STASH_CREATED" == "true" ]]; then
