@@ -1,9 +1,6 @@
 # Program configurations module
 # Configures various applications and tools
 {
-  config,
-  lib,
-  pkgs,
   ...
 }: let
   globals = import ../../../lib/globals.nix;
