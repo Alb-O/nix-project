@@ -2,8 +2,6 @@
 # Declarative configuration using niri-flake's programs.niri.settings
 {
   config,
-  lib,
-  pkgs,
   ...
 }: {
   programs.niri = {
@@ -70,7 +68,7 @@
       layout = {
         gaps = 16;
         center-focused-column = "never";
-        
+
         preset-column-widths = [
           { proportion = 0.33333; }
           { proportion = 0.5; }
@@ -130,8 +128,8 @@
 
         # Firefox picture-in-picture
         {
-          matches = [{ 
-            app-id = "firefox$"; 
+          matches = [{
+            app-id = "firefox$";
             title = "^Picture-in-Picture$";
           }];
           open-floating = true;
@@ -314,10 +312,10 @@
         # Column display mode
         "Mod+W".action = toggle-column-tabbed-display;
 
-        # Screenshots - TODO: fix action names
-        # "Print".action = screenshot;
-        # "Ctrl+Print".action = screenshot_screen;
-        # "Alt+Print".action = screenshot_window;
+        # Screenshots
+        "Print".action.screenshot = { };
+        "Shift+Print".action.screenshot-screen = { };
+        "Alt+Print".action.screenshot-window = { };
 
         # System controls
         "Mod+Escape" = {
