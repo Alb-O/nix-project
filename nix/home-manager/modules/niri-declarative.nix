@@ -86,7 +86,7 @@
         };
 
         border = {
-          off = true;
+          enable = false;
           width = 4;
           active.color = "#ffc87f";
           inactive.color = "#505050";
