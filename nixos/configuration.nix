@@ -182,50 +182,13 @@ in {
   # 2. GTK portal: GTK3-based fallback for other desktop integration features
   #
   # Dependencies: Requires nautilus package for GNOME portal file chooser delegation
+  # Simplified portal configuration using only GTK portal for reliability
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk # GTK3-based portal (fallback)
-      xdg-desktop-portal-gnome # GTK4-based portal (primary for file operations)
+      xdg-desktop-portal-gtk # Stable GTK portal for all functionality
     ];
-    config = {
-      # Common configuration for all desktop environments
-      common = {
-        default = [
-          "gnome" # Prioritize GNOME portal (GTK4)
-          "gtk" # Fallback to GTK portal (GTK3)
-        ];
-        # Force GTK4 file pickers via GNOME portal -> Nautilus delegation
-        "org.freedesktop.impl.portal.FileChooser" = [
-          "gnome"
-        ];
-      };
-      # Niri compositor specific configuration
-      # Niri is a newer Wayland compositor that benefits from explicit portal configuration
-      niri = {
-        default = [
-          "gnome" # GNOME portal provides GTK4 integration
-          "gtk" # GTK portal handles remaining interfaces
-        ];
-        # Use GNOME portal for GTK4 file choosers
-        "org.freedesktop.impl.portal.FileChooser" = [
-          "gnome"
-        ];
-        # GTK portal handles these interfaces well on Wayland
-        "org.freedesktop.impl.portal.Access" = [
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Notification" = [
-          "gtk"
-        ];
-        # GNOME keyring for secure credential storage
-        "org.freedesktop.impl.portal.Secret" = [
-          "gnome"
-        ];
-      };
-    };
-    # Enable portal integration for xdg-open commands
-    # This ensures file operations use portal-based file choosers
+    config.common.default = "gtk";
     xdgOpenUsePortal = true;
   };
 
