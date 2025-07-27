@@ -105,7 +105,7 @@
 
       # Startup programs
       spawn-at-startup = [
-        "waybar"
+        { command = ["waybar"]; }
       ];
 
       # Client-side decorations preference
