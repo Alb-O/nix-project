@@ -182,15 +182,24 @@ in {
   # 2. GTK portal: GTK3-based fallback for other desktop integration features
   #
   # Dependencies: Requires nautilus package for GNOME portal file chooser delegation
-  # Simplified portal configuration using only GTK portal for reliability
+  # Portal configuration following Niri wiki recommendations
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk # Stable GTK portal for all functionality
+      xdg-desktop-portal-gtk # Required fallback portal
+      xdg-desktop-portal-gnome # Required for screencasting and file choosers
     ];
     config = {
       common = {
         default = ["gtk"];
+        "org.freedesktop.impl.portal.Screencast" = ["gnome"];
+        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+      };
+      niri = {
+        default = ["gtk"];
+        "org.freedesktop.impl.portal.FileChooser" = ["gnome"];
+        "org.freedesktop.impl.portal.Screencast" = ["gnome"];
+        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
       };
     };
     xdgOpenUsePortal = true;
