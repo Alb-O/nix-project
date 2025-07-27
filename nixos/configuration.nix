@@ -137,6 +137,10 @@ in {
     gemini-cli
     sddm-astronaut
     nautilus # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
+    tracker # Tracker3 file indexing service
+    tracker-miners # File content miners for Tracker3
+    adwaita-icon-theme # Complete Adwaita theme with GTK4 support
+    gnome-themes-extra # Additional GNOME themes including Adwaita-dark
     sops
     age
     ssh-to-age
@@ -227,6 +231,13 @@ in {
   # Explicitly use dbus-broker as the system bus implementation
   services.dbus.implementation = "broker";
   services.dbus.packages = [ pkgs.dbus ];
+
+  # Tracker3 file indexing service
+  services.tracker3.enable = true;
+
+  # GVFS for network mounting and virtual filesystems
+  services.gvfs.enable = true;
+
 
   fonts.packages = with pkgs; [
     noto-fonts

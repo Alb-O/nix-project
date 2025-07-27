@@ -20,11 +20,18 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
     font = {
       name = "JetBrains Mono";
       package = pkgs.nerd-fonts.jetbrains-mono;
     };
 
+    # GTK bookmarks file
+    gtk3.bookmarks = [];
+    
     # Enable GTK4 features
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
