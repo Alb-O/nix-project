@@ -3,7 +3,10 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  colorscheme = import ../../lib/colorscheme.nix;
+in
+{
   # Include swww package in user environment
   home.packages = [pkgs.swww];
 
@@ -15,7 +18,7 @@
     };
     Service = {
       ExecStart = "${lib.getExe pkgs.swww}-daemon";
-      ExecStartPost = "${lib.getExe pkgs.swww} clear '#3b224c'";
+      ExecStartPost = "${lib.getExe pkgs.swww} clear ${colorscheme.ui.background}";
       Restart = "on-failure";
     };
     Install = {

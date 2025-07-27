@@ -22,25 +22,6 @@ terminal = "kitty";
 sops.defaultSopsFile = ../secrets/example.yaml;
 ```
 
-## Architecture
-
-### Structure
-- `lib/globals.nix` - System-wide application definitions
-- `nixos/` - System configuration
-- `home-manager/` - User environment, modular
-- `scripts/` - Build automation
-- `secrets/` - sops-nix encrypted files
-
-### Global Variables
-```nix
-# Import in any config file
-let globals = import ../lib/globals.nix; in
-{
-  programs.${globals.shell}.enable = true;
-  networking.hostName = globals.system.hostname;
-}
-```
-
 ## Build Commands
 
 ```bash
@@ -58,7 +39,7 @@ sudo nixos-rebuild switch --flake .#gtx1080shitbox
 
 ## Three-Branch Workflow
 - `main` - stable config for development
-- `building` - test builds 
+- `building` - test builds
 - `deployed` - active system
 
 Script behavior:
@@ -91,13 +72,6 @@ sops = {
 # Access in config
 systemd.services.myservice.script = "$(cat ${config.sops.secrets.example-password.path})";
 ```
-
-## Development
-
-### Workflow
-1. Edit on `main` branch
-2. `./scripts/rebuild.sh hostname` - handles branching, testing, deployment
-3. Use global variables for system-wide changes
 
 ## Available Tools
 

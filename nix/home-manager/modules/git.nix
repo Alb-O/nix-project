@@ -22,7 +22,7 @@ in
       };
 
       user = {
-        signingKey = "...";
+        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOowbFxL8PwbgqUDYz0QNFpTwraXoMsrQjA8+9Jn/2vH";
       };
     };
   };
