@@ -20,7 +20,7 @@ in {
 
     configFile = mkOption {
       type = types.path;
-      default = ../../../configs/niri/config.kdl;
+      default = ../../configs/niri/config.kdl;
       description = "Path to the niri configuration file.";
     };
 
