@@ -34,7 +34,7 @@ in {
       usernamehw.errorlens
 
       # Secrets
-      ${"1password"}.op-vscode
+      pkgs.vscode-marketplace."1password".op-vscode
 
       # AI and code assistance
       anthropic.claude-code
