@@ -15,7 +15,7 @@
 in {
   # 1Password CLI tool for user environment
   home.packages = [
-    pkgs._1password
+    pkgs._1password-cli
     _1password-gui-wayland
   ];
 

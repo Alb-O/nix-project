@@ -4,7 +4,7 @@
   globals = import ../../lib/globals.nix;
 in {
   # 1Password CLI and GUI with polkit integration
-  programs._1password = {
+  programs._1password-cli = {
     enable = true;
   };
 
