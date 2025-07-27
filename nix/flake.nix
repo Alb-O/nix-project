@@ -21,6 +21,9 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    
+    # Niri flake for advanced configuration
+    niri-flake.url = "github:sodiboo/niri-flake";
   };
 
   outputs = {
@@ -29,6 +32,7 @@
     home-manager,
     sops-nix,
     nix-vscode-extensions,
+    niri-flake,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -86,6 +90,7 @@
           # > Our main home-manager configuration file <
           ./home-manager/home.nix
           sops-nix.homeManagerModules.sops
+          niri-flake.homeModules.config
         ];
       };
     };
