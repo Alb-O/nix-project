@@ -1,6 +1,5 @@
 # GNOME Keyring configuration without desktop dependencies
 {
-  config,
   pkgs,
   ...
 }: {

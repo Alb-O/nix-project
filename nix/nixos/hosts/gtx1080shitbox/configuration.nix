@@ -12,12 +12,12 @@ in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
-    ./modules
+    ../../modules
   ];
 
   nixpkgs = {
     # You can add overlays here
-    overlays = import ../overlays {inherit inputs;};
+    overlays = import ../../../overlays {inherit inputs;};
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
@@ -151,7 +151,7 @@ in {
 
   # sops-nix configuration
   sops = {
-    defaultSopsFile = ../../secrets/example.yaml;
+    defaultSopsFile = ../../../../secrets/example.yaml;
     age.keyFile = "${globals.user.homeDirectory}/.config/sops/age/keys.txt";
 
     secrets = {
@@ -232,7 +232,7 @@ in {
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "nixbackup";
-    users.${globals.user.username} = import ../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
+    users.${globals.user.username} = import ../../../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

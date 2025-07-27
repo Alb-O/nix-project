@@ -21,7 +21,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    
+
     # Niri flake for advanced configuration
     niri-flake.url = "github:sodiboo/niri-flake";
   };
@@ -58,10 +58,10 @@
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
-    nixosModules = import ./modules/nixos;
+    nixosModules = import ./nixos/modules;
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/home-manager;
+    homeManagerModules = import ./home-manager/modules;
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -70,7 +70,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
-          ./nixos/configuration.nix
+          ./nixos/hosts/gtx1080shitbox/configuration.nix
           sops-nix.nixosModules.sops
         ];
       };
