@@ -33,6 +33,9 @@ in {
       # Productivity and diagnostics
       usernamehw.errorlens
 
+      # Secrets
+      _1password.op-vscode
+
       # AI and code assistance
       anthropic.claude-code
 
