@@ -73,6 +73,9 @@ in {
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # udev rules for GNOME portal hardware integration
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+
   # Set your time zone.
   time.timeZone = "Australia/Hobart";
 
@@ -96,6 +99,9 @@ in {
 
   # No sudo password for wheel users
   security.sudo.wheelNeedsPassword = false;
+
+  # dconf - required for GNOME portal GSettings access
+  programs.dconf.enable = true;
 
   # Set your system hostname
   networking.hostName = globals.system.hostname;
