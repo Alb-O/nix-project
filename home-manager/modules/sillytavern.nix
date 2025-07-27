@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  globals = import ../../../lib/globals.nix;
+  globals = import ../../lib/globals.nix;
 in {
   # Package installation
   home.packages = with pkgs.unstable; [

@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  colorscheme = import ../../../lib/colorscheme.nix;
+  colorscheme = import ../../lib/colorscheme.nix;
   # Helper to add alpha to hex color (e.g. "#3b224c" + "dd" -> "3b224cdd")
   hexNoHash = hex: builtins.replaceStrings ["#"] [""] hex;
   withAlpha = hex: alpha: hexNoHash hex + alpha;
