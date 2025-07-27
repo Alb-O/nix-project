@@ -18,7 +18,7 @@
     enable = true;
     theme = {
       name = "Adwaita-dark";
-      package = pkgs.adwaita-icon-theme;
+      package = pkgs.libadwaita;
     };
     iconTheme = {
       name = "Adwaita";
