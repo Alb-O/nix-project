@@ -34,7 +34,7 @@ in {
       usernamehw.errorlens
 
       # Secrets
-      1password.op-vscode
+      onepassword.op-vscode
 
       # AI and code assistance
       anthropic.claude-code
