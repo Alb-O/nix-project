@@ -184,9 +184,9 @@ in {
   # Dependencies: Requires nautilus package for GNOME portal file chooser delegation
   xdg.portal = {
     enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk # GTK3-based portal (fallback)
-      pkgs.xdg-desktop-portal-gnome # GTK4-based portal (primary for file operations)
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk # GTK3-based portal (fallback)
+      xdg-desktop-portal-gnome # GTK4-based portal (primary for file operations)
     ];
     config = {
       # Common configuration for all desktop environments
@@ -220,7 +220,7 @@ in {
         ];
         # GNOME keyring for secure credential storage
         "org.freedesktop.impl.portal.Secret" = [
-          "gnome-keyring"
+          "gnome"
         ];
       };
     };
@@ -236,8 +236,14 @@ in {
   # GVFS for network mounting and virtual filesystems
   services.gvfs.enable = true;
 
-  # Use default dbus implementation for compatibility with NetworkManager
-  services.dbus.enable = true;
+  # Essential GNOME services for GTK4 applications outside GNOME desktop
+  services.dbus.packages = with pkgs; [
+    gcr # GNOME crypto services for keyring integration
+    gnome.gnome-settings-daemon # Essential GNOME services for GTK apps
+  ];
+
+  # GNOME keyring for credential storage
+  services.gnome.gnome-keyring.enable = true;
 
   fonts.packages = with pkgs; [
     noto-fonts

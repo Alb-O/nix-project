@@ -8,6 +8,10 @@
 				"github:utensils/mcp-nixos",
 				"--"
 			]
+		},
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/"
 		}
 	},
 	"inputs": []
