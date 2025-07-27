@@ -12,7 +12,7 @@ in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
-    # Add module imports as needed
+    ./modules
   ];
 
   nixpkgs = {
@@ -136,12 +136,6 @@ in {
     ssh-to-age
   ];
 
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [globals.user.username];
-  };
-
-  programs._1password.enable = true;
   programs.${globals.windowManager}.enable = true;
 
   # sops-nix configuration

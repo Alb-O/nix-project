@@ -11,8 +11,9 @@ in {
     ./niri.nix
     ./fish.nix
     ./vscode.nix
-		./fuzzel.nix
+    ./fuzzel.nix
     ./sillytavern.nix
+    ./1password.nix
   ];
 
   # Core programs
