@@ -1,11 +1,13 @@
-# User services configuration
-# Manages user-level systemd services
+# swww wallpaper daemon configuration
 {
   lib,
   pkgs,
   ...
 }: {
-  # Wallpaper daemon
+  # Include swww package in user environment
+  home.packages = [pkgs.swww];
+
+  # swww daemon service
   systemd.user.services.swww-daemon = {
     Unit = {
       Description = "swww wallpaper daemon";
@@ -20,7 +22,6 @@
       WantedBy = ["graphical-session.target"];
     };
   };
-
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

@@ -1,19 +1,24 @@
-# Program configurations module
-# Configures various applications and tools
-{
-  ...
-}: let
-  globals = import ../../../lib/globals.nix;
+# Home Manager modules aggregation
+# Logical per-software modules in flat structure
+{...}: let
+  globals = import ../../lib/globals.nix;
 in {
   imports = [
-    ./kitty.nix
+    # Desktop environment
+    ./gtk.nix
+
+    # Applications
+    ./1password.nix
     ./firefox.nix
+    ./kitty.nix
+    ./vscode.nix
+    ./sillytavern.nix
+
+    # System tools
+    ./swww.nix
+    ./fuzzel.nix
     ./niri.nix
     ./fish.nix
-    ./vscode.nix
-    ./fuzzel.nix
-    ./sillytavern.nix
-    ./1password.nix
   ];
 
   # Core programs

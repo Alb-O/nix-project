@@ -6,9 +6,7 @@ in {
   # Import modular configuration
   imports = [
     # Custom modules
-    ./modules/programs
-    ./modules/desktop
-    ./modules/services
+    ./modules
 
     # Example external modules (commented out):
     # outputs.homeManagerModules.example
@@ -24,8 +22,7 @@ in {
   # User packages
   home.packages = with pkgs.unstable;
     [
-			wl-clipboard
-      swww
+      wl-clipboard
       ufetch
       claude-code
       # Nix LSP

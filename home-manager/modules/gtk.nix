@@ -1,8 +1,6 @@
 # Desktop environment configuration
 # Handles themes, fonts, and desktop-wide settings
 {
-  config,
-  lib,
   pkgs,
   ...
 }: {
