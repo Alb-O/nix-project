@@ -164,7 +164,7 @@ fi
 USER_HOST="albert@$HOSTNAME"
 log "Building configuration for: $USER_HOST"
 
-if ! nix run .#homeConfigurations."$USER_HOST".activationPackage; then
+if ! nix run ./nix#homeConfigurations."$USER_HOST".activationPackage; then
     error "Build failed on 'building' branch"
     error "Fix the issues and try again. Staying on 'building' branch for debugging."
     exit 1

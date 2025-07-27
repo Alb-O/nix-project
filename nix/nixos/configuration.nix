@@ -151,7 +151,7 @@ in {
 
   # sops-nix configuration
   sops = {
-    defaultSopsFile = ../secrets/example.yaml;
+    defaultSopsFile = ../../secrets/example.yaml;
     age.keyFile = "${globals.user.homeDirectory}/.config/sops/age/keys.txt";
 
     secrets = {
