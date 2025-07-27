@@ -66,8 +66,7 @@ in {
       Unit = {
         Description = "niri compositor session";
         Documentation = ["man:systemd.special(7)"];
-        BindsTo = ["graphical-session.target"];
-        Wants = ["graphical-session-pre.target"];
+        Wants = ["graphical-session-pre.target" "graphical-session.target"];
         After = ["graphical-session-pre.target"];
       };
     };
@@ -83,6 +82,7 @@ in {
         ExecStart =
           [
             "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd ${concatStringsSep " " cfg.systemd.variables}"
+            "${pkgs.systemd}/bin/systemctl --user start graphical-session.target"
             "${pkgs.systemd}/bin/systemctl --user start niri-session.target"
           ]
           ++ optional (cfg.systemd.extraCommands != "") cfg.systemd.extraCommands;
