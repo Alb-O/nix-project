@@ -64,6 +64,7 @@ writeShellScriptBin "blender-daily" ''
     pkgs.libGLU
     pkgs.libxkbcommon
     pkgs.xorg.libX11
+    pkgs.xorg.libXrender
     pkgs.freetype
     pkgs.zlib
     pkgs.glib
