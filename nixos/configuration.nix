@@ -202,8 +202,7 @@ in {
           "gnome" # GNOME portal provides GTK4 integration
           "gtk" # GTK portal handles remaining interfaces
         ];
-        # Critical: Use GNOME portal for GTK4 file choosers
-        # This ensures modern file dialogs instead of legacy GTK3 versions
+        # Use GNOME portal for GTK4 file choosers
         "org.freedesktop.impl.portal.FileChooser" = [
           "gnome"
         ];
@@ -224,6 +223,10 @@ in {
     # This ensures file operations use portal-based file choosers
     xdgOpenUsePortal = true;
   };
+
+  # Explicitly use dbus-broker as the system bus implementation
+  services.dbus.implementation = "broker";
+  services.dbus.packages = [ pkgs.dbus ];
 
   fonts.packages = with pkgs; [
     noto-fonts
