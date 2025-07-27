@@ -59,12 +59,21 @@ writeShellScriptBin "blender-daily" ''
   LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
     pkgs.glibc
     pkgs.gcc-unwrapped.lib
+    pkgs.xorg.libX11
+    pkgs.xorg.libXi
+    pkgs.xorg.libXrender
+    pkgs.xorg.libXxf86vm
+    pkgs.xorg.libXfixes
+    pkgs.xorg.libXcursor
+    pkgs.xorg.libXinerama
+    pkgs.xorg.libXrandr
+    pkgs.xorg.libXt
+    pkgs.xorg.libSM
+    pkgs.xorg.libICE
     pkgs.libdecor
     pkgs.libGL
     pkgs.libGLU
     pkgs.libxkbcommon
-    pkgs.xorg.libX11
-    pkgs.xorg.libXrender
     pkgs.freetype
     pkgs.zlib
     pkgs.glib
