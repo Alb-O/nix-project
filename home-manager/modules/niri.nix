@@ -82,12 +82,11 @@ in {
         ExecStart =
           [
             "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd ${concatStringsSep " " cfg.systemd.variables}"
-            "${pkgs.systemd}/bin/systemctl --user start graphical-session.target"
             "${pkgs.systemd}/bin/systemctl --user start niri-session.target"
           ]
           ++ optional (cfg.systemd.extraCommands != "") cfg.systemd.extraCommands;
       };
-      Install.WantedBy = ["graphical-session.target"];
+      Install.WantedBy = ["default.target"];
     };
   };
 }
