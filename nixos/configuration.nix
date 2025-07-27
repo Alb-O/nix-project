@@ -141,7 +141,7 @@ in {
     tracker-miners # File content miners for Tracker3
     adwaita-icon-theme # Complete Adwaita theme with GTK4 support
     libadwaita # GTK4 Adwaita library and themes
-    gnome-themes-extra # Additional GNOME themes including Adwaita-dark
+    gtk4 # GTK4 runtime with proper theme support
     sops
     age
     ssh-to-age
@@ -229,29 +229,15 @@ in {
     xdgOpenUsePortal = true;
   };
 
-  # Tracker3 file indexing service
+  # Tracker3 file indexing service - includes miner services
   services.tracker3.enable = true;
+  services.tracker3-miners.enable = true;
 
   # GVFS for network mounting and virtual filesystems
   services.gvfs.enable = true;
 
-  # Explicitly use dbus-broker as the system bus implementation
-  services.dbus.implementation = "broker";
-  services.dbus.packages = [ pkgs.dbus ];
-
-  # Enable user session services for desktop integration
-  systemd.user.services.tracker-miner-fs = {
-    description = "Tracker file system data miner";
-    after = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      Type = "dbus";
-      BusName = "org.freedesktop.Tracker3.Miner.Files";
-      ExecStart = "${pkgs.tracker-miners}/libexec/tracker-miner-fs-3";
-      Restart = "on-failure";
-    };
-  };
+  # Use default dbus implementation for compatibility with NetworkManager
+  services.dbus.enable = true;
 
   fonts.packages = with pkgs; [
     noto-fonts
