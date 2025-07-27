@@ -20,17 +20,24 @@ cleanup() {
     if [[ $exit_code -ne 0 ]]; then
         echo -e "${RED}Build failed. Attempting recovery...${NC}" >&2
         
-        # Return to original branch first if needed
+        # If we have uncommitted changes on current branch, preserve them first
         local current_branch
         current_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')"
+        if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+            echo -e "${YELLOW}Preserving uncommitted changes on $current_branch...${NC}" >&2
+            local temp_stash="recovery-$(date +%s)"
+            git stash push -m "$temp_stash" 2>/dev/null || true
+        fi
+        
+        # Return to original branch if needed
         if [[ -n "$ORIGINAL_BRANCH" && "$ORIGINAL_BRANCH" != "$current_branch" ]]; then
             echo -e "${YELLOW}Returning to original branch: $ORIGINAL_BRANCH${NC}" >&2
             git checkout "$ORIGINAL_BRANCH" 2>/dev/null || true
         fi
         
-        # Restore stash if we created one (now on correct branch)
+        # Restore original stash if we created one
         if [[ "$STASH_CREATED" == "true" && -n "$STASH_NAME" ]]; then
-            echo -e "${YELLOW}Restoring stashed changes...${NC}" >&2
+            echo -e "${YELLOW}Restoring original stashed changes...${NC}" >&2
             if git stash list | grep -q "$STASH_NAME"; then
                 local stash_num
                 stash_num=$(git stash list | grep -n "$STASH_NAME" | cut -d: -f1 | head -1)
@@ -39,6 +46,8 @@ cleanup() {
                 fi
             fi
         fi
+        
+        echo -e "${YELLOW}Recovery complete. Your changes have been preserved.${NC}" >&2
     fi
 }
 
