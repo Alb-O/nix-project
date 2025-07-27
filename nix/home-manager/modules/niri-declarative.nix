@@ -7,7 +7,6 @@
   ...
 }: {
   programs.niri = {
-    enable = true;
     settings = {
       # Input device configuration
       input = {

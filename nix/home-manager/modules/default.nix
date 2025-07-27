@@ -17,7 +17,7 @@ in {
     # System tools
     ./swww.nix
     ./fuzzel.nix
-    ./niri.nix
+    ./niri-declarative.nix
     ./fish.nix
     ./polkit.nix
   ];
@@ -41,10 +41,7 @@ in {
     '';
   };
 
-  # Configure window manager
-  wayland.windowManager.${globals.windowManager} = {
-    enable = true;
-  };
+  # Window manager configuration is handled by niri-declarative.nix module
 
   # Ensure .local/bin is in PATH
   home.sessionPath = [globals.dirs.localBin];
