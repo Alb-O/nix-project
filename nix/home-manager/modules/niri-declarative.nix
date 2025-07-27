@@ -323,10 +323,10 @@
         # Column display mode
         "Mod+W".action = toggle-column-tabbed-display;
 
-        # Screenshots
+        # Screenshots  
         "Print".action = screenshot;
-        "Ctrl+Print".action = screenshot-screen;
-        "Alt+Print".action = screenshot-window;
+        "Ctrl+Print".action = screenshot_screen;
+        "Alt+Print".action = screenshot_window;
 
         # System controls
         "Mod+Escape" = {
