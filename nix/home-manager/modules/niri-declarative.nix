@@ -144,18 +144,9 @@
         "Mod+Shift+Slash".action = show-hotkey-overlay;
 
         # Program launchers
-        "Mod+Return" = {
-          action.spawn = "kitty";
-          hotkey-overlay-title = "Open a Terminal: kitty";
-        };
-        "Mod+D" = {
-          action.spawn = "fuzzel";
-          hotkey-overlay-title = "Run an Application: fuzzel";
-        };
-        "Super+Alt+L" = {
-          action.spawn = "swaylock";
-          hotkey-overlay-title = "Lock the Screen: swaylock";
-        };
+        "Mod+Return".action.spawn = "kitty";
+        "Mod+D".action.spawn = "fuzzel";
+        "Super+Alt+L".action.spawn = "swaylock";
 
         # Audio controls
         "XF86AudioRaiseVolume" = {
