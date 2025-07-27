@@ -99,7 +99,7 @@ if ! git diff-index --quiet HEAD --; then
     STASH_CREATED=true
 fi
 
-# Step 3: Branch workflow management
+# Step 3: Branch workflow management - Always build on building branch
 TARGET_BRANCH="building"
 
 if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
@@ -113,7 +113,6 @@ if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
     fi
     
     git checkout building
-    TARGET_BRANCH="building"
     
     # Restore stashed changes from main to building branch
     if [[ "$STASH_CREATED" == "true" ]]; then
@@ -122,18 +121,20 @@ if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
         STASH_CREATED=false
     fi
 elif [[ "$ORIGINAL_BRANCH" == "deployed" ]]; then
-    log "On deployed branch, rebuilding in place"
-    TARGET_BRANCH="deployed"
+    log "On deployed branch, switching to building for rebuild"
     
-    # Restore stash for checkpoint if we created one
+    # Create building branch from deployed
+    git branch -f building deployed
+    git checkout building
+    
+    # Restore stash for rebuild if we created one
     if [[ "$STASH_CREATED" == "true" ]]; then
-        log "Restoring changes for checkpoint commit"
+        log "Restoring changes to building branch"
         git stash pop
         STASH_CREATED=false
     fi
 else
     log "On building branch, rebuilding in place"
-    TARGET_BRANCH="building"
     
     # Restore stash for checkpoint if we created one
     if [[ "$STASH_CREATED" == "true" ]]; then
@@ -143,8 +144,8 @@ else
     fi
 fi
 
-# Step 4: Create checkpoint commit (for non-main branches only)
-if [[ "$ORIGINAL_BRANCH" != "main" ]] && ! git diff-index --quiet HEAD --; then
+# Step 4: Create checkpoint commit (if there are changes)
+if ! git diff-index --quiet HEAD --; then
     git add -A
     if git commit -m "auto: checkpoint before build $(date -Iseconds)"; then
         success "Created checkpoint commit"
@@ -164,7 +165,8 @@ USER_HOST="albert@$HOSTNAME"
 log "Building configuration for: $USER_HOST"
 
 if ! nix run .#homeConfigurations."$USER_HOST".activationPackage; then
-    error "Build failed"
+    error "Build failed on 'building' branch"
+    error "Fix the issues and try again. Staying on 'building' branch for debugging."
     exit 1
 fi
 
@@ -178,28 +180,24 @@ if ! git diff --quiet HEAD~1 -- scripts/ 2>/dev/null || [[ "$ORIGINAL_BRANCH" ==
     fi
 fi
 
-# Step 8: Update branch workflow after successful build
-case "$TARGET_BRANCH" in
-    "building")
-        if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
-            # Coming from main: stay on building, update deployed to match
-            git branch -f deployed building
-            log "Updated 'deployed' to match 'building'"
-            success "Rebuild complete. Staying on 'building' branch."
-        else
-            # Was already on building: update deployed and switch to it
-            git branch -f deployed building
-            git checkout deployed
-            success "Rebuild complete. Switched to 'deployed' branch."
-        fi
-        ;;
-    "deployed")
-        # Rebuilding on deployed: sync building to match
-        git branch -f building deployed
-        log "Updated 'building' to match 'deployed'"
-        success "Rebuild complete. Staying on 'deployed' branch."
-        ;;
-esac
+# Step 8: Update branch workflow after successful build (always on building branch)
+if [[ "$ORIGINAL_BRANCH" == "main" ]]; then
+    # Coming from main: stay on building, update deployed to match
+    git branch -f deployed building
+    log "Updated 'deployed' to match 'building'"
+    success "Rebuild complete. Staying on 'building' branch."
+elif [[ "$ORIGINAL_BRANCH" == "deployed" ]]; then
+    # Coming from deployed: update deployed and switch back to it
+    git branch -f deployed building
+    git checkout deployed
+    log "Updated 'deployed' with successful build from 'building'"
+    success "Rebuild complete. Switched back to 'deployed' branch."
+else
+    # Was already on building: update deployed and switch to it
+    git branch -f deployed building
+    git checkout deployed
+    success "Rebuild complete. Switched to 'deployed' branch."
+fi
 
 # Clear trap since we succeeded
 trap - EXIT
