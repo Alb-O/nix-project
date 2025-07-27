@@ -26,12 +26,11 @@ in {
     [
 			wl-clipboard
       swww
-      luakit
+      ufetch
+      claude-code
+      # Nix LSP
       nil
       nixd
-      claude-code
-      ufetch
-      sillytavern
       # Python development environment
       python3
       uv

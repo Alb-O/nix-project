@@ -15,6 +15,7 @@ in {
     ./fish.nix
     ./vscode.nix
 		./fuzzel.nix
+    ./sillytavern.nix
   ];
 
   # Core programs
@@ -44,29 +45,4 @@ in {
   # Ensure .local/bin is in PATH
   home.sessionPath = [globals.dirs.localBin];
 
-  # Create SillyTavern wrapper script
-  home.file.".local/bin/sillytavern-start" = {
-    text = ''
-      #!${pkgs.bash}/bin/bash
-      export SILLYTAVERN_DATAROOT="${globals.dirs.localShare}/sillytavern"
-      mkdir -p "$SILLYTAVERN_DATAROOT"
-      cd ${pkgs.unstable.sillytavern}/opt/sillytavern
-      exec ${pkgs.nodejs}/bin/node server.js "$@"
-    '';
-    executable = true;
-  };
-
-  # Desktop application entries
-  xdg.desktopEntries = {
-    sillytavern = {
-      name = "SillyTavern";
-      comment = "LLM Frontend for Power Users";
-      icon = "applications-games"; # Generic game icon, can be customized
-      exec = "${globals.terminal} ${globals.dirs.localBin}/sillytavern-start";
-      categories = ["Network" "Chat" "Development"];
-      terminal = true;
-      type = "Application";
-      startupNotify = true;
-    };
-  };
 }
