@@ -3,7 +3,9 @@
 {
   config,
   ...
-}: {
+}: let
+  colorscheme = import ../../lib/colorscheme.nix;
+in {
   programs.niri = {
     settings = {
       # Input device configuration
@@ -79,16 +81,16 @@
 
         focus-ring = {
           width = 2;
-          active.color = "#dbbfef";
-          inactive.color = "#a4a0e8";
+          active.color = colorscheme.selection_background;
+          inactive.color = colorscheme.inactive_tab_foreground;
         };
 
         border = {
           enable = false;
           width = 4;
-          active.color = "#ffc87f";
-          inactive.color = "#505050";
-          urgent.color = "#9b0000";
+          active.color = colorscheme.bell_border_color;
+          inactive.color = colorscheme.inactive_border_color;
+          urgent.color = colorscheme.color1;
         };
 
         shadow = {
