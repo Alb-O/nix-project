@@ -5,6 +5,7 @@
 in {
   imports = [
     # Desktop environment
+    ./niri.nix
     ./gtk.nix
 
     # Applications
@@ -17,7 +18,6 @@ in {
     # System tools
     ./swww.nix
     ./fuzzel.nix
-    ./niri-declarative.nix
     ./fish.nix
     ./polkit.nix
   ];

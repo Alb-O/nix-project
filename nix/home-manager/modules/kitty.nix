@@ -7,60 +7,60 @@ in {
     font.size = 13;
     font.package = pkgs.nerd-fonts.jetbrains-mono;
     settings = {
-      # The basic colors
-      foreground = colorscheme.foreground;
-      background = colorscheme.background;
-      selection_foreground = colorscheme.selection_foreground;
-      selection_background = colorscheme.selection_background;
+      # Basic colors
+      foreground = colorscheme.ui.foreground;
+      background = colorscheme.ui.background;
+      selection_foreground = colorscheme.ui.background;
+      selection_background = colorscheme.ui.primary;
 
       # Cursor colors
-      cursor = colorscheme.cursor;
-      cursor_text_color = colorscheme.cursor_text_color;
+      cursor = colorscheme.ui.foreground;
+      cursor_text_color = colorscheme.ui.background;
 
       # URL underline color when hovering with mouse
-      url_color = colorscheme.url_color;
+      url_color = colorscheme.ui.primary;
 
       # Kitty window border colors
-      active_border_color = colorscheme.active_border_color;
-      inactive_border_color = colorscheme.inactive_border_color;
-      bell_border_color = colorscheme.bell_border_color;
+      active_border_color = colorscheme.ui.borderActive;
+      inactive_border_color = colorscheme.ui.borderInactive;
+      bell_border_color = colorscheme.ui.accent;
 
       # OS Window titlebar colors
       wayland_titlebar_color = "system";
       macos_titlebar_color = "system";
 
       # Tab bar colors
-      active_tab_foreground = colorscheme.active_tab_foreground;
-      active_tab_background = colorscheme.active_tab_background;
-      inactive_tab_foreground = colorscheme.inactive_tab_foreground;
-      inactive_tab_background = colorscheme.inactive_tab_background;
-      tab_bar_background = colorscheme.tab_bar_background;
+      active_tab_foreground = colorscheme.ui.background;
+      active_tab_background = colorscheme.ui.primary;
+      inactive_tab_foreground = colorscheme.ui.primaryVariant;
+      inactive_tab_background = colorscheme.ui.surface;
+      tab_bar_background = colorscheme.ui.background;
 
       # Colors for marks (marked text in the terminal)
-      mark1_foreground = colorscheme.mark1_foreground;
-      mark1_background = colorscheme.mark1_background;
-      mark2_foreground = colorscheme.mark2_foreground;
-      mark2_background = colorscheme.mark2_background;
-      mark3_foreground = colorscheme.mark3_foreground;
-      mark3_background = colorscheme.mark3_background;
+      mark1_foreground = colorscheme.ui.background;
+      mark1_background = colorscheme.ui.primary;
+      mark2_foreground = colorscheme.ui.background;
+      mark2_background = colorscheme.ui.primaryVariant;
+      mark3_foreground = colorscheme.ui.background;
+      mark3_background = colorscheme.ui.secondary;
 
       # The 16 terminal colors
-      color0 = colorscheme.color0;
-      color1 = colorscheme.color1;
-      color2 = colorscheme.color2;
-      color3 = colorscheme.color3;
-      color4 = colorscheme.color4;
-      color5 = colorscheme.color5;
-      color6 = colorscheme.color6;
-      color7 = colorscheme.color7;
-      color8 = colorscheme.color8;
-      color9 = colorscheme.color9;
-      color10 = colorscheme.color10;
-      color11 = colorscheme.color11;
-      color12 = colorscheme.color12;
-      color13 = colorscheme.color13;
-      color14 = colorscheme.color14;
-      color15 = colorscheme.color15;
+      color0 = colorscheme.terminal.black;
+      color1 = colorscheme.terminal.red;
+      color2 = colorscheme.terminal.green;
+      color3 = colorscheme.terminal.yellow;
+      color4 = colorscheme.terminal.blue;
+      color5 = colorscheme.terminal.magenta;
+      color6 = colorscheme.terminal.cyan;
+      color7 = colorscheme.terminal.white;
+      color8 = colorscheme.terminal.brightBlack;
+      color9 = colorscheme.terminal.brightRed;
+      color10 = colorscheme.terminal.brightGreen;
+      color11 = colorscheme.terminal.brightYellow;
+      color12 = colorscheme.terminal.brightBlue;
+      color13 = colorscheme.terminal.brightMagenta;
+      color14 = colorscheme.terminal.brightCyan;
+      color15 = colorscheme.terminal.brightWhite;
     };
   };
 }

@@ -24,14 +24,14 @@ in
         icon-theme = "Adwaita";
       };
       colors = {
-        background = withAlpha colorscheme.background "dd";
-        input = withAlpha colorscheme.foreground "ff";
-        counter = withAlpha colorscheme.foreground "ff";
-        text = withAlpha colorscheme.selection_background "ee";
-        placeholder = withAlpha colorscheme.background "ff";
-        selection = withAlpha colorscheme.selection_background "ee";
-        selection-text = withAlpha colorscheme.background "ff";
-        match = withAlpha colorscheme.color1 "ff";
+        background = withAlpha colorscheme.ui.background "dd";
+        input = withAlpha colorscheme.ui.foreground "ff";
+        counter = withAlpha colorscheme.ui.foreground "ff";
+        text = withAlpha colorscheme.ui.primary "ee";
+        placeholder = withAlpha colorscheme.ui.background "ff";
+        selection = withAlpha colorscheme.ui.primary "ee";
+        selection-text = withAlpha colorscheme.ui.background "ff";
+        match = withAlpha colorscheme.ui.error "ff";
       };
       border = {
         width = 0;

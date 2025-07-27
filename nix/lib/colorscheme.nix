@@ -1,52 +1,70 @@
-{
-  # Basic colors
-  foreground = "#ffffff";
-  background = "#3b224c";
-  selection_foreground = "#3b224c";
-  selection_background = "#dbbfef";
+let
+  # Core palette - define each color once
+  palette = {
+    # Base colors
+    black = "#281733";
+    darkPurple = "#3b224c";
+    midPurple = "#5a5977";
+    lightPurple = "#a4a0e8";
+    pink = "#dbbfef";
+    white = "#ffffff";
+    
+    # Accent colors
+    red = "#f47868";
+    green = "#9ff28f";
+    yellow = "#efba5d";
+    brightYellow = "#ffcd1c";
+    blue = "#7aa2f7";
+    cyan = "#697C81";
+    lightGray = "#cccccc";
+  };
+in {
+  # Main palette export
+  inherit palette;
+  
+  # Semantic color mappings for UI elements
+  ui = {
+    foreground = palette.white;
+    background = palette.darkPurple;
+    surface = palette.black;
+    surfaceVariant = palette.midPurple;
+    
+    primary = palette.pink;
+    primaryVariant = palette.lightPurple;
+    secondary = palette.blue;
+    accent = palette.yellow;
+    
+    success = palette.green;
+    warning = palette.yellow;
+    error = palette.red;
+    info = palette.blue;
+    
+    border = palette.midPurple;
+    borderActive = palette.pink;
+    borderInactive = palette.midPurple;
+  };
 
-  # Cursor colors
-  cursor = "#ffffff";
-  cursor_text_color = "#3b224c";
+  # Terminal color mappings (ANSI colors)
+  terminal = {
+    # Normal colors (0-7)
+    black = palette.black;           # color0
+    red = palette.red;               # color1
+    green = palette.green;           # color2
+    yellow = palette.yellow;         # color3
+    blue = palette.blue;             # color4
+    magenta = palette.pink;          # color5
+    cyan = palette.cyan;             # color6
+    white = palette.lightPurple;     # color7
+    
+    # Bright colors (8-15)
+    brightBlack = palette.midPurple; # color8
+    brightRed = palette.red;         # color9
+    brightGreen = palette.green;     # color10
+    brightYellow = palette.brightYellow; # color11
+    brightBlue = palette.lightPurple;    # color12
+    brightMagenta = palette.pink;         # color13
+    brightCyan = palette.lightGray;       # color14
+    brightWhite = palette.white;          # color15
+  };
 
-  # URL underline color
-  url_color = "#dbbfef";
-
-  # Border colors
-  active_border_color = "#dbbfef";
-  inactive_border_color = "#5a5977";
-  bell_border_color = "#efba5d";
-
-  # Tab bar colors
-  active_tab_foreground = "#3b224c";
-  active_tab_background = "#dbbfef";
-  inactive_tab_foreground = "#a4a0e8";
-  inactive_tab_background = "#281733";
-  tab_bar_background = "#3b224c";
-
-  # Mark colors
-  mark1_foreground = "#3b224c";
-  mark1_background = "#dbbfef";
-  mark2_foreground = "#3b224c";
-  mark2_background = "#a4a0e8";
-  mark3_foreground = "#3b224c";
-  mark3_background = "#7aa2f7";
-
-  # 16 terminal colors
-  color0 = "#281733";
-  color1 = "#f47868";
-  color2 = "#9ff28f";
-  color3 = "#efba5d";
-  color4 = "#7aa2f7";
-  color5 = "#dbbfef";
-  color6 = "#697C81";
-  color7 = "#a4a0e8";
-  color8 = "#5a5977";
-  color9 = "#f47868";
-  color10 = "#9ff28f";
-  color11 = "#ffcd1c";
-  color12 = "#a4a0e8";
-  color13 = "#dbbfef";
-  color14 = "#cccccc";
-  color15 = "#ffffff";
 }
