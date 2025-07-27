@@ -25,6 +25,7 @@ in {
       # General
       wl-clipboard
       ufetch
+      gh
       # AI
       claude-code
       gemini-cli
