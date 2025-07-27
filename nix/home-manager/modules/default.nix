@@ -6,6 +6,8 @@ in {
   imports = [
     # Desktop environment
     ./niri.nix
+    ./fuzzel.nix
+    ./swww.nix
     ./gtk.nix
 
     # Applications
@@ -16,20 +18,14 @@ in {
     ./sillytavern.nix
 
     # System tools
-    ./swww.nix
-    ./fuzzel.nix
     ./fish.nix
+    ./git.nix
+    ./ssh.nix
     ./polkit.nix
   ];
 
   # Core programs
   programs.home-manager.enable = true;
-
-  programs.git = {
-    enable = true;
-    userName = globals.user.name;
-    userEmail = globals.user.email;
-  };
 
   programs.bash = {
     enable = true;
