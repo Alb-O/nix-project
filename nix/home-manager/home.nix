@@ -22,9 +22,12 @@ in {
   # User packages
   home.packages = with pkgs.unstable;
     [
+      # General
       wl-clipboard
       ufetch
+      # AI
       claude-code
+      gemini-cli
       # Nix LSP
       nil
       nixd
