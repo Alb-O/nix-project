@@ -188,7 +188,11 @@ in {
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk # Stable GTK portal for all functionality
     ];
-    config.common.default = "gtk";
+    config = {
+      common = {
+        default = ["gtk"];
+      };
+    };
     xdgOpenUsePortal = true;
   };
 
