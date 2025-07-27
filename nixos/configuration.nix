@@ -228,10 +228,6 @@ in {
     xdgOpenUsePortal = true;
   };
 
-  # Explicitly use dbus-broker as the system bus implementation
-  services.dbus.implementation = "broker";
-  services.dbus.packages = [ pkgs.dbus ];
-
   # Tracker3 file indexing service
   services.tracker3.enable = true;
 
