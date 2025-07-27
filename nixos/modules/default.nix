@@ -2,5 +2,6 @@
 {
   imports = [
     ./1password.nix
+    ./keyring.nix
   ];
 }

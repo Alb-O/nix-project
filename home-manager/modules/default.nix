@@ -19,6 +19,7 @@ in {
     ./fuzzel.nix
     ./niri.nix
     ./fish.nix
+    ./polkit.nix
   ];
 
   # Core programs
