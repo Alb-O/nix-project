@@ -1,28 +1,17 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{...}: let
   globals = import ../../lib/globals.nix;
-in
-{
+in {
   programs.git = {
     enable = true;
     userName = globals.user.name;
     userEmail = globals.user.email;
     extraConfig = {
-      gpg = {
-        format = "ssh";
+      # Basic Git configuration without signing
+      init = {
+        defaultBranch = "main";
       };
-      "gpg \"ssh\"" = {
-        program = "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
-      };
-      commit = {
-        gpgsign = true;
-      };
-
-      user = {
-        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOowbFxL8PwbgqUDYz0QNFpTwraXoMsrQjA8+9Jn/2vH";
+      pull = {
+        rebase = false;
       };
     };
   };

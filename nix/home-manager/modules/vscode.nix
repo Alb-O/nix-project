@@ -33,8 +33,7 @@ in {
       # Productivity and diagnostics
       usernamehw.errorlens
 
-      # Secrets
-      pkgs.vscode-marketplace."1password".op-vscode
+      # Secrets - removed 1Password, using Bitwarden web app instead
 
       # AI and code assistance
       anthropic.claude-code

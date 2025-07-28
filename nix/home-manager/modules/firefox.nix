@@ -25,7 +25,7 @@
       DisablePasswordReveal = true;
       DontCheckDefaultBrowser = true; # Stop being attention whore
       HardwareAcceleration = true; # Enable for proper rendering and performance
-      OfferToSaveLogins = false; # Managed by 1Password instead
+      OfferToSaveLogins = false; # Managed by Bitwarden instead
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
@@ -53,11 +53,6 @@
         "uBlock0@raymondhill.net" = {
           # uBlock Origin
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-          installation_mode = "force_installed";
-        };
-        "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
-          # 1Password
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
           installation_mode = "force_installed";
         };
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {

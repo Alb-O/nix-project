@@ -26,7 +26,6 @@ in {
       wl-clipboard
       ufetch
       gh
-      bitwarden
       # AI
       claude-code
       gemini-cli
@@ -49,7 +48,7 @@ in {
       gcc # Required for linking during Rust compilation
     ]
     ++ [
-      # Custom packages can be added here
+      # Custom packages
       pkgs.blender-daily
     ];
 

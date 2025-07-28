@@ -11,7 +11,7 @@ in {
     ./gtk.nix
 
     # Applications
-    ./1password.nix
+    ./bitwarden.nix
     ./firefox.nix
     ./kitty.nix
     ./vscode.nix

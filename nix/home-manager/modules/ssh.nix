@@ -1,11 +1,10 @@
-_: let
-  onePassPath = "~/.1password/agent.sock";
-in {
+_: {
   programs.ssh = {
     enable = true;
+    # Basic SSH configuration without external identity agent
     extraConfig = ''
       Host *
-          IdentityAgent ${onePassPath}
+          AddKeysToAgent yes
     '';
   };
 }
