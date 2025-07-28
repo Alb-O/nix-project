@@ -205,6 +205,8 @@ in {
     xdgOpenUsePortal = true;
   };
 
+  security.rtkit.enable = true;
+
   # Tracker3 file indexing service - includes miner services
   services.tracker3.enable = true;
   services.tracker3-miners.enable = true;

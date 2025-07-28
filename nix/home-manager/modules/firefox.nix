@@ -56,8 +56,13 @@
           installation_mode = "force_installed";
         };
         "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
-          # 1Password:
+          # 1Password
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          # BitWarden
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/latest/bitwarden_password_manager/latest.xpi";
           installation_mode = "force_installed";
         };
       };
