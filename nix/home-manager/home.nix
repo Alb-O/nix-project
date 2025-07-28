@@ -26,6 +26,7 @@ in {
       wl-clipboard
       ufetch
       gh
+      bitwarden
       # AI
       claude-code
       gemini-cli
