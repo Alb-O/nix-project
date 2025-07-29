@@ -1,6 +1,5 @@
 # Credit: https://github.com/Misterio77/nix-config
 {
-  pkgs,
   lib,
   ...
 }:let
