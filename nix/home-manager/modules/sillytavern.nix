@@ -1,8 +1,5 @@
 # SillyTavern LLM frontend configuration
-{
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   globals = import ../../lib/globals.nix;
 in {
   # Package installation

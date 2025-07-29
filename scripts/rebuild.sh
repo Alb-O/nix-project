@@ -58,7 +58,16 @@ if git diff-index --quiet HEAD -- 2>/dev/null; then
     log "No changes to commit, proceeding with rebuild"
     COMMIT_MADE=false
 else
-    log "Changes detected, creating amendme commit..."
+    log "Changes detected, formatting Nix files before commit..."
+    
+    # Format all Nix files
+    if nix fmt .; then
+        success "Nix files formatted"
+    else
+        log "Nix formatting failed, continuing anyway..."
+    fi
+    
+    log "Creating amendme commit..."
 
     # Create the amendme commit
     git add -A

@@ -1,9 +1,6 @@
 # Niri Wayland Compositor Configuration
 # Declarative configuration using niri-flake's programs.niri.settings
-{
-  config,
-  ...
-}: let
+{config, ...}: let
   colorscheme = import ../../lib/colorscheme.nix;
 in {
   programs.niri = {
@@ -72,12 +69,12 @@ in {
         center-focused-column = "never";
 
         preset-column-widths = [
-          { proportion = 0.33333; }
-          { proportion = 0.5; }
-          { proportion = 0.66667; }
+          {proportion = 0.33333;}
+          {proportion = 0.5;}
+          {proportion = 0.66667;}
         ];
 
-        default-column-width = { proportion = 0.5; };
+        default-column-width = {proportion = 0.5;};
 
         focus-ring = {
           width = 2;
@@ -105,7 +102,7 @@ in {
 
       # Startup programs
       spawn-at-startup = [
-        { command = ["waybar"]; }
+        {command = ["waybar"];}
       ];
 
       # Client-side decorations preference
@@ -124,16 +121,18 @@ in {
       window-rules = [
         # WezTerm workaround
         {
-          matches = [{ app-id = "^org\\.wezfurlong\\.wezterm$"; }];
+          matches = [{app-id = "^org\\.wezfurlong\\.wezterm$";}];
           default-column-width = {};
         }
 
         # Firefox picture-in-picture
         {
-          matches = [{
-            app-id = "firefox$";
-            title = "^Picture-in-Picture$";
-          }];
+          matches = [
+            {
+              app-id = "firefox$";
+              title = "^Picture-in-Picture$";
+            }
+          ];
           open-floating = true;
         }
       ];
@@ -315,9 +314,9 @@ in {
         "Mod+W".action = toggle-column-tabbed-display;
 
         # Screenshots
-        "Print".action.screenshot = { };
-        "Shift+Print".action.screenshot-screen = { };
-        "Alt+Print".action.screenshot-window = { };
+        "Print".action.screenshot = {};
+        "Shift+Print".action.screenshot-screen = {};
+        "Alt+Print".action.screenshot-window = {};
 
         # System controls
         "Mod+Escape" = {

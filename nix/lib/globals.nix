@@ -1,6 +1,5 @@
 # System-wide configuration definitions
 {
-
   monoFont = "JetBrains Mono Nerd Font";
   sansFont = "Noto Sans";
   gtkTheme = "Adwaita-dark";

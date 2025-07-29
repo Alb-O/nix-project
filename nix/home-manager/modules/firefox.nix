@@ -1,8 +1,5 @@
 # Credit: https://github.com/Misterio77/nix-config
-{
-  lib,
-  ...
-}:let
+{lib, ...}: let
   globals = import ../../lib/globals.nix;
 in {
   programs.firefox = {

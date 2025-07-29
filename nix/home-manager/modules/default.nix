@@ -41,5 +41,4 @@ in {
 
   # Ensure .local/bin is in PATH
   home.sessionPath = [globals.dirs.localBin];
-
 }

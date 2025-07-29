@@ -68,10 +68,11 @@ Based on all the context below, write a single, concise conventional commit mess
 RULES:
 - Use conventional commit format: type(scope): description
 - Types: feat, fix, chore, refactor, docs, style, test, build
-- Keep the description under 50 characters
+- Keep the description under 200 characters
 - Focus on WHAT was changed, not WHY
 - Be specific about the component/module affected
-- Output ONLY the commit message text, no explanation or formatting
+- Output ONLY the commit message text, no explanation
+- You may use multiple lines/lists if the changes are more extensive.
 
 REPOSITORY CONTEXT:
 - This is a NixOS configuration repository with flakes and home-manager

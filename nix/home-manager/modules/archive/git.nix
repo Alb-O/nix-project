@@ -1,5 +1,9 @@
-{ pkgs, lib, secrets, ... }:
 {
+  pkgs,
+  lib,
+  secrets,
+  ...
+}: {
   programs.git = {
     enable = true;
     extraConfig = {

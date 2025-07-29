@@ -1,9 +1,6 @@
 # Desktop environment configuration
 # Handles themes, fonts, and desktop-wide settings
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Dark theme preferences with UI scaling
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -31,7 +28,7 @@
 
     # GTK bookmarks file
     gtk3.bookmarks = [];
-    
+
     # Enable GTK4 features
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;

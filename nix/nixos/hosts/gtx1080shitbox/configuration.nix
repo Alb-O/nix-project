@@ -74,7 +74,7 @@ in {
   networking.networkmanager.enable = true;
 
   # udev rules for GNOME portal hardware integration
-  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [gnome-settings-daemon];
 
   # Set your time zone.
   time.timeZone = "Australia/Hobart";
@@ -161,7 +161,7 @@ in {
     };
   };
 
-services.displayManager.sddm = {
+  services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     package = pkgs.kdePackages.sddm;
@@ -189,7 +189,7 @@ services.displayManager.sddm = {
       xdg-desktop-portal-gtk # Required fallback portal
       xdg-desktop-portal-gnome # Required for screencasting and file choosers
     ];
-	};
+  };
 
   # GNOME keyring for credential storage
   services.gnome.gnome-keyring.enable = true;

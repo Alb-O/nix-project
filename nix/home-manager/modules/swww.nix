@@ -5,8 +5,7 @@
   ...
 }: let
   colorscheme = import ../../lib/colorscheme.nix;
-in
-{
+in {
   # Include swww package in user environment
   home.packages = [pkgs.swww];
 
