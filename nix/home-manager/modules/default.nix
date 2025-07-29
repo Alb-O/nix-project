@@ -9,6 +9,7 @@ in {
     ./fuzzel.nix
     ./swww.nix
     ./gtk.nix
+    ./mako.nix
 
     # Applications
     ./bitwarden.nix
