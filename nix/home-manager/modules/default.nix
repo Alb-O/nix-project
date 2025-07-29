@@ -12,7 +12,6 @@ in {
     ./mako.nix
 
     # Applications
-    ./bitwarden.nix
     ./firefox.nix
     ./kitty.nix
     ./vscode.nix
