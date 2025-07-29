@@ -15,8 +15,8 @@ in {
       font = "JetBrainsMono Nerd Font 13";
 
       # Layout and positioning
-      width = 300;
-      height = 110;
+      width = 400;
+      height = 150;
       margin = "10";
       padding = "15";
       border-size = 2;
