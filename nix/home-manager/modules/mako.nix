@@ -12,7 +12,7 @@ in {
       progress-color = colorscheme.ui.primary;
 
       # Font configuration
-      font = "JetBrainsMono Nerd Font 11";
+      font = "JetBrainsMono Nerd Font 13";
 
       # Layout and positioning
       width = 300;
@@ -20,7 +20,7 @@ in {
       margin = "10";
       padding = "15";
       border-size = 2;
-      border-radius = 8;
+      border-radius = 0;
 
       # Behavior
       default-timeout = 5000;
