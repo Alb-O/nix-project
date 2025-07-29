@@ -33,10 +33,9 @@ in {
       # Productivity and diagnostics
       usernamehw.errorlens
 
-      # Secrets - removed 1Password, using Bitwarden web app instead
-
       # AI and code assistance
       anthropic.claude-code
+      kilocode.kilo-code
 
       # Icons
       pkief.material-icon-theme
