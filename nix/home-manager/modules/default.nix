@@ -30,9 +30,9 @@ in {
   programs.bash = {
     enable = true;
     initExtra = ''
-      # If running interactively and ${globals.shell} is available, launch ${globals.shell}
-      if [[ $- == *i* ]] && command -v ${globals.shell} >/dev/null 2>&1; then
-        exec ${globals.shell}
+      # If running interactively and fish is available, launch fish
+      if [[ $- == *i* ]] && command -v fish >/dev/null 2>&1; then
+        exec fish
       fi
     '';
   };

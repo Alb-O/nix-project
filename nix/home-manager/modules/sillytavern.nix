@@ -28,7 +28,7 @@ in {
       name = "SillyTavern";
       comment = "LLM Frontend for Power Users";
       icon = "applications-games"; # Generic game icon, can be customized
-      exec = "${globals.terminal} ${globals.dirs.localBin}/sillytavern-start";
+      exec = "kitty ${globals.dirs.localBin}/sillytavern-start";
       categories = ["Network" "Chat" "Development"];
       terminal = true;
       type = "Application";

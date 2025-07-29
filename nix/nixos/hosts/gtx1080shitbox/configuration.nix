@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  globals = import ../lib/globals.nix;
+  globals = import ../../../lib/globals.nix;
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -74,7 +74,7 @@ in {
   networking.networkmanager.enable = true;
 
   # udev rules for GNOME portal hardware integration
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   # Set your time zone.
   time.timeZone = "Australia/Hobart";
@@ -137,8 +137,8 @@ in {
     gemini-cli
     sddm-astronaut
     nautilus # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
-    tracker # Tracker3 file indexing service
-    tracker-miners # File content miners for Tracker3
+    tinysparql # Tracker3 file indexing service (renamed from tracker)
+    localsearch # File content miners for Tracker3 (renamed from tracker-miners)
     adwaita-icon-theme # Complete Adwaita theme with GTK4 support
     libadwaita # GTK4 Adwaita library and themes
     gtk4 # GTK4 runtime with proper theme support
@@ -147,7 +147,7 @@ in {
     ssh-to-age
   ];
 
-  programs.${globals.windowManager}.enable = true;
+  programs.niri.enable = true;
 
   # sops-nix configuration
   sops = {
@@ -161,10 +161,10 @@ in {
     };
   };
 
-  services.displayManager.${globals.displayManager} = {
+services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    package = pkgs.kdePackages.${globals.displayManager};
+    package = pkgs.kdePackages.sddm;
     extraPackages = with pkgs; [sddm-astronaut];
     theme = "sddm-astronaut-theme";
   };
@@ -189,36 +189,7 @@ in {
       xdg-desktop-portal-gtk # Required fallback portal
       xdg-desktop-portal-gnome # Required for screencasting and file choosers
     ];
-    config = {
-      common = {
-        default = ["gtk"];
-        "org.freedesktop.impl.portal.Screencast" = ["gnome"];
-        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
-      };
-      niri = {
-        default = ["gtk"];
-        "org.freedesktop.impl.portal.FileChooser" = ["gnome"];
-        "org.freedesktop.impl.portal.Screencast" = ["gnome"];
-        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
-      };
-    };
-    xdgOpenUsePortal = true;
-  };
-
-  security.rtkit.enable = true;
-
-  # Tracker3 file indexing service - includes miner services
-  services.tracker3.enable = true;
-  services.tracker3-miners.enable = true;
-
-  # GVFS for network mounting and virtual filesystems
-  services.gvfs.enable = true;
-
-  # Essential GNOME services for GTK4 applications outside GNOME desktop
-  services.dbus.packages = with pkgs; [
-    gcr # GNOME crypto services for keyring integration
-    gnome.gnome-settings-daemon # Essential GNOME services for GTK apps
-  ];
+	};
 
   # GNOME keyring for credential storage
   services.gnome.gnome-keyring.enable = true;
@@ -234,6 +205,9 @@ in {
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "nixbackup";
+    sharedModules = [
+      inputs.niri-flake.homeModules.config
+    ];
     users.${globals.user.username} = import ../../../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
   };
 

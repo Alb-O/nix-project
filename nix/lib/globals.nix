@@ -1,18 +1,5 @@
-# System-wide application and configuration definitions
-# Change applications here to update entire system
+# System-wide configuration definitions
 {
-  terminal = "kitty";
-  browser = "firefox";
-  fileManager = "nautilus";
-  editor = "helix";
-  launcher = "fuzzel";
-  imageViewer = "loupe";
-  videoPlayer = "mpv";
-  pdfViewer = "evince";
-  archiveManager = "file-roller";
-  windowManager = "niri";
-  displayManager = "sddm";
-  shell = "fish";
 
   monoFont = "JetBrains Mono Nerd Font";
   sansFont = "Noto Sans";
