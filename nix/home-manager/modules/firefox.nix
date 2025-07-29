@@ -3,7 +3,9 @@
   pkgs,
   lib,
   ...
-}: {
+}:let
+  globals = import ../../lib/globals.nix;
+in {
   programs.firefox = {
     enable = true;
     policies = {
@@ -62,10 +64,10 @@
         };
       };
     };
-    profiles.albert = {
+    profiles.${globals.user.username} = {
       id = 0;
       isDefault = true;
-      path = "albert"; # Explicitly set profile path for consistency
+      path = globals.user.username; # Explicitly set profile path
       /*
       search = {
         force = true;
@@ -219,97 +221,11 @@
         "mousewheel.default.delta_multiplier_y" = 300; # 250-400;
         "general.autoScroll" = true; # Middle-click scrolling
 
-        # Enable userChrome.css for GNOME theme support
+        # Enable userChrome.css for theme support
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
     };
   };
-
-  # Script to reset Firefox to NixOS-managed state and theme installer
-  home.packages = [
-    pkgs.addwater # Firefox GNOME theme installer
-    (pkgs.writeShellScriptBin "firefox-reset-nixos" ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-
-      echo "🔄 Resetting Firefox to NixOS-managed state..."
-
-      # Kill Firefox if running
-      pkill firefox || true
-      sleep 2
-
-      # Remove problematic cache and state files that can cause inconsistencies
-      rm -rf ~/.cache/mozilla/firefox/*/safebrowsing/
-      rm -rf ~/.cache/mozilla/firefox/*/startupCache/
-      rm -rf ~/.cache/mozilla/firefox/*/shader-cache/
-
-      # Remove files that Firefox might use to override NixOS settings
-      find ~/.mozilla/firefox/albert/ -name "compatibility.ini" -delete 2>/dev/null || true
-      find ~/.mozilla/firefox/albert/ -name "times.json" -delete 2>/dev/null || true
-      find ~/.mozilla/firefox/albert/ -name "addonStartup.json.lz4" -delete 2>/dev/null || true
-
-      # Remove extension state that might conflict with force-installed extensions
-      rm -rf ~/.mozilla/firefox/albert/browser-extension-data/ 2>/dev/null || true
-      rm -rf ~/.mozilla/firefox/albert/extensions/ 2>/dev/null || true
-
-      # Remove search engine overrides
-      rm -f ~/.mozilla/firefox/albert/search.json.mozlz4 2>/dev/null || true
-
-      echo "✅ Firefox reset complete. Your NixOS settings will be applied on next startup."
-      echo "💡 Run 'home-manager switch' to ensure latest configuration is active."
-    '')
-    (pkgs.writeShellScriptBin "firefox-install-gnome-theme" ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-
-      echo "🎨 Installing Firefox GNOME theme..."
-
-      # Kill Firefox if running
-      pkill firefox || true
-      sleep 2
-
-      # Use addwater to install the theme
-      ${pkgs.addwater}/bin/addwater -f
-
-      echo "✅ Firefox GNOME theme installed successfully!"
-      echo "💡 Restart Firefox to see the theme changes."
-      echo "📝 Note: The theme requires toolkit.legacyUserProfileCustomizations.stylesheets=true (already configured in NixOS)."
-    '')
-    (pkgs.writeShellScriptBin "firefox-debug-loading" ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-
-      echo "🔍 Firefox loading issue diagnostics..."
-
-      # Check if Firefox is running
-      if pgrep firefox > /dev/null; then
-        echo "⚠️  Firefox is currently running. Kill it and restart for clean test."
-      fi
-
-      # Check profile directory
-      PROFILE_DIR="$HOME/.mozilla/firefox/albert"
-      if [[ -d "$PROFILE_DIR" ]]; then
-        echo "✅ Profile directory exists: $PROFILE_DIR"
-
-        # Check for problematic settings
-        if [[ -f "$PROFILE_DIR/prefs.js" ]]; then
-          echo "📋 Checking critical settings in prefs.js..."
-          grep -E "(dom\.security\.https_only_mode|network\.|security\.|layers\.acceleration)" "$PROFILE_DIR/prefs.js" | head -10 || echo "No matching prefs found"
-        fi
-
-        # Check console output
-        echo "🔧 Suggested debug steps:"
-        echo "1. Open Firefox Developer Tools (F12)"
-        echo "2. Check Console tab for errors"
-        echo "3. Try loading a simple HTTP site first: http://example.com"
-        echo "4. Check Network tab to see if requests are being blocked"
-        echo "5. Temporarily disable HTTPS-only mode in about:config"
-
-      else
-        echo "❌ Profile directory not found. Run 'home-manager switch' first."
-      fi
-    '')
-  ];
 
   xdg.mimeApps.defaultApplications = {
     "text/html" = ["firefox.desktop"];
