@@ -194,6 +194,22 @@ in {
   # GNOME keyring for credential storage
   services.gnome.gnome-keyring.enable = true;
 
+  # Key remapping with keyd
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = ["*"];
+        settings = {
+          main = {
+            capslock = "esc";
+            esc = "capslock";
+          };
+        };
+      };
+    };
+  };
+
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
