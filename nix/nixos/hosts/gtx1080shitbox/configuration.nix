@@ -169,18 +169,6 @@ in {
     theme = "sddm-astronaut-theme";
   };
 
-  # XDG Desktop Portal Configuration for GTK4 File Pickers
-  #
-  # Technical Implementation Notes:
-  # - xdg-desktop-portal-gtk (1.15.3) is built against GTK3, produces GTK3 file dialogs
-  # - xdg-desktop-portal-gnome (48.0) is built against GTK4, uses Nautilus (GTK4) for file operations
-  # - GNOME portal delegates FileChooser to Nautilus, which provides native GTK4 dialogs
-  # - GTK portal serves as fallback for interfaces GNOME doesn't implement
-  #
-  # Portal Backend Selection Priority:
-  # 1. GNOME portal: GTK4-based file choosers via Nautilus integration
-  # 2. GTK portal: GTK3-based fallback for other desktop integration features
-  #
   # Dependencies: Requires nautilus package for GNOME portal file chooser delegation
   # Portal configuration following Niri wiki recommendations
   xdg.portal = {
