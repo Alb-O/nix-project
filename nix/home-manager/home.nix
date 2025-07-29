@@ -24,6 +24,7 @@ in {
     [
       # General
       wl-clipboard
+      jq
       ufetch
       gh
       # AI
