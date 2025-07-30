@@ -13,7 +13,7 @@ in {
     ./mako.nix
 
     # Applications
-    ./firefox.nix
+    ./firefox
     ./kitty.nix
     ./vscode.nix
     ./sillytavern.nix
