@@ -36,6 +36,7 @@ in {
       # AI and code assistance
       anthropic.claude-code
       kilocode.kilo-code
+      github.copilot
 
       # Icons
       pkief.material-icon-theme

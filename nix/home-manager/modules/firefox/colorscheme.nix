@@ -38,7 +38,6 @@
     "wikipedia"
     "twitter"
     "chatgpt"
-    "discord-web"
     "whatsapp-web"
     "spotify"
   ];
