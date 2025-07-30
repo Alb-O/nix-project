@@ -28,6 +28,7 @@ in {
     [
       # General
       wl-clipboard
+      cliphist # Clipboard manager for Wayland
       jq
       ufetch
       gh

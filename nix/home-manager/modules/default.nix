@@ -23,6 +23,7 @@ in {
     ./git.nix
     ./ssh.nix
     ./polkit.nix
+    ./clipboard.nix
   ];
 
   # Core programs
