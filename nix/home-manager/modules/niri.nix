@@ -146,10 +146,13 @@ in {
         "Mod+Return".action.spawn = "kitty";
         "Super+Alt+L".action.spawn = "swaylock";
 
-        # Pickers
+        # Fuzzel pickers
         "Mod+D".action.spawn = "fuzzel";
-        "Mod+Shift+C".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p 'cliphist ' | cliphist decode | wl-copy"];
+        "Mod+E".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p 'cliphist ' | cliphist decode | wl-copy"];
         "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu -p \"unipicker \"' | wl-copy -n"];
+
+        # Color picker
+        "Mod+Shift+C".action.spawn = ["sh" "-c" "hyprpicker"];
 
         # Audio controls
         "XF86AudioRaiseVolume" = {

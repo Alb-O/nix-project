@@ -34,6 +34,7 @@ in {
       ufetch
       gh
       unipicker
+      hyprpicker
       # AI
       claude-code
       gemini-cli
