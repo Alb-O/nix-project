@@ -152,7 +152,7 @@ in {
         "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu -p \"unipicker \"' | wl-copy -n"];
 
         # Color picker
-        "Mod+Shift+C".action.spawn = ["sh" "-c" "hyprpicker"];
+        "Mod+Shift+C".action.spawn = ["sh" "-c" "hyprpicker | wl-copy -n"];
 
         # Audio controls
         "XF86AudioRaiseVolume" = {
