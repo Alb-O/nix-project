@@ -29,6 +29,7 @@ in {
       # General
       wl-clipboard
       cliphist # Clipboard manager for Wayland
+      wl-clip-persist # Keeps clipboard content alive after source app closes
       jq
       ufetch
       gh

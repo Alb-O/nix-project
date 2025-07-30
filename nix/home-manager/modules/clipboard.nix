@@ -21,6 +21,26 @@
     };
   };
 
+  # Enable wl-clip-persist service to keep clipboard content alive
+  systemd.user.services.wl-clip-persist = {
+    Unit = {
+      Description = "Clipboard persistence daemon for Wayland";
+      PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+    };
+
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.unstable.wl-clip-persist}/bin/wl-clip-persist --clipboard regular";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+  };
+
   # Optional: Add environment variables for clipboard tools
   home.sessionVariables = {
     # Ensure clipboard tools work properly
