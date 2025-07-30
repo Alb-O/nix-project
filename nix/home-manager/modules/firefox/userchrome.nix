@@ -57,17 +57,40 @@ in {
 
     /* Tab bar background for both horizontal and vertical tabs */
     #TabsToolbar, .toolbar-items {
-      background-color: ${colorscheme.palette.darkPurple} !important;
+      background-color: ${colorscheme.palette.black} !important;
     }
 
-    /* Title bar background */
-    #titlebar, #navigator-toolbox-background {
-      background-color: ${colorscheme.palette.darkPurple} !important;
+    /* Title bar background - comprehensive selectors */
+    #titlebar, #navigator-toolbox-background, .titlebar-buttonbox-container {
+      background-color: ${colorscheme.palette.black} !important;
     }
 
     /* Vertical tabs container background */
     #vertical-tabs, .tabbrowser-arrowscrollbox {
-      background-color: ${colorscheme.palette.darkPurple} !important;
+      background-color: ${colorscheme.palette.black} !important;
+    }
+
+    /* Context menus and popups */
+    #PersonalToolbar menupopup,
+    #mainPopupSet menupopup,
+    #toolbar-menubar menupopup,
+    #placesContext,
+    #urlbar-input-container menupopup,
+    #back-button menupopup, #forward-button menupopup,
+    #identity-popup, #appMenu-popup, #downloadsPanel, #BMB_bookmarksPopup {
+      --menu-color: ${colorscheme.palette.white} !important;
+      --arrowpanel-color: ${colorscheme.palette.white} !important;
+      --panel-color: ${colorscheme.palette.white} !important;
+      --menu-background-color: ${colorscheme.palette.darkPurple} !important;
+      --arrowpanel-background: ${colorscheme.palette.darkPurple} !important;
+      --panel-background: ${colorscheme.palette.darkPurple} !important;
+      --menu-border-color: ${colorscheme.palette.midPurple} !important;
+      --arrowpanel-border-color: ${colorscheme.palette.midPurple} !important;
+      --panel-border-color: ${colorscheme.palette.midPurple} !important;
+      --menuitem-hover-background-color: ${colorscheme.palette.lightPurple} !important;
+      --button-hover-bgcolor: ${colorscheme.palette.lightPurple} !important;
+      --menu-disabled-color: rgba(255, 255, 255, 0.4) !important;
+      --menuitem-disabled-hover-background-color: rgba(255, 255, 255, 0.1) !important;
     }
   '';
 }
