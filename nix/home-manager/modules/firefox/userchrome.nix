@@ -55,6 +55,11 @@ in {
     /* the header-area of sidebar needs this to work */
     #sidebar-box{ --sidebar-background-color: ${colorscheme.palette.black} !important; }
 
+    /* Main navigation toolbar */
+    #nav-bar {
+      background-color: ${colorscheme.palette.black} !important;
+    }
+
     /* Tab bar background for both horizontal and vertical tabs */
     #TabsToolbar, .toolbar-items {
       background-color: ${colorscheme.palette.black} !important;
@@ -65,8 +70,8 @@ in {
       background-color: ${colorscheme.palette.black} !important;
     }
 
-    /* Vertical tabs container background */
-    #vertical-tabs, .tabbrowser-arrowscrollbox {
+    /* Vertical tabs container and footer */
+    #vertical-tabs, .tabbrowser-arrowscrollbox, #sidebar-main {
       background-color: ${colorscheme.palette.black} !important;
     }
 
