@@ -45,6 +45,8 @@ in {
       /* sidebar - note the sidebar-box rule for the header-area */
       --lwt-sidebar-background-color: ${colorscheme.palette.black} !important;
       --lwt-sidebar-text-color: ${colorscheme.palette.white} !important;
+
+      --tabpanel-background-color: ${colorscheme.palette.darkPurple} !important;
     }
     /* line between nav-bar and tabs toolbar,
         also fallback color for border around selected tab */
