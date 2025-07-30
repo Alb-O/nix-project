@@ -144,9 +144,13 @@ in {
 
         # Program launchers
         "Mod+Return".action.spawn = "kitty";
-        "Mod+D".action.spawn = "fuzzel";
         "Super+Alt+L".action.spawn = "swaylock";
-        "Mod+Shift+C".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy"];
+
+        # Pickers
+        "Mod+D".action.spawn = "fuzzel";
+        "Mod+Shift+C".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p cliphist | cliphist decode | wl-copy"];
+        "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu' | wl-copy"];
+
         # Audio controls
         "XF86AudioRaiseVolume" = {
           action.spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"];

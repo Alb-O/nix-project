@@ -33,6 +33,7 @@ in {
       jq
       ufetch
       gh
+      unipicker
       # AI
       claude-code
       gemini-cli
