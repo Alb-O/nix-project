@@ -189,16 +189,42 @@
       }
 
       /* Context menus and panels */
-      menupopup, panel {
+      menupopup, panel, .panel-arrowcontainer, .panel-arrowcontent {
         background-color: var(--purple-bg-light) !important;
         border: 1px solid var(--purple-border) !important;
         border-radius: 8px !important;
         color: var(--purple-text) !important;
       }
 
+      /* Menu items */
+      menuitem, .subviewbutton, .panel-subview-body {
+        background-color: var(--purple-bg-light) !important;
+        color: var(--purple-text) !important;
+      }
+
       menuitem:hover, .subviewbutton:hover {
         background-color: var(--purple-surface) !important;
         color: var(--purple-text) !important;
+      }
+
+      /* Dropdown menus */
+      .menupopup-arrowscrollbox, .popup-internal-box {
+        background-color: var(--purple-bg-light) !important;
+      }
+
+      /* URL bar dropdown */
+      .urlbarView, .search-one-offs {
+        background-color: var(--purple-bg-light) !important;
+        color: var(--purple-text) !important;
+      }
+
+      .urlbarView-row {
+        background-color: var(--purple-bg-light) !important;
+        color: var(--purple-text) !important;
+      }
+
+      .urlbarView-row[selected] {
+        background-color: var(--purple-surface) !important;
       }
 
       /* Scrollbars */
@@ -235,6 +261,21 @@
         background-color: var(--purple-bg-light) !important;
         border-bottom: 1px solid var(--purple-border) !important;
         color: var(--purple-text) !important;
+      }
+
+      /* Loading page / blank page background */
+      #tabbrowser-tabpanels, .browserContainer, .browserStack {
+        background-color: var(--purple-bg) !important;
+      }
+
+      /* About:blank and loading pages */
+      browser[type="content-primary"], browser[type="content"] {
+        background-color: var(--purple-bg) !important;
+      }
+
+      /* Tab content area */
+      .tab-content {
+        background-color: var(--purple-bg) !important;
       }
     }
   '';
