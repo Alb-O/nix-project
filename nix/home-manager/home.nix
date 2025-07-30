@@ -1,12 +1,16 @@
 # Home Manager configuration
 # Main entry point for user environment configuration
-{pkgs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   globals = import ../lib/globals.nix;
 in {
   # Import modular configuration
   imports = [
     # Custom modules
-    ./modules
+    (import ./modules {inherit inputs;})
 
     # Example external modules (commented out):
     # outputs.homeManagerModules.example

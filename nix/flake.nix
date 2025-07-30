@@ -24,6 +24,12 @@
 
     # Niri flake for advanced configuration
     niri-flake.url = "github:sodiboo/niri-flake";
+
+    # nix-colors for color scheme management
+    nix-colors.url = "github:misterio77/nix-colors";
+
+    # nix-userstyles for website theming
+    nix-userstyles.url = "github:knoopx/nix-userstyles";
   };
 
   outputs = {
@@ -33,6 +39,8 @@
     sops-nix,
     nix-vscode-extensions,
     niri-flake,
+    nix-colors,
+    nix-userstyles,
     ...
   } @ inputs: let
     inherit (self) outputs;
