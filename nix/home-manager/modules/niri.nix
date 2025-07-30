@@ -148,8 +148,8 @@ in {
 
         # Pickers
         "Mod+D".action.spawn = "fuzzel";
-        "Mod+Shift+C".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p cliphist | cliphist decode | wl-copy"];
-        "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu' | wl-copy"];
+        "Mod+Shift+C".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p 'cliphist ' | cliphist decode | wl-copy"];
+        "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu -p unipicker ' | wl-copy -n"];
 
         # Audio controls
         "XF86AudioRaiseVolume" = {
