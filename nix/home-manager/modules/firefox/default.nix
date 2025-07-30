@@ -10,7 +10,7 @@
 
   # Import modular configurations
   colorschemeConfig = import ./colorscheme.nix {inherit inputs pkgs;};
-  userChromeConfig = import ./userchrome.nix {};
+  # userChromeConfig = import ./userchrome.nix {};
   policiesConfig = import ./policies.nix {};
   profileConfig = import ./profile.nix {inherit lib;};
 in {
@@ -31,7 +31,7 @@ in {
 
       # Apply generated userstyles and userChrome theme
       userContent = colorschemeConfig.userStyles;
-      userChrome = userChromeConfig.userChromeCSS;
+      # userChrome = userChromeConfig.userChromeCSS;
     };
   };
 

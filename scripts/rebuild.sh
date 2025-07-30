@@ -29,12 +29,19 @@ error() {
 
 # Validate arguments
 if [[ $# -lt 1 ]]; then
-    error "Usage: $0 <hostname>"
+    error "Usage: $0 <hostname> [--home-only]"
     echo "  hostname: Target hostname for deployment (e.g., gtx1080shitbox)"
+    echo "  --home-only: Only rebuild home-manager configuration (faster)"
     exit 2
 fi
 
 HOSTNAME="$1"
+HOME_ONLY=false
+
+# Check for --home-only flag
+if [[ $# -gt 1 && "$2" == "--home-only" ]]; then
+    HOME_ONLY=true
+fi
 
 # Check if we're in the right directory structure
 if [[ ! -d "nix" ]]; then
@@ -51,7 +58,11 @@ fi
 # Change to nix directory for the build
 cd nix
 
-log "NixOS rebuild starting for $HOSTNAME..."
+if [[ "$HOME_ONLY" == "true" ]]; then
+    log "Home-manager rebuild starting for $HOSTNAME..."
+else
+    log "NixOS rebuild starting for $HOSTNAME..."
+fi
 
 # Check if there are any changes to commit
 if git diff-index --quiet HEAD -- 2>/dev/null; then
@@ -77,10 +88,26 @@ else
 fi
 
 # Run the build and capture the exit code
-log "Running nixos-rebuild switch --flake .#$HOSTNAME"
-if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
-    success "NixOS rebuild completed successfully!"
+if [[ "$HOME_ONLY" == "true" ]]; then
+    log "Running home-manager switch --flake .#albert@$HOSTNAME"
+    if nix run github:nix-community/home-manager/master -- switch --flake .#"albert@$HOSTNAME"; then
+        success "Home-manager rebuild completed successfully!"
+    else
+        BUILD_EXIT_CODE=$?
+        error "Home-manager rebuild failed!"
+    fi
+else
+    log "Running nixos-rebuild switch --flake .#$HOSTNAME"
+    if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
+        success "NixOS rebuild completed successfully!"
+    else
+        BUILD_EXIT_CODE=$?
+        error "NixOS rebuild failed!"
+    fi
+fi
 
+# Handle success/failure
+if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
     # Generate improved commit message if we made a commit
     if [[ "$COMMIT_MADE" == "true" ]]; then
         ../scripts/generate-commit-message.sh || true  # Don't fail if Gemini fails
@@ -88,9 +115,6 @@ if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
 
     exit 0
 else
-    BUILD_EXIT_CODE=$?
-    error "NixOS rebuild failed!"
-
     # If we made a commit, undo it
     if [[ "$COMMIT_MADE" == "true" ]]; then
         log "Undoing amendme commit due to build failure..."
