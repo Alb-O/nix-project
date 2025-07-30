@@ -146,7 +146,7 @@ in {
         "Mod+Return".action.spawn = "kitty";
         "Mod+D".action.spawn = "fuzzel";
         "Super+Alt+L".action.spawn = "swaylock";
-
+        "Mod+Shift+C".action.spawn = "cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy";
         # Audio controls
         "XF86AudioRaiseVolume" = {
           action.spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"];
