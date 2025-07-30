@@ -31,7 +31,7 @@ in {
 
       # Apply generated userstyles and userChrome theme
       userContent = colorschemeConfig.userStyles;
-      # userChrome = userChromeConfig.userChromeCSS;
+      userChrome = ""; # Clear userChrome.css
     };
   };
 
