@@ -19,6 +19,7 @@ in {
       --lwt-accent-color: ${colorscheme.palette.black} !important;
       --lwt-accent-color-inactive: ${colorscheme.palette.darkPurple} !important;
       --toolbar-bgcolor: rgba(0,0,0,0.4) !important;
+      --tabpanel-background-color: ${colorscheme.palette.darkPurple} !important;
       /* tabs with system theme - text is not controlled by variable */
       --tab-selected-bgcolor: ${colorscheme.palette.midPurple} !important;
       /* tabs with any other theme */
@@ -45,8 +46,6 @@ in {
       /* sidebar - note the sidebar-box rule for the header-area */
       --lwt-sidebar-background-color: ${colorscheme.palette.black} !important;
       --lwt-sidebar-text-color: ${colorscheme.palette.white} !important;
-
-      --tabpanel-background-color: ${colorscheme.palette.darkPurple} !important;
     }
     /* line between nav-bar and tabs toolbar,
         also fallback color for border around selected tab */
@@ -55,5 +54,20 @@ in {
     #tabbrowser-tabs{ --lwt-tab-line-color: ${colorscheme.palette.white} !important; }
     /* the header-area of sidebar needs this to work */
     #sidebar-box{ --sidebar-background-color: ${colorscheme.palette.black} !important; }
+
+    /* Tab bar background for both horizontal and vertical tabs */
+    #TabsToolbar, .toolbar-items {
+      background-color: ${colorscheme.palette.darkPurple} !important;
+    }
+
+    /* Title bar background */
+    #titlebar, #navigator-toolbox-background {
+      background-color: ${colorscheme.palette.darkPurple} !important;
+    }
+
+    /* Vertical tabs container background */
+    #vertical-tabs, .tabbrowser-arrowscrollbox {
+      background-color: ${colorscheme.palette.darkPurple} !important;
+    }
   '';
 }
