@@ -22,7 +22,7 @@
       package = pkgs.adwaita-icon-theme;
     };
     font = {
-      name = "JetBrains Mono";
+      name = "JetBrainsMono Nerd Font Mono";
       package = pkgs.nerd-fonts.jetbrains-mono;
     };
 
