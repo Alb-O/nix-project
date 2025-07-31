@@ -88,5 +88,12 @@ in {
       --menuitem-hover-background-color: ${colors.ui.special.hover} !important;
       --button-hover-bgcolor: ${colors.ui.special.hover} !important;
     }
+
+    /* Force sidebar background - override any GTK interference */
+    #sidebar, #sidebar-box, #sidebar-main, #sidebar-splitter + #sidebar-box,
+    vbox[id="sidebar-box"], #sidebar > *, .sidebar-panel {
+      background-color: ${colors.ui.background.primary} !important;
+      background: ${colors.ui.background.primary} !important;
+    }
   '';
 }
