@@ -7,8 +7,7 @@ in {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      # GTK UI scaling - 1.25 = 125% scale
-      text-scaling-factor = 1.25;
+      # text-scaling-factor = 1.25;
     };
   };
 
