@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  colorscheme = import ../../lib/colorscheme.nix;
+  colors = import ../../lib/themes;
   fonts = import ../../lib/fonts.nix pkgs;
   # Helper to add alpha to hex color (e.g. "#3b224c" + "dd" -> "3b224cdd")
   hexNoHash = hex: builtins.replaceStrings ["#"] [""] hex;
@@ -22,14 +22,14 @@ in {
         icon-theme = "Adwaita";
       };
       colors = {
-        background = withAlpha colorscheme.ui.background "dd";
-        input = withAlpha colorscheme.ui.foreground "ff";
-        counter = withAlpha colorscheme.ui.foreground "ff";
-        text = withAlpha colorscheme.ui.primary "ee";
-        placeholder = withAlpha colorscheme.ui.background "ff";
-        selection = withAlpha colorscheme.ui.primary "ee";
-        selection-text = withAlpha colorscheme.ui.background "ff";
-        match = withAlpha colorscheme.ui.error "ff";
+        background = withAlpha colors.ui.background.primary "dd";
+        input = withAlpha colors.ui.foreground.primary "ff";
+        counter = withAlpha colors.ui.foreground.primary "ff";
+        text = withAlpha colors.ui.interactive.primary "ee";
+        placeholder = withAlpha colors.ui.background.primary "ff";
+        selection = withAlpha colors.ui.special.selection "ee";
+        selection-text = withAlpha colors.ui.foreground.inverse "ff";
+        match = withAlpha colors.ui.status.error "ff";
       };
       border = {
         width = 0;

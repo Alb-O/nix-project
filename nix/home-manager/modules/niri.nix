@@ -1,7 +1,7 @@
 # Niri Wayland Compositor Configuration
 # Declarative configuration using niri-flake's programs.niri.settings
 {config, ...}: let
-  colorscheme = import ../../lib/colorscheme.nix;
+  colors = import ../../lib/themes;
 in {
   programs.niri = {
     settings = {
@@ -78,16 +78,16 @@ in {
 
         focus-ring = {
           width = 2;
-          active.color = colorscheme.ui.primary;
-          inactive.color = colorscheme.ui.primaryVariant;
+          active.color = colors.ui.interactive.primary;
+          inactive.color = colors.ui.foreground.secondary;
         };
 
         border = {
           enable = false;
           width = 4;
-          active.color = colorscheme.ui.accent;
-          inactive.color = colorscheme.ui.border;
-          urgent.color = colorscheme.ui.error;
+          active.color = colors.ui.interactive.accent;
+          inactive.color = colors.ui.border.primary;
+          urgent.color = colors.ui.status.error;
         };
 
         shadow = {

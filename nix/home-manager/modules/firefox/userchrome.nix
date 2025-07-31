@@ -1,7 +1,7 @@
 # Firefox userChrome.css theme
-# Simplified theme using color variable template
+# Using semantic color structure for better maintainability
 {...}: let
-  colorscheme = import ../../../lib/colorscheme.nix;
+  colors = import ../../../lib/themes;
 in {
   # Simplified userChrome.css using Mozilla's color variable template
   userChromeCSS = ''
@@ -11,91 +11,82 @@ in {
     /* You should enable any non-default theme for these to apply properly. Built-in dark and light themes should work */
     :root{
       /* Popup panels */
-      --arrowpanel-background: ${colorscheme.palette.darkPurple} !important;
-      --arrowpanel-border-color: ${colorscheme.palette.midPurple} !important;
-      --arrowpanel-color: ${colorscheme.palette.white} !important;
+      --arrowpanel-background: ${colors.ui.background.secondary} !important;
+      --arrowpanel-border-color: ${colors.ui.border.primary} !important;
+      --arrowpanel-color: ${colors.ui.foreground.primary} !important;
       --arrowpanel-dimmed: rgba(0,0,0,0.4) !important;
       /* window and toolbar background */
-      --lwt-accent-color: ${colorscheme.palette.black} !important;
-      --lwt-accent-color-inactive: ${colorscheme.palette.darkPurple} !important;
+      --lwt-accent-color: ${colors.ui.background.primary} !important;
+      --lwt-accent-color-inactive: ${colors.ui.background.secondary} !important;
       --toolbar-bgcolor: rgba(0,0,0,0.4) !important;
-      --tabpanel-background-color: ${colorscheme.palette.darkPurple} !important;
+      --tabpanel-background-color: ${colors.ui.background.secondary} !important;
       /* tabs with system theme - text is not controlled by variable */
-      --tab-selected-bgcolor: ${colorscheme.palette.midPurple} !important;
+      --tab-selected-bgcolor: ${colors.ui.background.tertiary} !important;
       /* tabs with any other theme */
-      --lwt-text-color: ${colorscheme.palette.white} !important;
-      --lwt-selected-tab-background-color: ${colorscheme.palette.midPurple} !important;
+      --lwt-text-color: ${colors.ui.foreground.primary} !important;
+      --lwt-selected-tab-background-color: ${colors.ui.background.tertiary} !important;
       /* toolbar area */
-      --toolbarbutton-icon-fill: ${colorscheme.palette.white} !important;
-      --lwt-toolbarbutton-hover-background: ${colorscheme.palette.lightPurple} !important;
-      --lwt-toolbarbutton-active-background: ${colorscheme.palette.pink} !important;
+      --toolbarbutton-icon-fill: ${colors.ui.foreground.primary} !important;
+      --lwt-toolbarbutton-hover-background: ${colors.ui.special.hover} !important;
+      --lwt-toolbarbutton-active-background: ${colors.ui.interactive.primary} !important;
       /* urlbar */
-      --toolbar-field-border-color: ${colorscheme.palette.black} !important;
-      --toolbar-field-focus-border-color: ${colorscheme.palette.pink} !important;
-      --urlbar-popup-url-color: ${colorscheme.palette.cyan} !important;
+      --toolbar-field-border-color: ${colors.ui.background.primary} !important;
+      --toolbar-field-focus-border-color: ${colors.ui.border.focus} !important;
+      --urlbar-popup-url-color: ${colors.ui.interactive.muted} !important;
       /* urlbar Firefox < 92 */
-      --lwt-toolbar-field-background-color: ${colorscheme.palette.darkPurple} !important;
-      --lwt-toolbar-field-focus: ${colorscheme.palette.midPurple} !important;
-      --lwt-toolbar-field-color: ${colorscheme.palette.white} !important;
-      --lwt-toolbar-field-focus-color: ${colorscheme.palette.white} !important;
+      --lwt-toolbar-field-background-color: ${colors.ui.background.secondary} !important;
+      --lwt-toolbar-field-focus: ${colors.ui.background.tertiary} !important;
+      --lwt-toolbar-field-color: ${colors.ui.foreground.primary} !important;
+      --lwt-toolbar-field-focus-color: ${colors.ui.foreground.primary} !important;
       /* urlbar Firefox 92+ */
-      --toolbar-field-background-color: ${colorscheme.palette.black} !important;
-      --toolbar-field-focus-background-color: ${colorscheme.palette.midPurple} !important;
-      --toolbar-field-color: ${colorscheme.palette.white} !important;
-      --toolbar-field-focus-color: ${colorscheme.palette.white} !important;
+      --toolbar-field-background-color: ${colors.ui.background.primary} !important;
+      --toolbar-field-focus-background-color: ${colors.ui.background.tertiary} !important;
+      --toolbar-field-color: ${colors.ui.foreground.primary} !important;
+      --toolbar-field-focus-color: ${colors.ui.foreground.primary} !important;
       /* sidebar - note the sidebar-box rule for the header-area */
-      --lwt-sidebar-background-color: ${colorscheme.palette.black} !important;
-      --lwt-sidebar-text-color: ${colorscheme.palette.white} !important;
+      --lwt-sidebar-background-color: ${colors.ui.background.primary} !important;
+      --lwt-sidebar-text-color: ${colors.ui.foreground.primary} !important;
     }
     /* line between nav-bar and tabs toolbar,
-        also fallback color for border around selected tab */
-    #navigator-toolbox{ --lwt-tabs-border-color: ${colorscheme.palette.midPurple} !important; }
-    /* Line above tabs */
-    #tabbrowser-tabs{ --lwt-tab-line-color: ${colorscheme.palette.white} !important; }
-    /* the header-area of sidebar needs this to work */
-    #sidebar-box{ --sidebar-background-color: ${colorscheme.palette.black} !important; }
+    also fallback color for border-top of nav-bar if there are no tabs */
+    #navigator-toolbox{ --lwt-tabs-border-color: ${colors.ui.border.primary} !important; }
+    /* active tab line */
+    #tabbrowser-tabs{ --lwt-tab-line-color: ${colors.ui.foreground.primary} !important; }
+    /* sidebar header */
+    #sidebar-box{ --sidebar-background-color: ${colors.ui.background.primary} !important; }
 
-    /* Main navigation toolbar */
+    /* Navigation toolbar background */
     #nav-bar {
-      background-color: ${colorscheme.palette.black} !important;
+      background-color: ${colors.ui.background.primary} !important;
     }
 
-    /* Tab bar background for both horizontal and vertical tabs */
-    #TabsToolbar, .toolbar-items {
-      background-color: ${colorscheme.palette.black} !important;
+    /* Vertical tabs sidebar footer background */
+    #sidebar-box #sidebar-main vbox > box:last-child {
+      background-color: ${colors.ui.background.primary} !important;
     }
 
-    /* Title bar background - comprehensive selectors */
-    #titlebar, #navigator-toolbox-background, .titlebar-buttonbox-container {
-      background-color: ${colorscheme.palette.black} !important;
+    /* URL bar background and border styling */
+    #urlbar, #urlbar-background {
+      background-color: ${colors.ui.background.primary} !important;
+      border: 1px solid ${colors.ui.background.primary} !important;
     }
 
-    /* Vertical tabs container and footer */
-    #vertical-tabs, .tabbrowser-arrowscrollbox, #sidebar-main {
-      background-color: ${colorscheme.palette.black} !important;
-    }
-
-    /* Context menus and popups */
-    #PersonalToolbar menupopup,
-    #mainPopupSet menupopup,
-    #toolbar-menubar menupopup,
-    #placesContext,
-    #urlbar-input-container menupopup,
-    #back-button menupopup, #forward-button menupopup,
-    #identity-popup, #appMenu-popup, #downloadsPanel, #BMB_bookmarksPopup {
-      --menu-color: ${colorscheme.palette.white} !important;
-      --arrowpanel-color: ${colorscheme.palette.white} !important;
-      --panel-color: ${colorscheme.palette.white} !important;
-      --menu-background-color: ${colorscheme.palette.darkPurple} !important;
-      --arrowpanel-background: ${colorscheme.palette.darkPurple} !important;
-      --panel-background: ${colorscheme.palette.darkPurple} !important;
-      --menu-border-color: ${colorscheme.palette.midPurple} !important;
-      --arrowpanel-border-color: ${colorscheme.palette.midPurple} !important;
-      --panel-border-color: ${colorscheme.palette.black} !important;
-      --menuitem-hover-background-color: ${colorscheme.palette.lightPurple} !important;
-      --button-hover-bgcolor: ${colorscheme.palette.lightPurple} !important;
-      --menu-disabled-color: rgba(255, 255, 255, 0.4) !important;
-      --menuitem-disabled-hover-background-color: rgba(255, 255, 255, 0.1) !important;
+    /* Comprehensive menu and popup styling */
+    menupopup, panel, #downloadsPanel, #identity-popup, #permission-popup,
+    #protections-popup, #appMenu-popup, #PanelUI-popup, .panel-arrowcontent,
+    #contentAreaContextMenu, #toolbar-context-menu, #placesContext,
+    #SyncedTabsSidebar, #sidebar, #sidebar-header {
+      --menu-color: ${colors.ui.foreground.primary} !important;
+      --arrowpanel-color: ${colors.ui.foreground.primary} !important;
+      --panel-color: ${colors.ui.foreground.primary} !important;
+      --menu-background-color: ${colors.ui.background.secondary} !important;
+      --arrowpanel-background: ${colors.ui.background.secondary} !important;
+      --panel-background: ${colors.ui.background.secondary} !important;
+      --menu-border-color: ${colors.ui.border.primary} !important;
+      --arrowpanel-border-color: ${colors.ui.border.primary} !important;
+      --panel-border-color: ${colors.ui.background.primary} !important;
+      --menuitem-hover-background-color: ${colors.ui.special.hover} !important;
+      --button-hover-bgcolor: ${colors.ui.special.hover} !important;
     }
   '';
 }

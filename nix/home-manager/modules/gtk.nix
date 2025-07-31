@@ -24,9 +24,9 @@ in {
       package = pkgs.adwaita-icon-theme;
     };
     font = {
-      name = fonts.sansSerif.name;
-      size = fonts.sansSerif.size.normal;
-      package = fonts.sansSerif.package;
+      name = fonts.mono.name;
+      size = fonts.mono.size.normal;
+      package = fonts.mono.package;
     };
 
     # GTK bookmarks file

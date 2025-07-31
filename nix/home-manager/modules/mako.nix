@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  colorscheme = import ../../lib/colorscheme.nix;
+  colors = import ../../lib/themes;
   fonts = import ../../lib/fonts.nix pkgs;
 in {
   services.mako = {
@@ -7,10 +7,10 @@ in {
 
     settings = {
       # Basic appearance
-      background-color = colorscheme.ui.background;
-      text-color = colorscheme.ui.foreground;
-      border-color = colorscheme.ui.border;
-      progress-color = colorscheme.ui.primary;
+      background-color = colors.ui.background.primary;
+      text-color = colors.ui.foreground.primary;
+      border-color = colors.ui.border.primary;
+      progress-color = colors.ui.interactive.primary;
 
       # Font configuration
       font = "${fonts.mono.name} ${toString fonts.mono.size.normal}";
@@ -33,21 +33,21 @@ in {
     # Categories with different colors
     extraConfig = ''
       [urgency=low]
-      border-color=${colorscheme.ui.info}
+      border-color=${colors.ui.status.info}
 
       [urgency=normal]
-      border-color=${colorscheme.ui.border}
+      border-color=${colors.ui.border.primary}
 
       [urgency=critical]
-      border-color=${colorscheme.ui.error}
-      background-color=${colorscheme.ui.error}
-      text-color=${colorscheme.ui.background}
+      border-color=${colors.ui.status.error}
+      background-color=${colors.ui.status.error}
+      text-color=${colors.ui.background.primary}
 
       [category=screenshot]
-      border-color=${colorscheme.ui.success}
+      border-color=${colors.ui.status.success}
 
       [app-name=volume]
-      border-color=${colorscheme.ui.accent}
+      border-color=${colors.ui.interactive.accent}
     '';
   };
 }
