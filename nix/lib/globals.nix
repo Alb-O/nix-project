@@ -1,7 +1,9 @@
 # System-wide configuration definitions
 {
-  monoFont = "JetBrains Mono Nerd Font";
-  sansFont = "Noto Sans";
+  # Font system requires pkgs parameter - access via (import ./fonts.nix pkgs)
+  # Legacy font references (deprecated - use fonts.* instead)
+  monoFont = "JetBrainsMono Nerd Font Mono";
+  sansFont = "Inter";
   gtkTheme = "Adwaita-dark";
   iconTheme = "Adwaita";
   cursorTheme = "Adwaita";

@@ -1,11 +1,12 @@
 {pkgs, ...}: let
   colorscheme = import ../../lib/colorscheme.nix;
+  fonts = import ../../lib/fonts.nix pkgs;
 in {
   programs.kitty = {
     enable = true;
-    font.name = "JetBrainsMono Nerd Font Mono";
-    font.size = 13;
-    font.package = pkgs.nerd-fonts.jetbrains-mono;
+    font.name = fonts.mono.name;
+    font.size = fonts.mono.size.normal;
+    font.package = fonts.mono.package;
     settings = {
       # Basic colors
       foreground = colorscheme.ui.foreground;

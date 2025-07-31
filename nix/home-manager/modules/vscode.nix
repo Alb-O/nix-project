@@ -1,5 +1,6 @@
 # VSCode configuration with declarative settings management
 {pkgs, ...}: let
+  fonts = import ../../lib/fonts.nix pkgs;
   # Wrap VSCode to always use Wayland platform
   vscode-wayland = pkgs.symlinkJoin {
     name = "vscode-wayland";
@@ -48,15 +49,15 @@ in {
 
     # Declarative settings.json configuration
     profiles.default.userSettings = {
-      # Font configuration - JetBrains Mono Nerd Font
-      "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace'";
-      "editor.fontSize" = 15;
+      # Font configuration - Global mono font
+      "editor.fontFamily" = "'${fonts.mono.name}', 'monospace'";
+      "editor.fontSize" = fonts.mono.size.large;
       "editor.fontLigatures" = true;
       "editor.lineHeight" = 1.5;
 
       # Terminal configuration
-      "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font Mono'";
-      "terminal.integrated.fontSize" = 14;
+      "terminal.integrated.fontFamily" = "'${fonts.mono.name}'";
+      "terminal.integrated.fontSize" = fonts.mono.size.normal;
       "terminal.integrated.smoothScrolling" = true;
 
       # Editor behavior

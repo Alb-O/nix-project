@@ -1,5 +1,6 @@
-{...}: let
+{pkgs, ...}: let
   colorscheme = import ../../lib/colorscheme.nix;
+  fonts = import ../../lib/fonts.nix pkgs;
 in {
   services.mako = {
     enable = true;
@@ -12,7 +13,7 @@ in {
       progress-color = colorscheme.ui.primary;
 
       # Font configuration
-      font = "JetBrainsMono Nerd Font 13";
+      font = "${fonts.mono.name} ${toString fonts.mono.size.normal}";
 
       # Layout and positioning
       width = 400;

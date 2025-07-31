@@ -1,6 +1,8 @@
 # Desktop environment configuration
 # Handles themes, fonts, and desktop-wide settings
-{pkgs, ...}: {
+{pkgs, ...}: let
+  fonts = import ../../lib/fonts.nix pkgs;
+in {
   # Dark theme preferences with UI scaling
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -22,8 +24,9 @@
       package = pkgs.adwaita-icon-theme;
     };
     font = {
-      name = "JetBrainsMono Nerd Font Mono";
-      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = fonts.sansSerif.name;
+      size = fonts.sansSerif.size.normal;
+      package = fonts.sansSerif.package;
     };
 
     # GTK bookmarks file
