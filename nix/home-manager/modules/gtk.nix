@@ -88,10 +88,10 @@
     @define-color insensitive_borders ${colors.ui.border.secondary};
 
     /* Additional semantic mappings */
-    /* @define-color sidebar_bg_color ${colors.ui.background.secondary}; */
-    /* @define-color sidebar_fg_color ${colors.ui.foreground.primary}; */
-    /* @define-color sidebar_backdrop_color ${colors.ui.background.tertiary}; */
-    /* @define-color sidebar_shade_color ${colors.ui.background.tertiary}; */
+    @define-color sidebar_bg_color ${colors.ui.background.secondary};
+    @define-color sidebar_fg_color ${colors.ui.foreground.primary};
+    @define-color sidebar_backdrop_color ${colors.ui.background.tertiary};
+    @define-color sidebar_shade_color ${colors.ui.background.tertiary};
     @define-color secondary_sidebar_bg_color ${colors.ui.background.tertiary};
     @define-color secondary_sidebar_fg_color ${colors.ui.foreground.secondary};
     @define-color secondary_sidebar_backdrop_color ${colors.ui.background.tertiary};
