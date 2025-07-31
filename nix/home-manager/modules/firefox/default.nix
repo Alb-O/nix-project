@@ -35,8 +35,8 @@ in {
       settings = profileConfig.profileSettings;
 
       # Apply generated userstyles and userChrome theme
-      # userContent = colorschemeConfig.userStyles;
-      # userChrome = userChromeConfig.userChromeCSS;
+      userContent = colorschemeConfig.userStyles;
+      userChrome = userChromeConfig.userChromeCSS;
     };
   };
 
