@@ -74,21 +74,7 @@
     "dom.security.https_only_mode" = false; # Disable to allow HTTP sites during troubleshooting
 
     # Layout
-    "browser.uiCustomization.state" = builtins.toJSON {
-      placements = {
-        widget-overflow-fixed-list = [];
-        unified-extensions-area = [];
-        nav-bar = ["back-button" "forward-button" "vertical-spacer" "stop-reload-button" "customizableui-special-spring8" "urlbar-container" "customizableui-special-spring7" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action" "reset-pbm-toolbar-button" "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action" "sponsorblocker_ajay_app-browser-action" "addon_darkreader_org-browser-action" "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action" "unified-extensions-button" "downloads-button"];
-        toolbar-menubar = ["menubar-items"];
-        TabsToolbar = [];
-        vertical-tabs = ["tabbrowser-tabs"];
-        PersonalToolbar = ["personal-bookmarks"];
-      };
-      seen = ["save-to-pocket-button" "developer-button" "ublock0_raymondhill_net-browser-action" "_testpilot-containers-browser-action" "addon_darkreader_org-browser-action" "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action" "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action" "sponsorblocker_ajay_app-browser-action"];
-      dirtyAreaCache = ["nav-bar" "PersonalToolbar" "toolbar-menubar" "TabsToolbar" "widget-overflow-fixed-list" "unified-extensions-area" "vertical-tabs"];
-      currentVersion = 23;
-      newElementCount = 9;
-    };
+    "browser.uiCustomization.state" = builtins.readFile ./ui-customization-state.json;
     browser.uidensity = 1; # Compact mode
 
     # Enable sidebar/vertical tabs

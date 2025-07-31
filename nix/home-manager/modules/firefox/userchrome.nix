@@ -91,7 +91,7 @@ in {
       --panel-background: ${colorscheme.palette.darkPurple} !important;
       --menu-border-color: ${colorscheme.palette.midPurple} !important;
       --arrowpanel-border-color: ${colorscheme.palette.midPurple} !important;
-      --panel-border-color: ${colorscheme.palette.midPurple} !important;
+      --panel-border-color: ${colorscheme.palette.black} !important;
       --menuitem-hover-background-color: ${colorscheme.palette.lightPurple} !important;
       --button-hover-bgcolor: ${colorscheme.palette.lightPurple} !important;
       --menu-disabled-color: rgba(255, 255, 255, 0.4) !important;
