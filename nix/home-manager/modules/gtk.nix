@@ -7,7 +7,8 @@ in {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      # text-scaling-factor = 1.25;
+      # GTK UI scaling - 1.25 = 125% scale
+      text-scaling-factor = 1.25;
     };
   };
 
@@ -24,7 +25,7 @@ in {
     };
     font = {
       name = fonts.mono.name;
-      size = fonts.mono.size.normal;
+      size = fonts.mono.size.small;
       package = fonts.mono.package;
     };
 

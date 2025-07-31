@@ -6,7 +6,7 @@ pkgs: {
     name = "JetBrainsMono Nerd Font Mono";
     package = pkgs.nerd-fonts.jetbrains-mono;
     size = {
-      small = 12;
+      small = 11;
       normal = 13;
       large = 15;
     };
