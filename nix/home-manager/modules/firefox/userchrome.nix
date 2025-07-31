@@ -30,7 +30,7 @@ in {
       --lwt-toolbarbutton-hover-background: ${colorscheme.palette.lightPurple} !important;
       --lwt-toolbarbutton-active-background: ${colorscheme.palette.pink} !important;
       /* urlbar */
-      --toolbar-field-border-color: ${colorscheme.palette.midPurple} !important;
+      --toolbar-field-border-color: ${colorscheme.palette.black} !important;
       --toolbar-field-focus-border-color: ${colorscheme.palette.pink} !important;
       --urlbar-popup-url-color: ${colorscheme.palette.cyan} !important;
       /* urlbar Firefox < 92 */
@@ -39,7 +39,7 @@ in {
       --lwt-toolbar-field-color: ${colorscheme.palette.white} !important;
       --lwt-toolbar-field-focus-color: ${colorscheme.palette.white} !important;
       /* urlbar Firefox 92+ */
-      --toolbar-field-background-color: ${colorscheme.palette.darkPurple} !important;
+      --toolbar-field-background-color: ${colorscheme.palette.black} !important;
       --toolbar-field-focus-background-color: ${colorscheme.palette.midPurple} !important;
       --toolbar-field-color: ${colorscheme.palette.white} !important;
       --toolbar-field-focus-color: ${colorscheme.palette.white} !important;
