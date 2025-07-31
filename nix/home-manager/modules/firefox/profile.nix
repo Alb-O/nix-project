@@ -77,6 +77,14 @@
     "browser.uiCustomization.state" = builtins.readFile ./ui-customization-state.json;
     browser.uidensity = 1; # Compact mode
 
+    # Font settings
+    "font.name.serif.x-western" = "JetBrainsMono Nerd Font Mono";
+    "font.name.sans-serif.x-western" = "JetBrainsMono Nerd Font Mono";
+    "font.name.monospace.x-western" = "JetBrainsMono Nerd Font Mono";
+    "font.name.cursive.x-western" = "JetBrainsMono Nerd Font Mono";
+    "font.name.fantasy.x-western" = "JetBrainsMono Nerd Font Mono";
+    "font.default.x-western" = "sans-serif";
+
     # Enable sidebar/vertical tabs
     "sidebar.visibility" = "always-show";
     "sidebar.position_start" = true;
