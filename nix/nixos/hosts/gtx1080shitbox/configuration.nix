@@ -207,6 +207,11 @@ in {
     crimson-pro
   ];
 
+  # Environment variables
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

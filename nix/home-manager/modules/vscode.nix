@@ -1,22 +1,9 @@
-# VSCode configuration with declarative settings management
 {pkgs, ...}: let
   fonts = import ../../lib/fonts.nix pkgs;
-  # Wrap VSCode to always use Wayland platform
-  vscode-wayland = pkgs.symlinkJoin {
-    name = "vscode-wayland";
-    pname = pkgs.unstable.vscode.pname;
-    version = pkgs.unstable.vscode.version;
-    paths = [pkgs.unstable.vscode];
-    buildInputs = [pkgs.makeWrapper];
-    postBuild = ''
-      wrapProgram $out/bin/code \
-        --add-flags "--ozone-platform=wayland"
-    '';
-  };
 in {
   programs.vscode = {
     enable = true;
-    package = vscode-wayland;
+    package = pkgs.unstable.vscode;
 
     # Prevent VSCode from managing extensions imperatively - key to preventing conflicts
     mutableExtensionsDir = false;
