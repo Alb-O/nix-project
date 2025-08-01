@@ -1,5 +1,9 @@
 # Key bindings for Niri
-{config}:
+{
+  pkgs,
+  config,
+  ...
+}:
 with config.lib.niri.actions; {
   binds = {
     # Help overlay
@@ -13,6 +17,32 @@ with config.lib.niri.actions; {
     "Mod+D".action.spawn = "fuzzel";
     "Mod+E".action.spawn = ["sh" "-c" "cliphist list | fuzzel --dmenu --with-nth 2 -p 'cliphist ' | cliphist decode | wl-copy"];
     "Mod+Shift+Period".action.spawn = ["sh" "-c" "unipicker --command 'fuzzel --dmenu -p \"unipicker \"' | wl-copy -n"];
+    "Mod+Shift+End".action.spawn = [
+      "sh"
+      "-c"
+      ''
+        set -euo pipefail
+        PATH=${pkgs.lib.makeBinPath [pkgs.fuzzel pkgs.systemd]}:$PATH
+        {
+          echo "Lock"
+          echo "Suspend"
+          echo "Restart"
+          echo "Shutdown"
+          echo "Hibernate"
+          echo "Power off monitors"
+        } | fuzzel --dmenu -p "system " | {
+          read -r selection
+          case "$selection" in
+            "Lock") swaylock ;;
+            "Suspend") systemctl suspend ;;
+            "Restart") systemctl reboot ;;
+            "Shutdown") systemctl poweroff ;;
+            "Hibernate") systemctl hibernate ;;
+            "Power off monitors") niri msg action power-off-monitors ;;
+          esac
+        }
+      ''
+    ];
 
     # Color picker
     "Mod+Shift+C".action.spawn = ["sh" "-c" "hyprpicker | wl-copy -n"];
