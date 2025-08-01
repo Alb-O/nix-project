@@ -24,7 +24,7 @@
     };
     "clipper@obsidian.md" = {
       # Obsidian Clipper
-      install_url = "https://addons.mozilla.org/firefox/downloads/file/latest/web-clipper-obsidian/latest.xpi";
+      install_url = "https://addons.mozilla.org/firefox/downloads/file/latest/web_clipper_obsidian/latest.xpi";
       installation_mode = "force_installed";
     };
   };
