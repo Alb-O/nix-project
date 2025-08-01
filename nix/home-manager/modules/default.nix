@@ -6,7 +6,7 @@ in {
   _module.args = {inherit inputs;};
   imports = [
     # Desktop environment
-    ./niri.nix
+    ./niri
     ./fuzzel.nix
     ./swww.nix
     ./gtk.nix

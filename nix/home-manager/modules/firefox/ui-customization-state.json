@@ -15,6 +15,7 @@
             "sponsorblocker_ajay_app-browser-action",
             "addon_darkreader_org-browser-action",
             "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action",
+            "clipper_obsidian_md-browser-action",
             "unified-extensions-button",
             "downloads-button",
             "preferences-button"
@@ -38,7 +39,8 @@
         "addon_darkreader_org-browser-action",
         "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
         "_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action",
-        "sponsorblocker_ajay_app-browser-action"
+        "sponsorblocker_ajay_app-browser-action",
+        "clipper_obsidian_md-browser-action"
     ],
     "dirtyAreaCache": [
         "nav-bar",
@@ -50,5 +52,5 @@
         "vertical-tabs"
     ],
     "currentVersion": 23,
-    "newElementCount": 13
+    "newElementCount": 14
 }
