@@ -70,14 +70,14 @@ if git diff-index --quiet HEAD -- 2>/dev/null; then
     COMMIT_MADE=false
 else
     log "Changes detected, formatting Nix files before commit..."
-    
+
     # Format all Nix files
     if nix fmt .; then
         success "Nix files formatted"
     else
         log "Nix formatting failed, continuing anyway..."
     fi
-    
+
     log "Creating amendme commit..."
 
     # Create the amendme commit
@@ -98,7 +98,7 @@ if [[ "$HOME_ONLY" == "true" ]]; then
     fi
 else
     log "Running nixos-rebuild switch --flake .#$HOSTNAME"
-    if sudo nixos-rebuild switch --flake .#"$HOSTNAME"; then
+    if sudo nixos-rebuild switch --upgrade-all --flake .#"$HOSTNAME"; then
         success "NixOS rebuild completed successfully!"
     else
         BUILD_EXIT_CODE=$?
