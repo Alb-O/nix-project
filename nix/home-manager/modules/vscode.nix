@@ -38,6 +38,7 @@ in {
       anthropic.claude-code
       kilocode.kilo-code
       github.copilot
+      github.copilot-chat
 
       # Icons
       pkief.material-icon-theme
