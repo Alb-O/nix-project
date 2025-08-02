@@ -39,6 +39,7 @@ in {
       # AI
       claude-code
       gemini-cli
+      geminicommit
       # Nix LSP
       nil
       nixd
