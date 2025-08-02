@@ -29,19 +29,34 @@ error() {
 
 # Validate arguments
 if [[ $# -lt 1 ]]; then
-    error "Usage: $0 <hostname> [--home-only]"
+    error "Usage: $0 <hostname> [--home-only] [--auto-commit]"
     echo "  hostname: Target hostname for deployment (e.g., gtx1080shitbox)"
     echo "  --home-only: Only rebuild home-manager configuration (faster)"
+    echo "  --auto-commit: Auto-accept geminicommit suggestions (for AI tools)"
     exit 2
 fi
 
 HOSTNAME="$1"
 HOME_ONLY=false
+AUTO_COMMIT=false
 
-# Check for --home-only flag
-if [[ $# -gt 1 && "$2" == "--home-only" ]]; then
-    HOME_ONLY=true
-fi
+# Parse flags
+shift
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --home-only)
+            HOME_ONLY=true
+            ;;
+        --auto-commit)
+            AUTO_COMMIT=true
+            ;;
+        *)
+            error "Unknown flag: $1"
+            exit 2
+            ;;
+    esac
+    shift
+done
 
 # Check if we're in the right directory structure
 if [[ ! -d "nix" ]]; then
@@ -117,12 +132,12 @@ if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
         fi
         # Reset the commit to staged changes, then use geminicommit to recommit
         git reset --soft HEAD~1
-        if gmc --no-verify; then
-            success "Commit message improved with geminicommit"
+        if [[ "$AUTO_COMMIT" == "true" ]]; then
+            gmc -y || { log "geminicommit failed, creating fallback commit..."; git commit -m "chore: auto-commit rebuild $(date -Iseconds)" || true; }
         else
-            log "geminicommit failed, creating fallback commit..."
-            git commit -m "chore: auto-commit rebuild $(date -Iseconds)" || true
+            gmc || { log "geminicommit failed, creating fallback commit..."; git commit -m "chore: auto-commit rebuild $(date -Iseconds)" || true; }
         fi
+        success "Commit message improved with geminicommit"
     fi
 
     exit 0
