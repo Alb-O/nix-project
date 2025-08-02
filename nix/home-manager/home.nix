@@ -35,6 +35,7 @@ in {
       gh
       unipicker
       hyprpicker
+      lm_sensors
       # AI
       claude-code
       gemini-cli
