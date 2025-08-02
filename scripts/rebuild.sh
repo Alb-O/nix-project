@@ -110,7 +110,19 @@ fi
 if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
     # Generate improved commit message if we made a commit
     if [[ "$COMMIT_MADE" == "true" ]]; then
-        ../scripts/generate-commit-message.sh || true  # Don't fail if Gemini fails
+        log "Generating improved commit message with geminicommit..."
+        # Configure geminicommit API key if available
+        if [[ -n "${GEMINI_API_KEY:-}" ]]; then
+            gmc config key set "$GEMINI_API_KEY" || log "Failed to set geminicommit API key"
+        fi
+        # Reset the commit to staged changes, then use geminicommit to recommit
+        git reset --soft HEAD~1
+        if gmc --no-verify; then
+            success "Commit message improved with geminicommit"
+        else
+            log "geminicommit failed, creating fallback commit..."
+            git commit -m "chore: auto-commit rebuild $(date -Iseconds)" || true
+        fi
     fi
 
     exit 0
