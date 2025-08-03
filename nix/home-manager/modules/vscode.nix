@@ -26,7 +26,7 @@ in {
       anthropic.claude-code
       kilocode.kilo-code
       github.copilot
-      github.copilot-chat
+      pkgs.nix-vscode-extensions.vscode-marketplace-release.github.copilot-chat
 
       # Icons
       pkief.material-icon-theme
