@@ -14,6 +14,7 @@ in {
       rust-lang.rust-analyzer
       jnoortheen.nix-ide
       tamasfe.even-better-toml
+      yzhang.markdown-all-in-one
 
       # Git integration
       eamodio.gitlens
@@ -33,6 +34,9 @@ in {
 
       # Theme
       ms-vscode.cpptools-themes
+
+      # License management
+      ultram4rine.vscode-choosealicense
     ];
 
     # Declarative settings.json configuration
