@@ -218,6 +218,9 @@ in {
     '';
   };
 
+  # Don't let fancontrol block rebuilds
+  systemd.services.fancontrol.unitConfig.X-StopOnReconfiguration = false;
+
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans

@@ -27,9 +27,6 @@ in {
   home.packages = with pkgs.unstable;
     [
       # General
-      wl-clipboard
-      cliphist # Clipboard manager for Wayland
-      wl-clip-persist # Keeps clipboard content alive after source app closes
       jq
       ufetch
       git
@@ -37,6 +34,9 @@ in {
       unipicker
       hyprpicker
       lm_sensors
+      # Clipboard
+      wl-clipboard
+      cliphist
       # AI
       claude-code
       gemini-cli
