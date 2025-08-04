@@ -56,6 +56,7 @@ in {
       cargo-edit
       cargo-audit
       cargo-outdated
+      cargo-binstall
       gcc # Required for linking during Rust compilation
     ]
     ++ [
