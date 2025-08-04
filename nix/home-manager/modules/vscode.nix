@@ -12,7 +12,6 @@ in {
       # Language support
       ms-python.python
       rust-lang.rust-analyzer
-      jnoortheen.nix-ide
       tamasfe.even-better-toml
       yzhang.markdown-all-in-one
 
@@ -21,6 +20,7 @@ in {
 
       # Nix integration
       arrterian.nix-env-selector
+      jnoortheen.nix-ide
 
       # Productivity and diagnostics
       usernamehw.errorlens
