@@ -19,6 +19,9 @@ in {
       # Git integration
       eamodio.gitlens
 
+      # Nix integration
+      arrterian.nix-env-selector
+
       # Productivity and diagnostics
       usernamehw.errorlens
 
