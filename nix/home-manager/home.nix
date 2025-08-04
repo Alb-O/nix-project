@@ -32,11 +32,11 @@ in {
       wl-clip-persist # Keeps clipboard content alive after source app closes
       jq
       ufetch
+      git
       gh
       unipicker
       hyprpicker
       lm_sensors
-      openssl
       # AI
       claude-code
       gemini-cli
@@ -64,6 +64,11 @@ in {
       # Custom packages
       pkgs.blender-daily
     ];
+
+  # Shell aliases
+  home.shellAliases = {
+    cargo-binstall = "nix-shell ${globals.user.homeDirectory}/_/projects/nix-project/nix/shells/rust.nix --run 'cargo-binstall'";
+  };
 
   # Rust development environment variables
   home.sessionVariables = {

@@ -39,8 +39,9 @@ in {
     '';
   };
 
-  # Window manager configuration is handled by niri-declarative.nix module
-
-  # Ensure .local/bin is in PATH
-  home.sessionPath = [globals.dirs.localBin];
+  # Extra PATH
+  home.sessionPath = [
+    globals.dirs.localBin
+    globals.dirs.cargoBin
+  ];
 }

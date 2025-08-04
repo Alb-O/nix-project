@@ -28,5 +28,6 @@
     localShare = "/home/albert/.local/share";
     secrets = "/home/albert/.config/nix-config/secrets";
     scripts = "/home/albert/.config/nix-config/scripts";
+    cargoBin = "/home/albert/.cargo/bin";
   };
 }
