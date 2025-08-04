@@ -15,8 +15,7 @@
     libadwaita # GTK4 Adwaita library and themes
     gtk4 # GTK4 runtime with proper theme support
 
-    # Additional tools
-    gemini-cli
+    # Display manager
     sddm-astronaut
   ];
 }
