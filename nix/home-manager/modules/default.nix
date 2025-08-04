@@ -35,8 +35,8 @@ in {
   programs.bash = {
     enable = true;
     initExtra = ''
-      # If running interactively and fish is available, launch fish
-      if [[ $- == *i* ]] && command -v fish >/dev/null 2>&1; then
+      # If running interactively and fish is available, launch fish (but not in nix-shell)
+      if [[ $- == *i* ]] && command -v fish >/dev/null 2>&1 && [[ -z "$IN_NIX_SHELL" ]]; then
         exec fish
       fi
     '';

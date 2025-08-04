@@ -5,7 +5,7 @@ in {
   # Shell aliases for Rust development
   home.shellAliases = {
     cargo-binstall = "nix-shell ${globals.dirs.projectRoot}/nix/shells/rust.nix --run 'cargo-binstall'";
-    rust-shell = "nix-shell ${globals.dirs.projectRoot}/nix/shells/rust.nix";
+    rust-shell = "nix-shell ${globals.dirs.projectRoot}/nix/shells/rust.nix --command fish";
   };
 
   # Rust development environment variables
