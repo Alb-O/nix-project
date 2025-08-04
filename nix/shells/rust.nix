@@ -6,6 +6,12 @@ pkgs.mkShell {
     gcc
     rustfmt
     clippy
+    rust-analyzer
+    cargo-watch
+    cargo-edit
+    cargo-audit
+    cargo-outdated
+    cargo-binstall
     pkg-config
   ];
 

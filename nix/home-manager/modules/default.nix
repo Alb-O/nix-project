@@ -24,6 +24,9 @@ in {
     ./ssh.nix
     ./polkit.nix
     ./clipboard.nix
+
+    # Development environments
+    ./rust.nix
   ];
 
   # Core programs

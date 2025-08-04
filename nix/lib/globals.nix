@@ -29,5 +29,6 @@
     secrets = "/home/albert/.config/nix-config/secrets";
     scripts = "/home/albert/.config/nix-config/scripts";
     cargoBin = "/home/albert/.cargo/bin";
+    projectRoot = "/home/albert/_/projects/nix-project";
   };
 }

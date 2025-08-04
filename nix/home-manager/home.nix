@@ -47,33 +47,12 @@ in {
       # Python development environment
       python3
       uv
-      # Rust development toolchain
-      rustc
-      cargo
-      rustfmt
-      clippy
-      rust-analyzer
-      cargo-watch
-      cargo-edit
-      cargo-audit
-      cargo-outdated
-      cargo-binstall
       gcc # Required for linking during Rust compilation
     ]
     ++ [
       # Custom packages
       pkgs.blender-daily
     ];
-
-  # Shell aliases
-  home.shellAliases = {
-    cargo-binstall = "nix-shell ${globals.user.homeDirectory}/_/projects/nix-project/nix/shells/rust.nix --run 'cargo-binstall'";
-  };
-
-  # Rust development environment variables
-  home.sessionVariables = {
-    RUST_SRC_PATH = "${pkgs.unstable.rust.packages.stable.rustPlatform.rustLibSrc}";
-  };
 
   # State version - don't change this
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
