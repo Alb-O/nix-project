@@ -12,6 +12,8 @@ in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
+    ./hardware-extra.nix
+    ./graphics.nix
     ../../modules
   ];
 
@@ -52,11 +54,6 @@ in {
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Load sensor modules for fancontrol
-  boot.kernelModules = ["k10temp" "nct6775"];
-
-  services.xserver.videoDrivers = ["nvidia"];
 
   # NVIDIA driver integration (handles early loading and module setup)
   boot.kernelParams = ["nvidia-drm.modeset=1" "nvidia-drm.fbdev=0"];
@@ -135,18 +132,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    helix
-    wget
-    gemini-cli
-    sddm-astronaut
-    nautilus # Required for GTK4 file pickers via xdg-desktop-portal-gnome delegation
-    tinysparql # Tracker3 file indexing service (renamed from tracker)
-    localsearch # File content miners for Tracker3 (renamed from tracker-miners)
-    adwaita-icon-theme # Complete Adwaita theme with GTK4 support
-    libadwaita # GTK4 Adwaita library and themes
-    gtk4 # GTK4 runtime with proper theme support
-    sops
-    age
     ssh-to-age
   ];
 
@@ -165,8 +150,6 @@ in {
   };
 
   services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
     package = pkgs.kdePackages.sddm;
     extraPackages = with pkgs; [sddm-astronaut];
     theme = "sddm-astronaut-theme";
