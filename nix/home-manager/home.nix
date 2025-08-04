@@ -36,6 +36,7 @@ in {
       unipicker
       hyprpicker
       lm_sensors
+      openssl
       # AI
       claude-code
       gemini-cli
