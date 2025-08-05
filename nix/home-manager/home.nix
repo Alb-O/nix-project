@@ -47,7 +47,7 @@ in {
       # Python development environment
       python3
       uv
-      gcc # Required for linking during Rust compilation
+      gcc
     ]
     ++ [
       # Custom packages
