@@ -102,6 +102,32 @@ else
     success "Created amendme commit"
 fi
 
+# Function to get package versions
+get_package_versions() {
+    if [[ "$HOME_ONLY" == "true" ]]; then
+        nix-store --query --references ~/.nix-profile 2>/dev/null | \
+        sed -n 's|.*/\([^/]*\)-\([0-9][^/]*\)$|\1 \2|p' | \
+        sort -u || true
+    else
+        nix-store --query --references /run/current-system 2>/dev/null | \
+        sed -n 's|.*/\([^/]*\)-\([0-9][^/]*\)$|\1 \2|p' | \
+        sort -u || true
+    fi
+}
+
+# Update flake inputs to get latest packages
+log "Updating flake inputs to get latest packages..."
+if nix flake update; then
+    success "Flake inputs updated successfully"
+else
+    error "Failed to update flake inputs, continuing anyway..."
+fi
+
+# Capture package versions before rebuild
+log "Capturing current package versions..."
+BEFORE_VERSIONS=$(mktemp)
+get_package_versions > "$BEFORE_VERSIONS"
+
 # Run the build and capture the exit code
 if [[ "$HOME_ONLY" == "true" ]]; then
     log "Running home-manager switch --flake .#albert@$HOSTNAME"
@@ -119,6 +145,34 @@ else
         BUILD_EXIT_CODE=$?
         error "NixOS rebuild failed!"
     fi
+fi
+
+# Show package version changes if build succeeded
+if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
+    log "Checking for package version updates..."
+    AFTER_VERSIONS=$(mktemp)
+    get_package_versions > "$AFTER_VERSIONS"
+    
+    # Compare versions and show updates
+    UPDATES=$(comm -13 <(sort "$BEFORE_VERSIONS") <(sort "$AFTER_VERSIONS") | \
+              while IFS=' ' read -r pkg new_ver; do
+                  old_ver=$(grep "^$pkg " "$BEFORE_VERSIONS" | cut -d' ' -f2- || echo "new")
+                  if [[ "$old_ver" != "new" ]] && [[ "$old_ver" != "$new_ver" ]]; then
+                      echo "$pkg: $old_ver → $new_ver"
+                  elif [[ "$old_ver" == "new" ]]; then
+                      echo "$pkg: new → $new_ver"
+                  fi
+              done)
+    
+    if [[ -n "$UPDATES" ]]; then
+        echo -e "\n${YELLOW}Package Updates:${NC}"
+        echo "$UPDATES"
+    else
+        log "No package version changes detected"
+    fi
+    
+    # Cleanup temp files
+    rm -f "$BEFORE_VERSIONS" "$AFTER_VERSIONS"
 fi
 
 # Handle success/failure
