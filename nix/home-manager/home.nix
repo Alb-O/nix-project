@@ -34,6 +34,7 @@ in {
       unipicker
       hyprpicker
       lm_sensors
+      ffmpeg
       # Clipboard
       wl-clipboard
       cliphist

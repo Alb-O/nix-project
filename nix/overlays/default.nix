@@ -26,4 +26,11 @@
 
   # NUR (Nix User Repository) overlay
   inputs.nur.overlays.default
+
+  # Larger stack size for compiling niri on WSL
+  (self: super: {
+    niri = super.niri.overrideAttrs (oldAttrs: {
+      RUST_MIN_STACK = "16777216";
+    });
+  })
 ]
