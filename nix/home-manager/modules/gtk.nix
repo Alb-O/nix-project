@@ -1,7 +1,7 @@
 # Desktop environment configuration
 # Handles themes, fonts, and desktop-wide settings
 {pkgs, ...}: let
-  fonts = import ../../lib/fonts.nix pkgs;
+  #fonts = import ../../lib/fonts.nix pkgs;
   colors = import ../../lib/themes/default.nix;
 
   # Generate GTK CSS from theme colors
@@ -118,11 +118,13 @@ in {
       name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
     };
+    /*
     font = {
       name = fonts.mono.name;
       size = fonts.mono.size.small;
       package = fonts.mono.package;
     };
+    */
 
     # GTK bookmarks file
     gtk3.bookmarks = [];
