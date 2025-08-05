@@ -1,7 +1,6 @@
 # Global font configuration
 # Centralized font definitions for consistent typography across all applications
 pkgs: {
-  # Monospace font - for terminals, code editors, and technical content
   mono = {
     name = "JetBrainsMono Nerd Font Mono";
     package = pkgs.nerd-fonts.jetbrains-mono;
@@ -12,10 +11,9 @@ pkgs: {
     };
   };
 
-  # Sans-serif font - for UI elements and general text
   sansSerif = {
-    name = "Inter";
-    package = pkgs.inter;
+    name = "Fira Sans";
+    package = pkgs.fira-sans;
     size = {
       small = 11;
       normal = 12;
@@ -23,7 +21,6 @@ pkgs: {
     };
   };
 
-  # Serif font - for documents and reading
   serif = {
     name = "Crimson Pro";
     package = pkgs.crimson-pro;
