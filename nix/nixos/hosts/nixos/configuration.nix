@@ -121,6 +121,7 @@
     xorg.libXi
     xorg.libXinerama
     mesa # For OpenGL support
+    mesa.drivers # Mesa drivers including llvmpipe
     vulkan-loader # For Vulkan support
     # Niri launcher script
     (writeShellScriptBin "start-niri" ''
@@ -143,8 +144,13 @@
       unset DISPLAY
       export WINIT_UNIX_BACKEND=wayland
 
+      # WSL GPU/rendering configuration
+      export WLR_RENDERER=pixman  # Use CPU-based rendering
+      export WLR_NO_HARDWARE_CURSORS=1
+      export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe  # Force software rendering
+
       # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND WLR_RENDERER WLR_NO_HARDWARE_CURSORS MESA_LOADER_DRIVER_OVERRIDE
 
       # Start niri as the Wayland compositor
       echo "Starting niri compositor..."
