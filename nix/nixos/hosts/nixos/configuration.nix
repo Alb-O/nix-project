@@ -120,19 +120,20 @@
     xorg.libXrandr
     xorg.libXi
     xorg.libXinerama
-    mesa # For OpenGL support
-    mesa.drivers # Mesa drivers including llvmpipe
+    mesa # For OpenGL support (includes llvmpipe)
     vulkan-loader # For Vulkan support
     weston # Alternative Wayland compositor
     # Environment and niri launcher scripts
-    (writeShellScriptBin "fix-wsl-env" ''
-      # Fix WSL environment for niri
-      echo "Fixing WSL environment variables..."
-      unset WAYLAND_DISPLAY
-      unset DISPLAY
-      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-      mkdir -p "$XDG_RUNTIME_DIR"
-      echo "Environment fixed. You can now run 'niri' directly."
+    (writeShellScriptBin "start-niri-fish" ''
+      #!/usr/bin/env fish
+      # Fish-compatible niri launcher
+      echo "Starting niri with clean environment (fish)..."
+      set -e WAYLAND_DISPLAY 2>/dev/null
+      set -e DISPLAY 2>/dev/null
+      set -x XDG_RUNTIME_DIR "/run/user/"$(id -u)
+      mkdir -p $XDG_RUNTIME_DIR
+      echo "Launching niri..."
+      exec niri
     '')
     # Niri launcher scripts
     (writeShellScriptBin "start-niri-simple" ''
