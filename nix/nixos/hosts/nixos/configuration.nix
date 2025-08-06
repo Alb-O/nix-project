@@ -72,19 +72,8 @@
   # Enable niri with build optimizations for WSL
   programs.niri.enable = true;
 
-  # Enable systemd user services
-  systemd.user.services = {
-    # Ensure user session is properly managed
-    "user-session" = {
-      description = "User session manager";
-      wantedBy = ["default.target"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart = "${pkgs.systemd}/bin/systemctl --user start graphical-session.target";
-      };
-    };
-  };
+  # Enable proper user session management
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   # Increase build resources for Rust compilation
   nix.settings = {
@@ -127,11 +116,20 @@
   # Create niri launcher script for WSL
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "start-niri" ''
-      # Start user session services
-      systemctl --user start graphical-session.target
+      # Set up environment for niri session
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=niri
+      export XDG_SESSION_DESKTOP=niri
 
-      # Start niri session
-      exec niri-session
+      # Import systemd environment
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP
+
+      # Start session target (this will start graphical-session.target as dependency)
+      systemctl --user start niri.service
+
+      # Wait for niri to be ready and then exec into it
+      sleep 1
+      exec niri
     '')
   ];
 }
