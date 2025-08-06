@@ -1,6 +1,17 @@
 # NixOS-WSL Configuration
 # WSL-specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
+#
+# This configuration provides:
+# - Multi-user support via parameterized globals
+# - Niri window manager with WSL optimizations
+# - Systemd user services (audio: pipewire, wireplumber)
+# - GUI support with WSLg integration
+# - Wallpaper daemon (swww) with proper Wayland dependency handling
+#
+# Usage:
+# - Use `start-niri-with-services` for full desktop experience
+# - Use `start-niri-simple` for minimal niri session
 {
   config,
   lib,
@@ -45,8 +56,8 @@
   nix.channel.enable = lib.mkForce false;
 
   # Enable essential services for GUI support (WSL with auto-login)
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = lib.mkForce false; # Disable for WSL
+  #services.xserver.enable = true;
+  #services.displayManager.sddm.enable = lib.mkForce false; # Disable for WSL
 
   # Enable auto-login for WSL user
   services.displayManager.autoLogin = {
@@ -126,44 +137,8 @@
     mesa # For OpenGL support (includes llvmpipe)
     vulkan-loader # For Vulkan support
     weston # Alternative Wayland compositor
-    # Environment and niri launcher scripts
-    (writeShellScriptBin "start-niri-no-systemd" ''
-      # Start niri without systemd services (for Windows/MSYS2 environment)
-      echo "Starting niri without systemd services..."
-      echo "Note: Run this from inside WSL/NixOS environment for full systemd support"
 
-      # Basic environment setup
-      export XDG_SESSION_TYPE=wayland
-      export XDG_CURRENT_DESKTOP=niri
-      export XDG_SESSION_DESKTOP=niri
-      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-      mkdir -p "$XDG_RUNTIME_DIR"
-
-      exec niri
-    '')
-    # Environment and niri launcher scripts
-    (writeShellScriptBin "start-niri-fish" ''
-      #!/usr/bin/env fish
-      # Fish-compatible niri launcher
-      echo "Starting niri with clean environment (fish)..."
-      set -e WAYLAND_DISPLAY 2>/dev/null
-      set -e DISPLAY 2>/dev/null
-      set -x XDG_RUNTIME_DIR "/run/user/"$(id -u)
-      mkdir -p $XDG_RUNTIME_DIR
-      echo "Launching niri..."
-      exec niri
-    '')
-    # Niri launcher scripts
-    (writeShellScriptBin "start-niri-simple" ''
-      # Reset environment to clean state
-      unset WAYLAND_DISPLAY
-      unset DISPLAY
-      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-      mkdir -p "$XDG_RUNTIME_DIR"
-
-      echo "Starting niri with clean environment..."
-      exec niri
-    '')
+    # Main niri launcher with services (recommended for WSL)
     (writeShellScriptBin "start-niri-with-services" ''
       # Start systemd user services properly, then run niri
       echo "Setting up systemd user session..."
@@ -200,43 +175,17 @@
       echo "Services started. Press Ctrl+C to stop niri."
       wait $NIRI_PID
     '')
-    (writeShellScriptBin "start-niri" ''
-      # Set up WSL environment for niri as compositor
-      export XDG_SESSION_TYPE=wayland
-      export XDG_CURRENT_DESKTOP=niri
-      export XDG_SESSION_DESKTOP=niri
+
+    # Simple niri launcher (fallback option)
+    (writeShellScriptBin "start-niri-simple" ''
+      # Reset environment to clean state
+      unset WAYLAND_DISPLAY 2>/dev/null || true
+      unset DISPLAY 2>/dev/null || true
       export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-
-      # Set up library paths for X11 libraries
-      export LD_LIBRARY_PATH="${pkgs.xorg.libXcursor}/lib:${pkgs.xorg.libXrandr}/lib:${pkgs.xorg.libXi}/lib:${pkgs.xorg.libXinerama}/lib:${pkgs.mesa}/lib:${pkgs.vulkan-loader}/lib:$LD_LIBRARY_PATH"
-
-      # Ensure runtime directory exists
       mkdir -p "$XDG_RUNTIME_DIR"
 
-      # IMPORTANT: Unset WAYLAND_DISPLAY so niri starts as compositor, not client
-      unset WAYLAND_DISPLAY
-
-      # Force Wayland-only mode (disable X11 fallback)
-      unset DISPLAY
-      export WINIT_UNIX_BACKEND=wayland
-
-      # WSL GPU/rendering configuration
-      export WLR_RENDERER=pixman  # Use CPU-based rendering
-      export WLR_NO_HARDWARE_CURSORS=1
-      export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe  # Force software rendering
-      export WLR_BACKENDS=headless  # Force headless backend for WSL
-      export WLR_SESSION=noop  # No session management needed
-
-      # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND WLR_RENDERER WLR_NO_HARDWARE_CURSORS MESA_LOADER_DRIVER_OVERRIDE WLR_BACKENDS WLR_SESSION
-
-      # Start niri as the Wayland compositor
-      echo "Starting niri compositor in WSL mode..."
-      echo "Note: This may run headless - connect via WSLg or VNC"
-
-      # Try different approaches
-      echo "Attempting to start niri..."
-      exec niri --session
+      echo "Starting niri with clean environment..."
+      exec niri
     '')
   ];
 }
