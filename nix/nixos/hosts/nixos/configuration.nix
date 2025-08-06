@@ -125,28 +125,18 @@
     vulkan-loader # For Vulkan support
     weston # Alternative Wayland compositor
     # Niri launcher scripts
-    (writeShellScriptBin "start-niri-nested" ''
-      # Set up WSL environment for nested niri
-      export XDG_SESSION_TYPE=wayland
-      export XDG_CURRENT_DESKTOP=niri
-      export XDG_SESSION_DESKTOP=niri
-      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+    (writeShellScriptBin "start-niri-simple" ''
+      # Minimal script - just run niri like it works in terminal
+      echo "Starting niri with minimal environment (like terminal)..."
+      exec niri
+    '')
+    (writeShellScriptBin "start-niri-with-services" ''
+      # Start systemd user services first, then run niri normally
+      echo "Starting systemd user services..."
+      systemctl --user start graphical-session.target 2>/dev/null || true
 
-      # Ensure runtime directory exists
-      mkdir -p "$XDG_RUNTIME_DIR"
-
-      # Try running niri nested within WSLg
-      export WAYLAND_DISPLAY=wayland-0
-      export DISPLAY=:0
-
-      echo "Starting niri nested within WSLg..."
-      if [[ -S "$XDG_RUNTIME_DIR/wayland-0" ]]; then
-        echo "WSLg detected, starting niri nested..."
-        exec niri
-      else
-        echo "WSLg not available - start WSLg first"
-        exit 1
-      fi
+      echo "Starting niri (preserving current environment)..."
+      exec niri
     '')
     (writeShellScriptBin "start-niri" ''
       # Set up WSL environment for niri as compositor
