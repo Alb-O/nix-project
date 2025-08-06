@@ -1,7 +1,9 @@
 # SOPS secrets management configuration
-{pkgs, ...}: let
-  globals = import ../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   # sops-nix configuration
   sops = {
     defaultSopsFile = ../../../secrets/example.yaml;
@@ -11,6 +13,16 @@ in {
       example-password = {};
       database-url = {};
       api-key = {};
+
+      # Personal information secrets
+      personal-name = {
+        sopsFile = ../../../secrets/personal.yaml;
+        key = "name";
+      };
+      personal-email = {
+        sopsFile = ../../../secrets/personal.yaml;
+        key = "email";
+      };
     };
   };
 

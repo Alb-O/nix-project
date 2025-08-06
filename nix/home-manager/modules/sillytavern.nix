@@ -1,7 +1,9 @@
 # SillyTavern LLM frontend configuration
-{pkgs, ...}: let
-  globals = import ../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   # Package installation
   home.packages = with pkgs.unstable; [
     sillytavern

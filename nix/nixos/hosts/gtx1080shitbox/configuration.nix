@@ -1,7 +1,9 @@
 # NixOS system configuration
-{pkgs, ...}: let
-  globals = import ../../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
     ./hardware-extra.nix
@@ -52,7 +54,7 @@ in {
   users.users = {
     ${globals.user.username} = {
       isNormalUser = true;
-      description = globals.user.name;
+      description = "Main User (name stored in sops secrets)"; # Real name encrypted in sops
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
@@ -69,4 +71,7 @@ in {
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = globals.system.stateVersion;
+
+  # Platform configuration
+  nixpkgs.hostPlatform = globals.system.architecture;
 }

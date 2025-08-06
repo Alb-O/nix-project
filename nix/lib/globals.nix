@@ -1,5 +1,15 @@
 # System-wide configuration definitions
+# This function takes user and system parameters to generate configuration
 {
+  username ? "albert",
+  name ? null, # Will be read from sops secrets
+  email ? null, # Will be read from sops secrets
+  hostname ? "gtx1080shitbox",
+  architecture ? "x86_64-linux",
+  stateVersion ? "25.05",
+}: let
+  homeDir = "/home/${username}";
+in {
   # Font system requires pkgs parameter - access via (import ./fonts.nix pkgs)
   # Legacy font references (deprecated - use fonts.* instead)
   monoFont = "JetBrainsMono Nerd Font Mono";
@@ -9,26 +19,22 @@
   cursorTheme = "Adwaita";
 
   user = {
-    name = "Albert O'Shea";
-    username = "albert";
-    email = "albertoshea2@gmail.com";
-    homeDirectory = "/home/albert";
+    inherit name username email;
+    homeDirectory = homeDir;
   };
 
   system = {
-    hostname = "gtx1080shitbox";
-    architecture = "x86_64-linux";
-    stateVersion = "25.05";
+    inherit hostname architecture stateVersion;
   };
 
   dirs = {
-    config = "/home/albert/.config/nix-config";
-    nixConfig = "/home/albert/.config/nix-config";
-    localBin = "/home/albert/.local/bin";
-    localShare = "/home/albert/.local/share";
-    secrets = "/home/albert/.config/nix-config/secrets";
-    scripts = "/home/albert/.config/nix-config/scripts";
-    cargoBin = "/home/albert/.cargo/bin";
-    projectRoot = "/home/albert/_/projects/nix-project";
+    config = "${homeDir}/.config/nix-config";
+    nixConfig = "${homeDir}/.config/nix-config";
+    localBin = "${homeDir}/.local/bin";
+    localShare = "${homeDir}/.local/share";
+    secrets = "${homeDir}/.config/nix-config/secrets";
+    scripts = "${homeDir}/.config/nix-config/scripts";
+    cargoBin = "${homeDir}/.cargo/bin";
+    projectRoot = "${homeDir}/_/projects/nix-project";
   };
 }

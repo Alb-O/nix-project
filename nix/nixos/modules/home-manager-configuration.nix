@@ -5,10 +5,9 @@
   lib,
   config,
   pkgs,
+  globals,
   ...
-}: let
-  globals = import ../../lib/globals.nix;
-in {
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -20,6 +19,6 @@ in {
     sharedModules = [
       inputs.niri-flake.homeModules.config
     ];
-    users.${globals.user.username} = import ../../home-manager/home.nix {inherit inputs outputs lib config pkgs;};
+    users.${globals.user.username} = import ../../home-manager/home.nix {inherit inputs outputs lib config pkgs globals;};
   };
 }

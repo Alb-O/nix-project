@@ -1,5 +1,5 @@
 # NixOS modules aggregation
-{
+{globals, ...}: {
   imports = [
     ./keyring.nix
     ./packages.nix
@@ -8,6 +8,7 @@
     ./fonts.nix
     ./ssh.nix
     ./sops.nix
+    ./personal-info.nix
     ./flake-configuration.nix
     ./home-manager-configuration.nix
   ];

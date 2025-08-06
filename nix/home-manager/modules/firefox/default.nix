@@ -4,10 +4,9 @@
   lib,
   inputs,
   pkgs,
+  globals,
   ...
 }: let
-  globals = import ../../../lib/globals.nix;
-
   # Import modular configurations
   colorschemeConfig = import ./colorscheme.nix {inherit inputs pkgs;};
   userChromeConfig = import ./userchrome.nix {};
