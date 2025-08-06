@@ -181,6 +181,10 @@ else
 
     log "Creating amendme commit..."
 
+    # Fix permissions before committing
+    sudo chown -R $(whoami):$(whoami) .git/ 2>/dev/null || true
+    chmod -R u+w .git/ 2>/dev/null || true
+
     # Create the amendme commit
     git add -A
     git commit -m "amendme: auto-commit before rebuild $(date -Iseconds)"
@@ -201,10 +205,13 @@ get_package_versions() {
     fi
 }
 
+# Fix git permissions issues
+log "Fixing git permissions..."
+sudo chown -R $(whoami):$(whoami) .git/ 2>/dev/null || true
+chmod -R u+w .git/ 2>/dev/null || true
+
 # Update flake inputs to get latest packages
 log "Updating flake inputs to get latest packages..."
-# Fix potential git permissions issue
-chmod -R u+w .git/ 2>/dev/null || true
 if nix --extra-experimental-features 'nix-command flakes' flake update; then
     success "Flake inputs updated successfully"
 else
