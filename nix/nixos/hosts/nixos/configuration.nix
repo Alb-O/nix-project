@@ -44,13 +44,47 @@
   # Disable legacy channels that cause storePath errors
   nix.channel.enable = lib.mkForce false;
 
-  # Enable essential services for GUI support (simplified for WSL)
+  # Enable essential services for GUI support (WSL with auto-login)
   services.xserver.enable = true;
   services.displayManager.sddm.enable = lib.mkForce false; # Disable for WSL
-  services.xserver.displayManager.startx.enable = true;
+
+  # Enable auto-login for WSL user
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "nixos";
+  };
+
+  # Use greetd for lightweight session management
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        user = "greeter";
+      };
+      initial_session = {
+        command = "niri-session";
+        user = "nixos";
+      };
+    };
+  };
 
   # Enable niri with build optimizations for WSL
   programs.niri.enable = true;
+
+  # Enable systemd user services
+  systemd.user.services = {
+    # Ensure user session is properly managed
+    "user-session" = {
+      description = "User session manager";
+      wantedBy = ["default.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.systemd}/bin/systemctl --user start graphical-session.target";
+      };
+    };
+  };
 
   # Increase build resources for Rust compilation
   nix.settings = {
@@ -89,4 +123,15 @@
 
   # Font configuration for GUI apps
   fonts.enableDefaultPackages = true;
+
+  # Create niri launcher script for WSL
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "start-niri" ''
+      # Start user session services
+      systemctl --user start graphical-session.target
+
+      # Start niri session
+      exec niri-session
+    '')
+  ];
 }
