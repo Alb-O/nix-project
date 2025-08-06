@@ -17,7 +17,7 @@ Users are defined in `lib/users.nix`:
     username = "john";
     email = "john@example.com";
   };
-  
+
   # Add more users here
   alice = {
     name = "Alice Smith";
@@ -71,9 +71,23 @@ nix run github:nix-community/home-manager/master -- switch --flake .#alice@host
 
 To support additional hostnames, modify the `homeConfigurations` section in `flake.nix`:
 ```nix
-homeConfigurations = 
+homeConfigurations =
   # Merge configurations for multiple hostnames
   (mkConfigs "host")
   // (mkConfigs "laptop")
   // (mkConfigs "server");
 ```
+
+## Git Bootstrap and Secrets
+
+This repo uses a two-stage git config for full declarativity and security:
+
+- On first bootstrap (before secrets are available), git is configured with a generic identity:
+  - `Bootstrap User <bootstrap@example.com>`
+- As soon as sops secrets are available, the real identity is set automatically from secrets.
+- No personal info is ever stored in the repo or config.
+- This is handled by the activation script in `nix/home-manager/modules/git.nix`.
+
+**You do not need to manually run `git config` or store your info in the repo.**
+
+If you see commits from the bootstrap identity, you can amend them after secrets are available.

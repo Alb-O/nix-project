@@ -106,35 +106,21 @@ if ! command -v git &>/dev/null; then
     fi
 fi
 
-# Configure git user if not set
-configure_git_user() {
-    local git_name git_email
-    
-    # Check if git user is configured
-    if ! git config user.name &>/dev/null || ! git config user.email &>/dev/null; then
-        log "Git user not configured. Please provide your details:"
-        
-        # Get user name
-        if ! git_name=$(git config user.name 2>/dev/null); then
-            read -p "Enter your full name: " git_name
-            git config user.name "$git_name"
-        fi
-        
-        # Get user email  
-        if ! git_email=$(git config user.email 2>/dev/null); then
-            read -p "Enter your email address: " git_email
-            git config user.email "$git_email"
-        fi
-        
-        success "Git user configured as: $git_name <$git_email>"
-    fi
-}
+# Ensure git user is always set before any git command is run
+# Check that both user.name and user.email are set and non-empty
+_git_name=$(git config --global user.name || true)
+_git_email=$(git config --global user.email || true)
+if [[ -z "$_git_name" || -z "$_git_email" ]]; then
+    log "Setting global git identity to generic bootstrap user."
+    git config --global user.name "Bootstrap User"
+    git config --global user.email "bootstrap@example.com"
+    success "Git user configured as: Bootstrap User <bootstrap@example.com>"
+fi
 
 # Initialize git repository if needed
 if ! git rev-parse --git-dir &>/dev/null; then
     log "Not in a git repository, initializing..."
     git init
-    configure_git_user
     git add .
     git commit -m "Initial commit: nix configuration setup
 
@@ -142,9 +128,6 @@ if ! git rev-parse --git-dir &>/dev/null; then
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
     success "Git repository initialized"
-else
-    # Configure git user even for existing repos
-    configure_git_user
 fi
 
 # Clean up legacy channels for WSL if they exist
@@ -254,7 +237,7 @@ if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
     log "Checking for package version updates..."
     AFTER_VERSIONS=$(mktemp)
     get_package_versions > "$AFTER_VERSIONS"
-    
+
     # Compare versions and show updates
     UPDATES=$(comm -13 <(sort "$BEFORE_VERSIONS") <(sort "$AFTER_VERSIONS") | \
               while IFS=' ' read -r pkg new_ver; do
@@ -265,14 +248,14 @@ if [[ ${BUILD_EXIT_CODE:-0} -eq 0 ]]; then
                       echo "$pkg: new → $new_ver"
                   fi
               done)
-    
+
     if [[ -n "$UPDATES" ]]; then
         echo -e "\n${YELLOW}Package Updates:${NC}"
         echo "$UPDATES"
     else
         log "No package version changes detected"
     fi
-    
+
     # Cleanup temp files
     rm -f "$BEFORE_VERSIONS" "$AFTER_VERSIONS"
 fi

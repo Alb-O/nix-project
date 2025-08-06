@@ -8,6 +8,7 @@ in {
     font.size = fonts.mono.size.normal;
     font.package = fonts.mono.package;
     settings = {
+      window_padding_width = 5;
       foreground = colors.ui.foreground.primary;
       background = colors.ui.background.primary;
       selection_foreground = colors.ui.foreground.inverse;

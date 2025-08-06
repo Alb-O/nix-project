@@ -1,10 +1,5 @@
 # Personal information module for home-manager that reads from sops secrets
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # sops configuration is handled by the flake-level sops module
   # The secrets will be available at runtime via NixOS sops configuration
 

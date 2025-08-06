@@ -34,6 +34,7 @@
       hyprpicker
       lm_sensors
       ffmpeg
+      fzf
       # Clipboard
       wl-clipboard
       cliphist
