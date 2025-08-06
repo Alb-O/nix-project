@@ -130,6 +130,9 @@
       export XDG_SESSION_DESKTOP=niri
       export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
+      # Set up library paths for X11 libraries
+      export LD_LIBRARY_PATH="${pkgs.xorg.libXcursor}/lib:${pkgs.xorg.libXrandr}/lib:${pkgs.xorg.libXi}/lib:${pkgs.xorg.libXinerama}/lib:${pkgs.mesa}/lib:${pkgs.vulkan-loader}/lib:$LD_LIBRARY_PATH"
+
       # Ensure runtime directory exists
       mkdir -p "$XDG_RUNTIME_DIR"
 
@@ -140,7 +143,7 @@
       export DISPLAY=:0
 
       # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR DISPLAY
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR DISPLAY LD_LIBRARY_PATH
 
       # Start niri as the Wayland compositor
       echo "Starting niri compositor..."
