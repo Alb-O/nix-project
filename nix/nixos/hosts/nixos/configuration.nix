@@ -102,6 +102,9 @@
   # Disable keyd for WSL (no direct keyboard hardware access)
   services.keyd.enable = lib.mkForce false;
 
+  # Disable xdg-desktop-portal for WSL (causes hangs)
+  xdg.portal.enable = lib.mkForce false;
+
   # Audio support
   security.rtkit.enable = true;
   services.pipewire = {
@@ -123,6 +126,21 @@
     mesa # For OpenGL support (includes llvmpipe)
     vulkan-loader # For Vulkan support
     weston # Alternative Wayland compositor
+    # Environment and niri launcher scripts
+    (writeShellScriptBin "start-niri-no-systemd" ''
+      # Start niri without systemd services (for Windows/MSYS2 environment)
+      echo "Starting niri without systemd services..."
+      echo "Note: Run this from inside WSL/NixOS environment for full systemd support"
+
+      # Basic environment setup
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=niri
+      export XDG_SESSION_DESKTOP=niri
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+      mkdir -p "$XDG_RUNTIME_DIR"
+
+      exec niri
+    '')
     # Environment and niri launcher scripts
     (writeShellScriptBin "start-niri-fish" ''
       #!/usr/bin/env fish
@@ -172,7 +190,8 @@
       systemctl --user start pipewire.service 2>/dev/null || true
       systemctl --user start pipewire-pulse.service 2>/dev/null || true
       systemctl --user start wireplumber.service 2>/dev/null || true
-      systemctl --user start xdg-desktop-portal.service 2>/dev/null || true
+      # Skip xdg-desktop-portal as it hangs in WSL
+      echo "  - Skipping xdg-desktop-portal (hangs in WSL)"
 
       echo "Services started. Press Ctrl+C to stop niri."
       wait $NIRI_PID
