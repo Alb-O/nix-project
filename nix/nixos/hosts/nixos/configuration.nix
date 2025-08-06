@@ -38,7 +38,7 @@
   # User configuration
   users.users.nixos = {
     isNormalUser = true;
-    description = globals.user.name;
+    description = "NixOS WSL User"; # Default description for WSL user
     extraGroups = ["wheel" "networkmanager" "audio" "video"];
   };
 

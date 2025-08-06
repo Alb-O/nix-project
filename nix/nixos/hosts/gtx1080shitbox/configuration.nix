@@ -54,7 +54,7 @@
   users.users = {
     ${globals.user.username} = {
       isNormalUser = true;
-      description = globals.user.name;
+      description = "Main User (name stored in sops secrets)"; # Real name encrypted in sops
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];

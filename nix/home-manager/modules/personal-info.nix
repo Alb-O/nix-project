@@ -20,7 +20,7 @@
       fi
     '')
     (writeShellScriptBin "get-personal-email" ''
-      # Read from NixOS sops secret path  
+      # Read from NixOS sops secret path
       if [ -f /run/secrets/personal-email ]; then
         cat /run/secrets/personal-email
       else
