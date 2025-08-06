@@ -11,6 +11,10 @@
     ../../modules
   ];
 
+  environment.systemPackages = with pkgs; [
+    lm_sensors
+  ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
