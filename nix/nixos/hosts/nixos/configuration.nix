@@ -116,19 +116,24 @@
   # Create niri launcher script for WSL
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "start-niri" ''
-      # Set up environment for niri session
+      # Set up WSL Wayland environment
       export XDG_SESSION_TYPE=wayland
       export XDG_CURRENT_DESKTOP=niri
       export XDG_SESSION_DESKTOP=niri
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+      # WSL Wayland display socket setup
+      export WAYLAND_DISPLAY=wayland-0
+      export DISPLAY=:0
+
+      # Ensure runtime directory exists
+      mkdir -p "$XDG_RUNTIME_DIR"
 
       # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR WAYLAND_DISPLAY DISPLAY
 
-      # Start session target (this will start graphical-session.target as dependency)
-      systemctl --user start niri.service
-
-      # Wait for niri to be ready and then exec into it
-      sleep 1
+      # Start niri directly (it will be its own compositor)
+      echo "Starting niri compositor..."
       exec niri
     '')
   ];
