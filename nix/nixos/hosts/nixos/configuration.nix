@@ -147,12 +147,35 @@
       exec niri
     '')
     (writeShellScriptBin "start-niri-with-services" ''
-      # Start systemd user services first, then run niri normally
-      echo "Starting systemd user services..."
-      systemctl --user start graphical-session.target 2>/dev/null || true
+      # Start systemd user services properly, then run niri
+      echo "Setting up systemd user session..."
 
-      echo "Starting niri (preserving current environment)..."
-      exec niri
+      # Set up session environment
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=niri
+      export XDG_SESSION_DESKTOP=niri
+
+      # Start niri in background
+      niri &
+      NIRI_PID=$!
+      echo "Niri started with PID $NIRI_PID"
+
+      # Wait for niri to create wayland socket
+      sleep 3
+      export WAYLAND_DISPLAY=wayland-1
+
+      # Import environment to systemd
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP WAYLAND_DISPLAY
+
+      # Start essential user services now that wayland is available
+      echo "Starting user services..."
+      systemctl --user start pipewire.service 2>/dev/null || true
+      systemctl --user start pipewire-pulse.service 2>/dev/null || true
+      systemctl --user start wireplumber.service 2>/dev/null || true
+      systemctl --user start xdg-desktop-portal.service 2>/dev/null || true
+
+      echo "Services started. Press Ctrl+C to stop niri."
+      wait $NIRI_PID
     '')
     (writeShellScriptBin "start-niri" ''
       # Set up WSL environment for niri as compositor
