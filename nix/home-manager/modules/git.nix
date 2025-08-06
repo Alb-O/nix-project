@@ -1,6 +1,4 @@
-{...}: let
-  globals = import ../../lib/globals.nix;
-in {
+{globals, ...}: {
   programs.git = {
     enable = true;
     userName = globals.user.name;

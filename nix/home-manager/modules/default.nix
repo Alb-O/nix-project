@@ -1,9 +1,11 @@
 # Home Manager modules aggregation
 # Logical per-software modules in flat structure
-{inputs}: let
-  globals = import ../../lib/globals.nix;
-in {
-  _module.args = {inherit inputs;};
+{
+  inputs,
+  globals,
+  ...
+}: {
+  _module.args = {inherit inputs globals;};
   imports = [
     # Desktop environment
     ./niri

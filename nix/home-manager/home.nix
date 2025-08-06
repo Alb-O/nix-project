@@ -3,14 +3,13 @@
 {
   pkgs,
   inputs,
+  globals,
   ...
-}: let
-  globals = import ../lib/globals.nix;
-in {
+}: {
   # Import modular configuration
   imports = [
     # Custom modules
-    (import ./modules {inherit inputs;})
+    (import ./modules {inherit inputs globals;})
 
     # Example external modules (commented out):
     # outputs.homeManagerModules.example

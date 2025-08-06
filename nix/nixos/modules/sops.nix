@@ -1,7 +1,9 @@
 # SOPS secrets management configuration
-{pkgs, ...}: let
-  globals = import ../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   # sops-nix configuration
   sops = {
     defaultSopsFile = ../../../secrets/example.yaml;

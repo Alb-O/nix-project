@@ -1,7 +1,9 @@
 # NixOS system configuration
-{pkgs, ...}: let
-  globals = import ../../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
     ./hardware-extra.nix
@@ -69,4 +71,7 @@ in {
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = globals.system.stateVersion;
+
+  # Platform configuration
+  nixpkgs.hostPlatform = globals.system.architecture;
 }

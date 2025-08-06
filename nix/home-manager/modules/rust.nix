@@ -1,7 +1,9 @@
 # Rust development environment configuration
-{pkgs, ...}: let
-  globals = import ../../lib/globals.nix;
-in {
+{
+  pkgs,
+  globals,
+  ...
+}: {
   # Shell aliases for Rust development
   home.shellAliases = {
     cargo-binstall = "nix-shell ${globals.dirs.projectRoot}/nix/shells/rust.nix --run 'cargo-binstall'";

@@ -1,5 +1,5 @@
 # NixOS modules aggregation
-{
+{globals, ...}: {
   imports = [
     ./keyring.nix
     ./packages.nix

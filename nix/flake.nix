@@ -30,6 +30,10 @@
 
     # nix-userstyles for website theming
     nix-userstyles.url = "github:knoopx/nix-userstyles";
+
+    # NixOS-WSL for Windows Subsystem for Linux support
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -41,6 +45,7 @@
     niri-flake,
     nix-colors,
     nix-userstyles,
+    nixos-wsl,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -48,6 +53,34 @@
     systems = [
       "x86_64-linux"
     ];
+
+    # Import user configurations
+    users = import ./lib/users.nix;
+
+    # Helper function to create home configuration
+    mkHomeConfiguration = {
+      username,
+      name,
+      email,
+      hostname ? "gtx1080shitbox",
+      system ? "x86_64-linux",
+    }:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = import ./overlays {inherit inputs;};
+          config.allowUnfree = true;
+        };
+        extraSpecialArgs = {
+          inherit inputs outputs;
+          globals = import ./lib/globals.nix {inherit username name email hostname;};
+        };
+        modules = [
+          ./home-manager/home.nix
+          sops-nix.homeManagerModules.sops
+          niri-flake.homeModules.config
+        ];
+      };
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -76,10 +109,37 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       gtx1080shitbox = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          inherit inputs outputs;
+          globals = import ./lib/globals.nix {
+            username = "albert";
+            name = "Albert O'Shea";
+            email = "albertoshea2@gmail.com";
+            hostname = "gtx1080shitbox";
+          };
+        };
         modules = [
           # > Our main nixos configuration file <
           ./nixos/hosts/gtx1080shitbox/configuration.nix
+          sops-nix.nixosModules.sops
+        ];
+      };
+
+      nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+          globals = import ./lib/globals.nix {
+            username = "nixos";
+            name = "Albert O'Shea";
+            email = "albertoshea2@gmail.com";
+            hostname = "nixos";
+            stateVersion = "24.11";
+          };
+        };
+        modules = [
+          # NixOS-WSL configuration
+          ./nixos/hosts/nixos/configuration.nix
+          nixos-wsl.nixosModules.wsl
           sops-nix.nixosModules.sops
         ];
       };
@@ -87,22 +147,22 @@
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "albert@gtx1080shitbox" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          overlays = import ./overlays {inherit inputs;};
-          config.allowUnfree = true;
-        };
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main home-manager configuration file <
-          ./home-manager/home.nix
-          sops-nix.homeManagerModules.sops
-          niri-flake.homeModules.config
-        ];
-      };
-    };
+    homeConfigurations = let
+      # Generate configurations for each user and hostname combination
+      mkConfigs = hostname:
+        nixpkgs.lib.mapAttrs' (
+          userKey: userConfig:
+            nixpkgs.lib.nameValuePair
+            "${userConfig.username}@${hostname}"
+            (mkHomeConfiguration {
+              inherit (userConfig) username name email;
+              inherit hostname;
+            })
+        )
+        users;
+    in
+      # Supporting multiple hostnames
+      (mkConfigs "gtx1080shitbox") // (mkConfigs "nixos");
     # Optionally, add Cachix binary cache for claude-code
     nixConfig = {
       substituters = ["https://claude-code.cachix.org"];

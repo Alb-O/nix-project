@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Save original arguments at the very beginning
+ORIGINAL_ARGS=("$@")
+
 # Load environment variables from .env file if it exists
 if [[ -f .env ]]; then
     set -a  # automatically export all variables
@@ -29,19 +32,25 @@ error() {
 
 # Validate arguments
 if [[ $# -lt 1 ]]; then
-    error "Usage: $0 <hostname> [--home-only] [--auto-commit]"
+    error "Usage: $0 <hostname> [username] [--home-only] [--auto-commit]"
     echo "  hostname: Target hostname for deployment (e.g., gtx1080shitbox)"
+    echo "  username: Username for home-manager (optional, defaults to current user)"
     echo "  --home-only: Only rebuild home-manager configuration (faster)"
     echo "  --auto-commit: Auto-accept geminicommit suggestions (for AI tools)"
     exit 2
 fi
 
 HOSTNAME="$1"
+USERNAME="${2:-$(whoami)}"
 HOME_ONLY=false
 AUTO_COMMIT=false
 
-# Parse flags
+# Parse flags - shift past hostname and optional username
 shift
+if [[ $# -gt 0 ]] && [[ "$1" != --* ]]; then
+    shift  # Skip username if provided
+fi
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         --home-only)
@@ -64,10 +73,87 @@ if [[ ! -d "nix" ]]; then
     exit 1
 fi
 
-# Check if we're in a git repository
+# Bootstrap git if needed
+if ! command -v git &>/dev/null; then
+    log "Git not found, installing with nix..."
+    if command -v nix &>/dev/null; then
+        # Try multiple approaches to install git
+        if nix-env -iA nixpkgs.git &>/dev/null; then
+            success "Git installed with nix-env"
+        elif nix profile install nixpkgs#git &>/dev/null; then
+            success "Git installed with nix profile"
+        elif nix-shell -p git --run "nix-env -iA nixpkgs.git" &>/dev/null; then
+            success "Git installed via nix-shell"
+        else
+            log "Standard methods failed, trying direct install..."
+            nix-shell -p git --run "echo 'Git available in shell'" || {
+                error "Failed to make git available. Please install git manually with:"
+                echo "  sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs"
+                echo "  sudo nix-channel --update"
+                echo "  nix-env -iA nixpkgs.git"
+                echo "Or run this script from a nix-shell with git:"
+                echo "  nix-shell -p git --run './scripts/rebuild.sh nixos'"
+                exit 1
+            }
+            # If we get here, use nix-shell for the rest of the script
+            log "Git only available via nix-shell, re-executing script..."
+            # Use the saved original arguments
+            exec nix-shell -p git --run "$0 ${ORIGINAL_ARGS[*]}"
+        fi
+    else
+        error "Nix not found. Please install Nix first."
+        exit 1
+    fi
+fi
+
+# Configure git user if not set
+configure_git_user() {
+    local git_name git_email
+    
+    # Check if git user is configured
+    if ! git config user.name &>/dev/null || ! git config user.email &>/dev/null; then
+        log "Git user not configured. Please provide your details:"
+        
+        # Get user name
+        if ! git_name=$(git config user.name 2>/dev/null); then
+            read -p "Enter your full name: " git_name
+            git config user.name "$git_name"
+        fi
+        
+        # Get user email  
+        if ! git_email=$(git config user.email 2>/dev/null); then
+            read -p "Enter your email address: " git_email
+            git config user.email "$git_email"
+        fi
+        
+        success "Git user configured as: $git_name <$git_email>"
+    fi
+}
+
+# Initialize git repository if needed
 if ! git rev-parse --git-dir &>/dev/null; then
-    error "Not in a git repository"
-    exit 1
+    log "Not in a git repository, initializing..."
+    git init
+    configure_git_user
+    git add .
+    git commit -m "Initial commit: nix configuration setup
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+    success "Git repository initialized"
+else
+    # Configure git user even for existing repos
+    configure_git_user
+fi
+
+# Clean up legacy channels for WSL if they exist
+if [[ "$HOSTNAME" == "nixos" ]]; then
+    log "Cleaning up legacy nix channels for WSL..."
+    sudo rm -rf /root/.nix-defexpr/channels 2>/dev/null || true
+    sudo rm -rf /nix/var/nix/profiles/per-user/root/channels 2>/dev/null || true
+    rm -rf ~/.nix-defexpr/channels 2>/dev/null || true
+    success "Legacy channels cleaned up"
 fi
 
 # Change to nix directory for the build
@@ -87,7 +173,7 @@ else
     log "Changes detected, formatting Nix files before commit..."
 
     # Format all Nix files
-    if nix fmt .; then
+    if nix --extra-experimental-features 'nix-command flakes' fmt .; then
         success "Nix files formatted"
     else
         log "Nix formatting failed, continuing anyway..."
@@ -117,7 +203,9 @@ get_package_versions() {
 
 # Update flake inputs to get latest packages
 log "Updating flake inputs to get latest packages..."
-if nix flake update; then
+# Fix potential git permissions issue
+chmod -R u+w .git/ 2>/dev/null || true
+if nix --extra-experimental-features 'nix-command flakes' flake update; then
     success "Flake inputs updated successfully"
 else
     error "Failed to update flake inputs, continuing anyway..."
@@ -130,8 +218,15 @@ get_package_versions > "$BEFORE_VERSIONS"
 
 # Run the build and capture the exit code
 if [[ "$HOME_ONLY" == "true" ]]; then
-    log "Running home-manager switch --flake .#albert@$HOSTNAME"
-    if nix run github:nix-community/home-manager/master -- switch --flake .#"albert@$HOSTNAME"; then
+    log "Running home-manager switch --flake .#$USERNAME@$HOSTNAME"
+    # Try building with extra memory settings for WSL
+    if [[ "$HOSTNAME" == "nixos" ]]; then
+        log "WSL detected, using memory-optimized build settings"
+        export RUST_MIN_STACK=67108864
+        export CARGO_BUILD_JOBS=1
+        ulimit -s 65536 2>/dev/null || true  # Increase stack size limit
+    fi
+    if nix run github:nix-community/home-manager/master -- switch --flake .#"$USERNAME@$HOSTNAME"; then
         success "Home-manager rebuild completed successfully!"
     else
         BUILD_EXIT_CODE=$?
