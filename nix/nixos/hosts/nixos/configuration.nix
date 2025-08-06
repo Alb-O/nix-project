@@ -123,7 +123,31 @@
     mesa # For OpenGL support
     mesa.drivers # Mesa drivers including llvmpipe
     vulkan-loader # For Vulkan support
-    # Niri launcher script
+    weston # Alternative Wayland compositor
+    # Niri launcher scripts
+    (writeShellScriptBin "start-niri-nested" ''
+      # Set up WSL environment for nested niri
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=niri
+      export XDG_SESSION_DESKTOP=niri
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+      # Ensure runtime directory exists
+      mkdir -p "$XDG_RUNTIME_DIR"
+
+      # Try running niri nested within WSLg
+      export WAYLAND_DISPLAY=wayland-0
+      export DISPLAY=:0
+
+      echo "Starting niri nested within WSLg..."
+      if [[ -S "$XDG_RUNTIME_DIR/wayland-0" ]]; then
+        echo "WSLg detected, starting niri nested..."
+        exec niri
+      else
+        echo "WSLg not available - start WSLg first"
+        exit 1
+      fi
+    '')
     (writeShellScriptBin "start-niri" ''
       # Set up WSL environment for niri as compositor
       export XDG_SESSION_TYPE=wayland
