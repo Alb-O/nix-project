@@ -124,10 +124,25 @@
     mesa.drivers # Mesa drivers including llvmpipe
     vulkan-loader # For Vulkan support
     weston # Alternative Wayland compositor
+    # Environment and niri launcher scripts
+    (writeShellScriptBin "fix-wsl-env" ''
+      # Fix WSL environment for niri
+      echo "Fixing WSL environment variables..."
+      unset WAYLAND_DISPLAY
+      unset DISPLAY
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+      mkdir -p "$XDG_RUNTIME_DIR"
+      echo "Environment fixed. You can now run 'niri' directly."
+    '')
     # Niri launcher scripts
     (writeShellScriptBin "start-niri-simple" ''
-      # Minimal script - just run niri like it works in terminal
-      echo "Starting niri with minimal environment (like terminal)..."
+      # Reset environment to clean state
+      unset WAYLAND_DISPLAY
+      unset DISPLAY
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+      mkdir -p "$XDG_RUNTIME_DIR"
+
+      echo "Starting niri with clean environment..."
       exec niri
     '')
     (writeShellScriptBin "start-niri-with-services" ''
