@@ -148,13 +148,19 @@
       export WLR_RENDERER=pixman  # Use CPU-based rendering
       export WLR_NO_HARDWARE_CURSORS=1
       export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe  # Force software rendering
+      export WLR_BACKENDS=headless  # Force headless backend for WSL
+      export WLR_SESSION=noop  # No session management needed
 
       # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND WLR_RENDERER WLR_NO_HARDWARE_CURSORS MESA_LOADER_DRIVER_OVERRIDE
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND WLR_RENDERER WLR_NO_HARDWARE_CURSORS MESA_LOADER_DRIVER_OVERRIDE WLR_BACKENDS WLR_SESSION
 
       # Start niri as the Wayland compositor
-      echo "Starting niri compositor..."
-      exec niri
+      echo "Starting niri compositor in WSL mode..."
+      echo "Note: This may run headless - connect via WSLg or VNC"
+
+      # Try different approaches
+      echo "Attempting to start niri..."
+      exec niri --session
     '')
   ];
 }
