@@ -139,11 +139,12 @@
       # IMPORTANT: Unset WAYLAND_DISPLAY so niri starts as compositor, not client
       unset WAYLAND_DISPLAY
 
-      # Set up for WSLg X11 fallback if needed
-      export DISPLAY=:0
+      # Force Wayland-only mode (disable X11 fallback)
+      unset DISPLAY
+      export WINIT_UNIX_BACKEND=wayland
 
       # Import systemd environment
-      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR DISPLAY LD_LIBRARY_PATH
+      systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_RUNTIME_DIR LD_LIBRARY_PATH WINIT_UNIX_BACKEND
 
       # Start niri as the Wayland compositor
       echo "Starting niri compositor..."
