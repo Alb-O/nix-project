@@ -18,10 +18,14 @@
       personal-name = {
         sopsFile = ../../../secrets/personal.yaml;
         key = "name";
+        owner = "albert";
+        mode = "0400";
       };
       personal-email = {
         sopsFile = ../../../secrets/personal.yaml;
         key = "email";
+        owner = "albert";
+        mode = "0400";
       };
     };
   };
