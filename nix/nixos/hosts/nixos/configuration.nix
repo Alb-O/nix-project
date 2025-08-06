@@ -113,8 +113,16 @@
   # Font configuration for GUI apps
   fonts.enableDefaultPackages = true;
 
-  # Create niri launcher script for WSL
+  # Create niri launcher script and add required libraries for WSL
   environment.systemPackages = with pkgs; [
+    # X11 libraries needed for niri in WSL
+    xorg.libXcursor
+    xorg.libXrandr
+    xorg.libXi
+    xorg.libXinerama
+    mesa # For OpenGL support
+    vulkan-loader # For Vulkan support
+    # Niri launcher script
     (writeShellScriptBin "start-niri" ''
       # Set up WSL environment for niri as compositor
       export XDG_SESSION_TYPE=wayland
