@@ -193,6 +193,10 @@
       # Skip xdg-desktop-portal as it hangs in WSL
       echo "  - Skipping xdg-desktop-portal (hangs in WSL)"
 
+      # Start swww daemon now that Wayland is available
+      echo "Starting swww wallpaper daemon..."
+      systemctl --user start swww-daemon.service 2>/dev/null || true
+
       echo "Services started. Press Ctrl+C to stop niri."
       wait $NIRI_PID
     '')
