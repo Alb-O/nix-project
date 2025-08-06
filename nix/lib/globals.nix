@@ -2,8 +2,8 @@
 # This function takes user and system parameters to generate configuration
 {
   username ? "albert",
-  name ? "Albert O'Shea",
-  email ? "albertoshea2@gmail.com",
+  name ? null, # Will be read from sops secrets
+  email ? null, # Will be read from sops secrets
   hostname ? "gtx1080shitbox",
   architecture ? "x86_64-linux",
   stateVersion ? "25.05",

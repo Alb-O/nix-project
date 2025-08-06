@@ -4,7 +4,7 @@ My NixOS configuration. Under construction.
 
 # Multi-User Nix Configuration Setup
 
-This configuration now supports multiple users through a flexible parameter-based system.
+This configuration supports multiple users through a parameter-based system.
 
 ## How It Works
 
@@ -12,10 +12,10 @@ This configuration now supports multiple users through a flexible parameter-base
 Users are defined in `lib/users.nix`:
 ```nix
 {
-  albert = {
-    name = "Albert O'Shea";
-    username = "albert";
-    email = "albertoshea2@gmail.com";
+  john = {
+    name = "John Smith";
+    username = "john";
+    email = "john@example.com";
   };
   
   # Add more users here
@@ -32,14 +32,14 @@ The `lib/globals.nix` file now accepts parameters:
 - `username`: The system username
 - `name`: Full display name
 - `email`: User email address
-- `hostname`: Target hostname (defaults to "gtx1080shitbox")
+- `hostname`: Target hostname
 - `architecture`: System architecture (defaults to "x86_64-linux")
 - `stateVersion`: NixOS state version (defaults to "25.05")
 
 ### Available Configurations
 The flake automatically generates home-manager configurations for each user and hostname combination:
-- `albert@gtx1080shitbox` (existing)
-- `alice@gtx1080shitbox` (if alice is added to users.nix)
+- `john@host` (existing)
+- `alice@host` (if alice is added to users.nix)
 
 ## Usage
 
@@ -47,18 +47,18 @@ The flake automatically generates home-manager configurations for each user and 
 The rebuild script now accepts an optional username parameter:
 ```bash
 # Use default user (current system user)
-./scripts/rebuild.sh gtx1080shitbox --home-only
+./scripts/rebuild.sh host --home-only
 
 # Specify a user
-./scripts/rebuild.sh gtx1080shitbox alice --home-only
+./scripts/rebuild.sh host alice --home-only
 
 # With additional flags
-./scripts/rebuild.sh gtx1080shitbox bob --home-only --auto-commit
+./scripts/rebuild.sh host bob --home-only --auto-commit
 ```
 
 ### Manual Home Manager
 ```bash
-nix run github:nix-community/home-manager/master -- switch --flake .#alice@gtx1080shitbox
+nix run github:nix-community/home-manager/master -- switch --flake .#alice@host
 ```
 
 ## Adding New Users
@@ -73,7 +73,7 @@ To support additional hostnames, modify the `homeConfigurations` section in `fla
 ```nix
 homeConfigurations = 
   # Merge configurations for multiple hostnames
-  (mkConfigs "gtx1080shitbox")
+  (mkConfigs "host")
   // (mkConfigs "laptop")
   // (mkConfigs "server");
 ```

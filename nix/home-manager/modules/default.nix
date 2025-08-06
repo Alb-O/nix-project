@@ -26,6 +26,7 @@
     ./ssh.nix
     ./polkit.nix
     ./clipboard.nix
+    ./personal-info.nix
 
     # Development environments
     ./rust.nix

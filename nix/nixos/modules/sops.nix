@@ -13,6 +13,16 @@
       example-password = {};
       database-url = {};
       api-key = {};
+
+      # Personal information secrets
+      personal-name = {
+        sopsFile = ../../../secrets/personal.yaml;
+        key = "name";
+      };
+      personal-email = {
+        sopsFile = ../../../secrets/personal.yaml;
+        key = "email";
+      };
     };
   };
 

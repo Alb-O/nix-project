@@ -73,7 +73,10 @@
         };
         extraSpecialArgs = {
           inherit inputs outputs;
-          globals = import ./lib/globals.nix {inherit username name email hostname;};
+          globals = import ./lib/globals.nix {
+            inherit username hostname;
+            # name and email are now read from sops secrets at runtime
+          };
         };
         modules = [
           ./home-manager/home.nix
@@ -113,9 +116,8 @@
           inherit inputs outputs;
           globals = import ./lib/globals.nix {
             username = "albert";
-            name = "Albert O'Shea";
-            email = "albertoshea2@gmail.com";
             hostname = "gtx1080shitbox";
+            # name and email are now read from sops secrets
           };
         };
         modules = [
@@ -130,10 +132,9 @@
           inherit inputs outputs;
           globals = import ./lib/globals.nix {
             username = "nixos";
-            name = "Albert O'Shea";
-            email = "albertoshea2@gmail.com";
             hostname = "nixos";
             stateVersion = "24.11";
+            # name and email are now read from sops secrets
           };
         };
         modules = [
